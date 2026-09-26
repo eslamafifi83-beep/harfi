@@ -5,7 +5,7 @@
     "_voices": "voice_id comes from elevenlabs.io > Voices. Pick any voice there (the Voice Library has Arabic and child-like voices), copy its ID and paste it here.",
     "model": "eleven_multilingual_v2",
     "speakers": {
-      "b": { "name": "Basbousa", "voice_id": "21m00Tcm4TlvDq8ikWAM", "stability": 0.45, "style": 0.35 },
+      "b": { "name": "Basbousa", "voice_id": "EXAVITQu4vr4xnSDxMaL", "stability": 0.45, "style": 0.35 },
       "f": { "name": "Filfil",   "voice_id": "TX3LPaxmHKxFdv7VOQHJ", "stability": 0.35, "style": 0.55 }
     },
     "speeds": { "slow": 0.75, "calm": 0.88, "normal": 1.0 }
