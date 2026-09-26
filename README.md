@@ -1,11 +1,11 @@
 # Harfi · حرفي
 
-Arabic letters and sounds with Filfil and Basbousa.
+All 28 Arabic letters and their sounds, with Filfil and Toota.
 
 ## How the voices are made
-The voices come from ElevenLabs' free plan, with no card needed. GitHub makes them automatically every time the project changes, using the key stored in the project's GitHub secrets (`ELEVENLABS_API_KEY`).
+The voices come from ElevenLabs' free plan, with no card needed. GitHub makes any missing clips automatically every time the project changes and once a month, using the key stored in the project's GitHub secrets (`ELEVENLABS_API_KEY`). If a month's free credits run out, the rest are made the next month; until then those lines use the tablet's voice.
 
-To change how Filfil or Basbousa sounds, pick different voices at elevenlabs.io, paste their IDs into `voices/voices.json`, and save the file on GitHub. The clips are remade automatically.
+To change how Filfil or Toota sounds, pick different voices at elevenlabs.io, paste their IDs into `voices/voices.json`, and save the file on GitHub. The clips are remade automatically.
 
 ## Play on this computer
 ```

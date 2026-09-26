@@ -1,7 +1,7 @@
 /* Offline support: keeps the app and its voice clips on the tablet.
    Bump VERSION whenever you change files so tablets pick up the new version. */
 var VERSION = 'harfi-v1';
-var SHELL = ['./', 'index.html', 'style.css', 'game.js', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
+var SHELL = ['./', 'index.html', 'style.css', 'content.js', 'game.js', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
   'fonts/baloo-bhaijaan-2-arabic-400-normal.woff2', 'fonts/baloo-bhaijaan-2-arabic-600-normal.woff2', 'fonts/baloo-bhaijaan-2-arabic-800-normal.woff2',
   'fonts/baloo-bhaijaan-2-latin-400-normal.woff2', 'fonts/baloo-bhaijaan-2-latin-600-normal.woff2', 'fonts/baloo-bhaijaan-2-latin-800-normal.woff2',
   'audio/index.json'];

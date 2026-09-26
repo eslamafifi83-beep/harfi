@@ -1,17 +1,20 @@
-# Makes the voice clips (ElevenLabs free plan; key kept as a GitHub secret) and publishes the app on GitHub Pages.
-# Runs on every push to main, or by hand from the Actions tab.
+# Makes any missing voice clips (ElevenLabs free plan; key kept as a GitHub secret), saves them in the
+# project so they are never paid for twice, and publishes the app on GitHub Pages.
+# Runs on every push to main, on the 2nd of each month (to finish clips when free credits renew), or by hand.
 name: Voices and publish
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 3 2 * *'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,19 +23,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Reuse clips from earlier runs
-        uses: actions/cache@v4
-        with:
-          path: app/audio
-          key: voices-${{ hashFiles('voices/lines.json', 'voices/voices.json') }}
-          restore-keys: voices-
-      - name: Make voice clips
+      - name: Make missing voice clips
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
         run: node voices/generate.mjs
+      - name: Save new clips in the project
+        run: |
+          git config user.name "harfi-bot"
+          git config user.email "harfi-bot@users.noreply.github.com"
+          git add -A app/audio
+          if ! git diff --cached --quiet; then git commit -m "Voice clips" && git push; fi
       - name: New version for tablets
-        run: sed -i "s/var VERSION = 'harfi-v1';/var VERSION = 'harfi-${GITHUB_SHA::8}';/" app/sw.js
+        run: sed -i "s/var VERSION = 'harfi-v1';/var VERSION = 'harfi-${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}';/" app/sw.js
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

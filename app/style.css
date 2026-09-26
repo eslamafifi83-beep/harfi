@@ -68,7 +68,7 @@ svg .talk{display:none}
 .buddy.spin{animation:spin .7s cubic-bezier(.3,1.4,.5,1)}
 @keyframes spin{0%{transform:rotate(0) scale(1)}50%{transform:rotate(200deg) scale(1.15)}100%{transform:rotate(360deg) scale(1)}}
 .bubble .who{display:inline-block;font-size:14px;font-weight:800;color:var(--white);border-radius:999px;padding:0 10px;margin-bottom:2px}
-.bubble.f .who{background:#C7352A}.bubble.b .who{background:#B07A12}
+.bubble.f .who{background:#C7352A}.bubble.b .who{background:#7A3B8F}
 .friends{flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;gap:clamp(16px,6vw,80px);direction:rtl}
 .friend{border:none;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px}
 .friend .buddy{width:clamp(150px,24vw,240px);animation-duration:2.6s}
@@ -236,3 +236,16 @@ svg .talk{display:none}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
   .conf,.spark{display:none}
 }
+
+/* units strip */
+.units{display:flex;gap:8px;direction:rtl;overflow-x:auto;padding:4px 2px 8px;justify-content:safe center;scrollbar-width:none;flex-shrink:0}
+.units::-webkit-scrollbar{display:none}
+.uchip{flex-shrink:0;height:48px;padding:0 14px;border-radius:999px;border:3px solid transparent;background:var(--white);box-shadow:0 3px 0 var(--line);font-size:22px;font-weight:800;display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.uchip.on{border-color:var(--orange);background:var(--orange-l)}
+.uchip.done{background:#E3F3F1;color:var(--teal-d)}
+.uchip.done.on{border-color:var(--teal)}
+.uchip.locked{color:var(--muted);background:var(--sand2);box-shadow:none}
+/* colour-in writing */
+.board canvas{display:block;touch-action:none;width:100%;height:100%}
+.meter{height:18px;border-radius:999px;background:var(--sand2);overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
+.meter i{display:block;height:100%;width:0;background:var(--teal);border-radius:999px;transition:width .25s}

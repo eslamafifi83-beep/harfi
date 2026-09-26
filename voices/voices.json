@@ -1,19 +1,19 @@
 {
-  "_about": "Who sounds like what. Change a voice, then run: npm run voices -- --redo  (on GitHub: edit this file and the clips are remade automatically)",
+  "_about": "Who sounds like what. Each friend has a list of voices: the first one that works on the free plan is used. Changing the list remakes that friend's clips.",
   "provider": "elevenlabs",
   "elevenlabs": {
-    "_voices": "voice_id comes from elevenlabs.io > Voices. Pick any voice there (the Voice Library has Arabic and child-like voices), copy its ID and paste it here.",
+    "_voices": "Voice IDs from elevenlabs.io > Voices. Voices from the Voice Library usually need a paid plan, so built-in voices are listed. Toota must only ever get women's or girls' voices.",
     "model": "eleven_multilingual_v2",
     "speakers": {
-      "b": { "name": "Basbousa", "voice_id": "EXAVITQu4vr4xnSDxMaL", "stability": 0.45, "style": 0.35 },
-      "f": { "name": "Filfil",   "voice_id": "TX3LPaxmHKxFdv7VOQHJ", "stability": 0.35, "style": 0.55 }
+      "b": { "name": "Toota",  "voice_ids": ["pFZP5JQG7iQjIQuC4Bku", "Xb7hH8MSUJpSbSDYk0k2", "EXAVITQu4vr4xnSDxMaL"], "stability": 0.45, "style": 0.4 },
+      "f": { "name": "Filfil", "voice_ids": ["TX3LPaxmHKxFdv7VOQHJ"], "stability": 0.35, "style": 0.55 }
     },
     "speeds": { "slow": 0.75, "calm": 0.88, "normal": 1.0 }
   },
   "azure": {
     "speakers": {
-      "b": { "name": "Basbousa", "voice": "ar-EG-SalmaNeural",  "pitch": "+12%", "rate": "0%" },
-      "f": { "name": "Filfil",   "voice": "ar-EG-ShakirNeural", "pitch": "+30%", "rate": "+6%" }
+      "b": { "name": "Toota",  "voice": "ar-EG-SalmaNeural",  "pitch": "+15%", "rate": "0%" },
+      "f": { "name": "Filfil", "voice": "ar-EG-ShakirNeural", "pitch": "+30%", "rate": "+6%" }
     },
     "speeds": { "slow": "-35%", "calm": "-15%", "normal": "0%" }
   },
