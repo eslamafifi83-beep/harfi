@@ -1,0 +1,1964 @@
+[
+ {
+  "key": "b|calm|آ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "آ"
+ },
+ {
+  "key": "b|calm|أرنب",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "أرنب"
+ },
+ {
+  "key": "b|calm|ألف",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "ألف"
+ },
+ {
+  "key": "b|calm|أَ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "أَ"
+ },
+ {
+  "key": "b|calm|أَرْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "أَرْ"
+ },
+ {
+  "key": "b|calm|اَ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "اَ"
+ },
+ {
+  "key": "b|calm|اُ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "اُ"
+ },
+ {
+  "key": "b|calm|اِ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "اِ"
+ },
+ {
+  "key": "b|calm|باء",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "باء"
+ },
+ {
+  "key": "b|calm|باب",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "باب"
+ },
+ {
+  "key": "b|calm|بابا",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بابا"
+ },
+ {
+  "key": "b|calm|بسبوسة",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بسبوسة"
+ },
+ {
+  "key": "b|calm|بطّة",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بطّة"
+ },
+ {
+  "key": "b|calm|بَ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بَ"
+ },
+ {
+  "key": "b|calm|بَا",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بَا"
+ },
+ {
+  "key": "b|calm|بَسْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بَسْ"
+ },
+ {
+  "key": "b|calm|بَطْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بَطْ"
+ },
+ {
+  "key": "b|calm|بُ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بُ"
+ },
+ {
+  "key": "b|calm|بُو",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بُو"
+ },
+ {
+  "key": "b|calm|بِ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بِ"
+ },
+ {
+  "key": "b|calm|بْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "بْ"
+ },
+ {
+  "key": "b|calm|تاء",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تاء"
+ },
+ {
+  "key": "b|calm|تاتا",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تاتا"
+ },
+ {
+  "key": "b|calm|تفّاحة",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تفّاحة"
+ },
+ {
+  "key": "b|calm|تَ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تَ"
+ },
+ {
+  "key": "b|calm|تَا",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تَا"
+ },
+ {
+  "key": "b|calm|تُ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تُ"
+ },
+ {
+  "key": "b|calm|تُفْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تُفْ"
+ },
+ {
+  "key": "b|calm|تِ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تِ"
+ },
+ {
+  "key": "b|calm|ثاء",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "ثاء"
+ },
+ {
+  "key": "b|calm|ثعلب",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "ثعلب"
+ },
+ {
+  "key": "b|calm|ثَ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "ثَ"
+ },
+ {
+  "key": "b|calm|ثَعْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "ثَعْ"
+ },
+ {
+  "key": "b|calm|ثُ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "ثُ"
+ },
+ {
+  "key": "b|calm|ثِ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "ثِ"
+ },
+ {
+  "key": "b|calm|حَة",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "حَة"
+ },
+ {
+  "key": "b|calm|سَة",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "سَة"
+ },
+ {
+  "key": "b|calm|طَة",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "طَة"
+ },
+ {
+  "key": "b|calm|فلفل",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "فلفل"
+ },
+ {
+  "key": "b|calm|فَا",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "فَا"
+ },
+ {
+  "key": "b|calm|فِلْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "فِلْ"
+ },
+ {
+  "key": "b|calm|لَبْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "لَبْ"
+ },
+ {
+  "key": "b|calm|نَبْ",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "نَبْ"
+ },
+ {
+  "key": "b|normal|أرنب",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "أرنب"
+ },
+ {
+  "key": "b|normal|ألف",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ألف"
+ },
+ {
+  "key": "b|normal|أنا بسبوسة مسكّرة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "أنا بسبوسة مسكّرة"
+ },
+ {
+  "key": "b|normal|أَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "أَ"
+ },
+ {
+  "key": "b|normal|أَرْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "أَرْ"
+ },
+ {
+  "key": "b|normal|إنتي شاطرة زيّي",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "إنتي شاطرة زيّي"
+ },
+ {
+  "key": "b|normal|اختاري اللعبة الجاية",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "اختاري اللعبة الجاية"
+ },
+ {
+  "key": "b|normal|اسمعي كويس",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "اسمعي كويس"
+ },
+ {
+  "key": "b|normal|الحروف مسكت إيد بعض",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "الحروف مسكت إيد بعض"
+ },
+ {
+  "key": "b|normal|العلامة الصغيّرة بتغيّر الصوت",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "العلامة الصغيّرة بتغيّر الصوت"
+ },
+ {
+  "key": "b|normal|الله عليكي",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "الله عليكي"
+ },
+ {
+  "key": "b|normal|امشي على النقط بصباعك",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "امشي على النقط بصباعك"
+ },
+ {
+  "key": "b|normal|اَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "اَ"
+ },
+ {
+  "key": "b|normal|اُ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "اُ"
+ },
+ {
+  "key": "b|normal|اِ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "اِ"
+ },
+ {
+  "key": "b|normal|باء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "باء"
+ },
+ {
+  "key": "b|normal|باب",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "باب"
+ },
+ {
+  "key": "b|normal|بابا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بابا"
+ },
+ {
+  "key": "b|normal|برافو عليكي",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "برافو عليكي"
+ },
+ {
+  "key": "b|normal|بسبوسة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بسبوسة"
+ },
+ {
+  "key": "b|normal|بطّة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بطّة"
+ },
+ {
+  "key": "b|normal|بَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بَ"
+ },
+ {
+  "key": "b|normal|بَا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بَا"
+ },
+ {
+  "key": "b|normal|بَس بو سة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بَس بو سة"
+ },
+ {
+  "key": "b|normal|بَسْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بَسْ"
+ },
+ {
+  "key": "b|normal|بَطْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بَطْ"
+ },
+ {
+  "key": "b|normal|بُ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بُ"
+ },
+ {
+  "key": "b|normal|بُو",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بُو"
+ },
+ {
+  "key": "b|normal|بِ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بِ"
+ },
+ {
+  "key": "b|normal|بْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "بْ"
+ },
+ {
+  "key": "b|normal|تاء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تاء"
+ },
+ {
+  "key": "b|normal|تاتا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تاتا"
+ },
+ {
+  "key": "b|normal|تفّاحة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تفّاحة"
+ },
+ {
+  "key": "b|normal|تَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تَ"
+ },
+ {
+  "key": "b|normal|تَا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تَا"
+ },
+ {
+  "key": "b|normal|تُ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تُ"
+ },
+ {
+  "key": "b|normal|تُفْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تُفْ"
+ },
+ {
+  "key": "b|normal|تِ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "تِ"
+ },
+ {
+  "key": "b|normal|ثاء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ثاء"
+ },
+ {
+  "key": "b|normal|ثعلب",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ثعلب"
+ },
+ {
+  "key": "b|normal|ثَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ثَ"
+ },
+ {
+  "key": "b|normal|ثَعْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ثَعْ"
+ },
+ {
+  "key": "b|normal|ثُ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ثُ"
+ },
+ {
+  "key": "b|normal|ثِ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ثِ"
+ },
+ {
+  "key": "b|normal|جامدة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "جامدة"
+ },
+ {
+  "key": "b|normal|جميل ودلوقتي النقطة تحت",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "جميل ودلوقتي النقطة تحت"
+ },
+ {
+  "key": "b|normal|حَة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "حَة"
+ },
+ {
+  "key": "b|normal|خلّصتي كل الألعاب",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "خلّصتي كل الألعاب"
+ },
+ {
+  "key": "b|normal|ده حرف الألف دوّري على الباء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف الألف دوّري على الباء"
+ },
+ {
+  "key": "b|normal|ده حرف الألف دوّري على التاء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف الألف دوّري على التاء"
+ },
+ {
+  "key": "b|normal|ده حرف الباء دوّري على الألف",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف الباء دوّري على الألف"
+ },
+ {
+  "key": "b|normal|ده حرف الباء دوّري على التاء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف الباء دوّري على التاء"
+ },
+ {
+  "key": "b|normal|ده حرف التاء دوّري على الألف",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف التاء دوّري على الألف"
+ },
+ {
+  "key": "b|normal|ده حرف التاء دوّري على الباء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف التاء دوّري على الباء"
+ },
+ {
+  "key": "b|normal|ده حرف الثاء دوّري على الألف",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف الثاء دوّري على الألف"
+ },
+ {
+  "key": "b|normal|ده حرف الثاء دوّري على الباء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف الثاء دوّري على الباء"
+ },
+ {
+  "key": "b|normal|ده حرف الثاء دوّري على التاء",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ده حرف الثاء دوّري على التاء"
+ },
+ {
+  "key": "b|normal|دورك قولي بابا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "دورك قولي بابا"
+ },
+ {
+  "key": "b|normal|دورك قولي بسبوسة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "دورك قولي بسبوسة"
+ },
+ {
+  "key": "b|normal|دورك قولي بَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "دورك قولي بَ"
+ },
+ {
+  "key": "b|normal|دورك قولي تَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "دورك قولي تَ"
+ },
+ {
+  "key": "b|normal|دورك قولي ثَ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "دورك قولي ثَ"
+ },
+ {
+  "key": "b|normal|دورك قولي فلفل",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "دورك قولي فلفل"
+ },
+ {
+  "key": "b|normal|سَة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "سَة"
+ },
+ {
+  "key": "b|normal|شاطرة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "شاطرة"
+ },
+ {
+  "key": "b|normal|شاطرة يلّا نلعب بالبلالين",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "شاطرة يلّا نلعب بالبلالين"
+ },
+ {
+  "key": "b|normal|طَة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "طَة"
+ },
+ {
+  "key": "b|normal|فرقعي بلالين ألف",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "فرقعي بلالين ألف"
+ },
+ {
+  "key": "b|normal|فلفل",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "فلفل"
+ },
+ {
+  "key": "b|normal|فَا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "فَا"
+ },
+ {
+  "key": "b|normal|فِلْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "فِلْ"
+ },
+ {
+  "key": "b|normal|كسبتي ستيكر جديد",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "كسبتي ستيكر جديد"
+ },
+ {
+  "key": "b|normal|لسّه مقفولة",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "لسّه مقفولة"
+ },
+ {
+  "key": "b|normal|لَبْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "لَبْ"
+ },
+ {
+  "key": "b|normal|مش ده اسمعي تاني",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "مش ده اسمعي تاني"
+ },
+ {
+  "key": "b|normal|نَبْ",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "نَبْ"
+ },
+ {
+  "key": "b|normal|هايل",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "هايل"
+ },
+ {
+  "key": "b|normal|وأنا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "وأنا"
+ },
+ {
+  "key": "b|normal|يا سلام عليكي",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "يا سلام عليكي"
+ },
+ {
+  "key": "b|normal|يلّا نبدأ دوسي على البرتقالي",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "يلّا نبدأ دوسي على البرتقالي"
+ },
+ {
+  "key": "b|slow|أرنب",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "أرنب"
+ },
+ {
+  "key": "b|slow|ألف",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "ألف"
+ },
+ {
+  "key": "b|slow|أَ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "أَ"
+ },
+ {
+  "key": "b|slow|أَرْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "أَرْ"
+ },
+ {
+  "key": "b|slow|اَ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "اَ"
+ },
+ {
+  "key": "b|slow|اُ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "اُ"
+ },
+ {
+  "key": "b|slow|اِ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "اِ"
+ },
+ {
+  "key": "b|slow|باء",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "باء"
+ },
+ {
+  "key": "b|slow|باب",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "باب"
+ },
+ {
+  "key": "b|slow|بابا",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بابا"
+ },
+ {
+  "key": "b|slow|بسبوسة",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بسبوسة"
+ },
+ {
+  "key": "b|slow|بطّة",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بطّة"
+ },
+ {
+  "key": "b|slow|بَ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بَ"
+ },
+ {
+  "key": "b|slow|بَا",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بَا"
+ },
+ {
+  "key": "b|slow|بَسْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بَسْ"
+ },
+ {
+  "key": "b|slow|بَطْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بَطْ"
+ },
+ {
+  "key": "b|slow|بُ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بُ"
+ },
+ {
+  "key": "b|slow|بُو",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بُو"
+ },
+ {
+  "key": "b|slow|بِ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بِ"
+ },
+ {
+  "key": "b|slow|بْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "بْ"
+ },
+ {
+  "key": "b|slow|تاء",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تاء"
+ },
+ {
+  "key": "b|slow|تاتا",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تاتا"
+ },
+ {
+  "key": "b|slow|تفّاحة",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تفّاحة"
+ },
+ {
+  "key": "b|slow|تَ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تَ"
+ },
+ {
+  "key": "b|slow|تَا",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تَا"
+ },
+ {
+  "key": "b|slow|تُ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تُ"
+ },
+ {
+  "key": "b|slow|تُفْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تُفْ"
+ },
+ {
+  "key": "b|slow|تِ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "تِ"
+ },
+ {
+  "key": "b|slow|ثاء",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "ثاء"
+ },
+ {
+  "key": "b|slow|ثعلب",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "ثعلب"
+ },
+ {
+  "key": "b|slow|ثَ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "ثَ"
+ },
+ {
+  "key": "b|slow|ثَعْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "ثَعْ"
+ },
+ {
+  "key": "b|slow|ثُ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "ثُ"
+ },
+ {
+  "key": "b|slow|ثِ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "ثِ"
+ },
+ {
+  "key": "b|slow|حَة",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "حَة"
+ },
+ {
+  "key": "b|slow|سَة",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "سَة"
+ },
+ {
+  "key": "b|slow|طَة",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "طَة"
+ },
+ {
+  "key": "b|slow|فلفل",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "فلفل"
+ },
+ {
+  "key": "b|slow|فَا",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "فَا"
+ },
+ {
+  "key": "b|slow|فِلْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "فِلْ"
+ },
+ {
+  "key": "b|slow|لَبْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "لَبْ"
+ },
+ {
+  "key": "b|slow|نَبْ",
+  "speaker": "b",
+  "speed": "slow",
+  "text": "نَبْ"
+ },
+ {
+  "key": "f|calm|آ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "آ"
+ },
+ {
+  "key": "f|calm|أرنب",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "أرنب"
+ },
+ {
+  "key": "f|calm|ألف",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "ألف"
+ },
+ {
+  "key": "f|calm|أَ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "أَ"
+ },
+ {
+  "key": "f|calm|أَرْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "أَرْ"
+ },
+ {
+  "key": "f|calm|اَ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "اَ"
+ },
+ {
+  "key": "f|calm|اُ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "اُ"
+ },
+ {
+  "key": "f|calm|اِ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "اِ"
+ },
+ {
+  "key": "f|calm|باء",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "باء"
+ },
+ {
+  "key": "f|calm|باب",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "باب"
+ },
+ {
+  "key": "f|calm|بابا",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بابا"
+ },
+ {
+  "key": "f|calm|بسبوسة",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بسبوسة"
+ },
+ {
+  "key": "f|calm|بطّة",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بطّة"
+ },
+ {
+  "key": "f|calm|بَ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بَ"
+ },
+ {
+  "key": "f|calm|بَا",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بَا"
+ },
+ {
+  "key": "f|calm|بَسْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بَسْ"
+ },
+ {
+  "key": "f|calm|بَطْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بَطْ"
+ },
+ {
+  "key": "f|calm|بُ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بُ"
+ },
+ {
+  "key": "f|calm|بُو",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بُو"
+ },
+ {
+  "key": "f|calm|بِ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بِ"
+ },
+ {
+  "key": "f|calm|بْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "بْ"
+ },
+ {
+  "key": "f|calm|تاء",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تاء"
+ },
+ {
+  "key": "f|calm|تاتا",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تاتا"
+ },
+ {
+  "key": "f|calm|تفّاحة",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تفّاحة"
+ },
+ {
+  "key": "f|calm|تَ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تَ"
+ },
+ {
+  "key": "f|calm|تَا",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تَا"
+ },
+ {
+  "key": "f|calm|تُ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تُ"
+ },
+ {
+  "key": "f|calm|تُفْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تُفْ"
+ },
+ {
+  "key": "f|calm|تِ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "تِ"
+ },
+ {
+  "key": "f|calm|ثاء",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "ثاء"
+ },
+ {
+  "key": "f|calm|ثعلب",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "ثعلب"
+ },
+ {
+  "key": "f|calm|ثَ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "ثَ"
+ },
+ {
+  "key": "f|calm|ثَعْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "ثَعْ"
+ },
+ {
+  "key": "f|calm|ثُ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "ثُ"
+ },
+ {
+  "key": "f|calm|ثِ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "ثِ"
+ },
+ {
+  "key": "f|calm|حَة",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "حَة"
+ },
+ {
+  "key": "f|calm|سَة",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "سَة"
+ },
+ {
+  "key": "f|calm|طَة",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "طَة"
+ },
+ {
+  "key": "f|calm|فلفل",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "فلفل"
+ },
+ {
+  "key": "f|calm|فَا",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "فَا"
+ },
+ {
+  "key": "f|calm|فِلْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "فِلْ"
+ },
+ {
+  "key": "f|calm|لَبْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "لَبْ"
+ },
+ {
+  "key": "f|calm|نَبْ",
+  "speaker": "f",
+  "speed": "calm",
+  "text": "نَبْ"
+ },
+ {
+  "key": "f|normal|أرنب",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "أرنب"
+ },
+ {
+  "key": "f|normal|ألف",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ألف"
+ },
+ {
+  "key": "f|normal|أنا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "أنا"
+ },
+ {
+  "key": "f|normal|أنا فلفل حرّاق",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "أنا فلفل حرّاق"
+ },
+ {
+  "key": "f|normal|أَ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "أَ"
+ },
+ {
+  "key": "f|normal|أَرْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "أَرْ"
+ },
+ {
+  "key": "f|normal|إحنا فخورين بيكي",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "إحنا فخورين بيكي"
+ },
+ {
+  "key": "f|normal|ابدئي من النقطة الخضرا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ابدئي من النقطة الخضرا"
+ },
+ {
+  "key": "f|normal|اختاري اللعبة الجاية",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اختاري اللعبة الجاية"
+ },
+ {
+  "key": "f|normal|اسمعي أوّل صوت في الكلمة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اسمعي أوّل صوت في الكلمة"
+ },
+ {
+  "key": "f|normal|اسمعي الكلمة حتّة حتّة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اسمعي الكلمة حتّة حتّة"
+ },
+ {
+  "key": "f|normal|اسمعي بس من غير ما تشوفي",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اسمعي بس من غير ما تشوفي"
+ },
+ {
+  "key": "f|normal|اسمعي تاني زيّك",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اسمعي تاني زيّك"
+ },
+ {
+  "key": "f|normal|اسمعي كويس",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اسمعي كويس"
+ },
+ {
+  "key": "f|normal|الحروف مسكت إيد بعض",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "الحروف مسكت إيد بعض"
+ },
+ {
+  "key": "f|normal|الله عليكي",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "الله عليكي"
+ },
+ {
+  "key": "f|normal|اَ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اَ"
+ },
+ {
+  "key": "f|normal|اُ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اُ"
+ },
+ {
+  "key": "f|normal|اِ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "اِ"
+ },
+ {
+  "key": "f|normal|باء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "باء"
+ },
+ {
+  "key": "f|normal|باب",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "باب"
+ },
+ {
+  "key": "f|normal|بابا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بابا"
+ },
+ {
+  "key": "f|normal|برافو عليكي",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "برافو عليكي"
+ },
+ {
+  "key": "f|normal|بسبوسة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بسبوسة"
+ },
+ {
+  "key": "f|normal|بطّة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بطّة"
+ },
+ {
+  "key": "f|normal|بَ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بَ"
+ },
+ {
+  "key": "f|normal|بَا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بَا"
+ },
+ {
+  "key": "f|normal|بَسْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بَسْ"
+ },
+ {
+  "key": "f|normal|بَطْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بَطْ"
+ },
+ {
+  "key": "f|normal|بُ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بُ"
+ },
+ {
+  "key": "f|normal|بُو",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بُو"
+ },
+ {
+  "key": "f|normal|بِ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بِ"
+ },
+ {
+  "key": "f|normal|بْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "بْ"
+ },
+ {
+  "key": "f|normal|تاء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تاء"
+ },
+ {
+  "key": "f|normal|تاتا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تاتا"
+ },
+ {
+  "key": "f|normal|تفّاحة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تفّاحة"
+ },
+ {
+  "key": "f|normal|تَ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تَ"
+ },
+ {
+  "key": "f|normal|تَا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تَا"
+ },
+ {
+  "key": "f|normal|تُ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تُ"
+ },
+ {
+  "key": "f|normal|تُفْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تُفْ"
+ },
+ {
+  "key": "f|normal|تِ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "تِ"
+ },
+ {
+  "key": "f|normal|ثاء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ثاء"
+ },
+ {
+  "key": "f|normal|ثعلب",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ثعلب"
+ },
+ {
+  "key": "f|normal|ثَ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ثَ"
+ },
+ {
+  "key": "f|normal|ثَعْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ثَعْ"
+ },
+ {
+  "key": "f|normal|ثُ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ثُ"
+ },
+ {
+  "key": "f|normal|ثِ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ثِ"
+ },
+ {
+  "key": "f|normal|جامدة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "جامدة"
+ },
+ {
+  "key": "f|normal|جميل ودلوقتي النقطتين فوق",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "جميل ودلوقتي النقطتين فوق"
+ },
+ {
+  "key": "f|normal|حَة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "حَة"
+ },
+ {
+  "key": "f|normal|ده حرف الألف دوّري على الباء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف الألف دوّري على الباء"
+ },
+ {
+  "key": "f|normal|ده حرف الألف دوّري على التاء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف الألف دوّري على التاء"
+ },
+ {
+  "key": "f|normal|ده حرف الباء دوّري على الألف",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف الباء دوّري على الألف"
+ },
+ {
+  "key": "f|normal|ده حرف الباء دوّري على التاء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف الباء دوّري على التاء"
+ },
+ {
+  "key": "f|normal|ده حرف التاء دوّري على الألف",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف التاء دوّري على الألف"
+ },
+ {
+  "key": "f|normal|ده حرف التاء دوّري على الباء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف التاء دوّري على الباء"
+ },
+ {
+  "key": "f|normal|ده حرف الثاء دوّري على الألف",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف الثاء دوّري على الألف"
+ },
+ {
+  "key": "f|normal|ده حرف الثاء دوّري على الباء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف الثاء دوّري على الباء"
+ },
+ {
+  "key": "f|normal|ده حرف الثاء دوّري على التاء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "ده حرف الثاء دوّري على التاء"
+ },
+ {
+  "key": "f|normal|دوسي على كل حرف",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "دوسي على كل حرف"
+ },
+ {
+  "key": "f|normal|سَة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "سَة"
+ },
+ {
+  "key": "f|normal|شاطرة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "شاطرة"
+ },
+ {
+  "key": "f|normal|طَة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "طَة"
+ },
+ {
+  "key": "f|normal|فرقعي بلالين باء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "فرقعي بلالين باء"
+ },
+ {
+  "key": "f|normal|فرقعي بلالين تاء",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "فرقعي بلالين تاء"
+ },
+ {
+  "key": "f|normal|فلفل",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "فلفل"
+ },
+ {
+  "key": "f|normal|فَا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "فَا"
+ },
+ {
+  "key": "f|normal|فِل فِل فلفل",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "فِل فِل فلفل"
+ },
+ {
+  "key": "f|normal|فِلْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "فِلْ"
+ },
+ {
+  "key": "f|normal|قولي أسامينا معانا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "قولي أسامينا معانا"
+ },
+ {
+  "key": "f|normal|لسّه مقفولة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "لسّه مقفولة"
+ },
+ {
+  "key": "f|normal|لَبْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "لَبْ"
+ },
+ {
+  "key": "f|normal|مش ده اسمعي تاني",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "مش ده اسمعي تاني"
+ },
+ {
+  "key": "f|normal|نَبْ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "نَبْ"
+ },
+ {
+  "key": "f|normal|هايل",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "هايل"
+ },
+ {
+  "key": "f|normal|هههه بتزغزغيني",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "هههه بتزغزغيني"
+ },
+ {
+  "key": "f|normal|يلّا يا بطلة",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "يلّا يا بطلة"
+ },
+ {
+  "key": "f|slow|أرنب",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "أرنب"
+ },
+ {
+  "key": "f|slow|ألف",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "ألف"
+ },
+ {
+  "key": "f|slow|أَ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "أَ"
+ },
+ {
+  "key": "f|slow|أَرْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "أَرْ"
+ },
+ {
+  "key": "f|slow|اَ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "اَ"
+ },
+ {
+  "key": "f|slow|اُ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "اُ"
+ },
+ {
+  "key": "f|slow|اِ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "اِ"
+ },
+ {
+  "key": "f|slow|باء",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "باء"
+ },
+ {
+  "key": "f|slow|باب",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "باب"
+ },
+ {
+  "key": "f|slow|بابا",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بابا"
+ },
+ {
+  "key": "f|slow|بسبوسة",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بسبوسة"
+ },
+ {
+  "key": "f|slow|بطّة",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بطّة"
+ },
+ {
+  "key": "f|slow|بَ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بَ"
+ },
+ {
+  "key": "f|slow|بَا",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بَا"
+ },
+ {
+  "key": "f|slow|بَسْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بَسْ"
+ },
+ {
+  "key": "f|slow|بَطْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بَطْ"
+ },
+ {
+  "key": "f|slow|بُ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بُ"
+ },
+ {
+  "key": "f|slow|بُو",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بُو"
+ },
+ {
+  "key": "f|slow|بِ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بِ"
+ },
+ {
+  "key": "f|slow|بْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "بْ"
+ },
+ {
+  "key": "f|slow|تاء",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تاء"
+ },
+ {
+  "key": "f|slow|تاتا",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تاتا"
+ },
+ {
+  "key": "f|slow|تفّاحة",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تفّاحة"
+ },
+ {
+  "key": "f|slow|تَ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تَ"
+ },
+ {
+  "key": "f|slow|تَا",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تَا"
+ },
+ {
+  "key": "f|slow|تُ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تُ"
+ },
+ {
+  "key": "f|slow|تُفْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تُفْ"
+ },
+ {
+  "key": "f|slow|تِ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "تِ"
+ },
+ {
+  "key": "f|slow|ثاء",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "ثاء"
+ },
+ {
+  "key": "f|slow|ثعلب",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "ثعلب"
+ },
+ {
+  "key": "f|slow|ثَ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "ثَ"
+ },
+ {
+  "key": "f|slow|ثَعْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "ثَعْ"
+ },
+ {
+  "key": "f|slow|ثُ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "ثُ"
+ },
+ {
+  "key": "f|slow|ثِ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "ثِ"
+ },
+ {
+  "key": "f|slow|حَة",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "حَة"
+ },
+ {
+  "key": "f|slow|سَة",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "سَة"
+ },
+ {
+  "key": "f|slow|طَة",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "طَة"
+ },
+ {
+  "key": "f|slow|فلفل",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "فلفل"
+ },
+ {
+  "key": "f|slow|فَا",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "فَا"
+ },
+ {
+  "key": "f|slow|فِلْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "فِلْ"
+ },
+ {
+  "key": "f|slow|لَبْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "لَبْ"
+ },
+ {
+  "key": "f|slow|نَبْ",
+  "speaker": "f",
+  "speed": "slow",
+  "text": "نَبْ"
+ }
+]

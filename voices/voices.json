@@ -1,0 +1,22 @@
+{
+  "_about": "Who sounds like what. Change a voice, then run: npm run voices -- --redo  (on GitHub: edit this file and the clips are remade automatically)",
+  "provider": "elevenlabs",
+  "elevenlabs": {
+    "_voices": "voice_id comes from elevenlabs.io > Voices. Pick any voice there (the Voice Library has Arabic and child-like voices), copy its ID and paste it here.",
+    "model": "eleven_multilingual_v2",
+    "speakers": {
+      "b": { "name": "Basbousa", "voice_id": "21m00Tcm4TlvDq8ikWAM", "stability": 0.45, "style": 0.35 },
+      "f": { "name": "Filfil",   "voice_id": "TX3LPaxmHKxFdv7VOQHJ", "stability": 0.35, "style": 0.55 }
+    },
+    "speeds": { "slow": 0.75, "calm": 0.88, "normal": 1.0 }
+  },
+  "azure": {
+    "speakers": {
+      "b": { "name": "Basbousa", "voice": "ar-EG-SalmaNeural",  "pitch": "+12%", "rate": "0%" },
+      "f": { "name": "Filfil",   "voice": "ar-EG-ShakirNeural", "pitch": "+30%", "rate": "+6%" }
+    },
+    "speeds": { "slow": "-35%", "calm": "-15%", "normal": "0%" }
+  },
+  "_pronounce": "If a clip sounds wrong (for example a single sound read as a letter name), add the text here with a spelling that reads better, then remake it.",
+  "pronounce": {}
+}
