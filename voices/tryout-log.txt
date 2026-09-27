@@ -1,0 +1,1 @@
+2026-09-27T12:10:55.103Z ra-gem-leda: 429 {"error":{"message":"Rate limit exceeded for model gemini-3.8-flash-tts (limit: 10 requests per day on Free Tier). Please retry in 4s or upgrade your tier at https://ai.dev/rate-limit.","code":"too_many_requests"}}

@@ -405,5 +405,16 @@
   "text": "دَ",
   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
   "note": "Gemini voice Leda (youthful)"
+ },
+ {
+  "file": "dhal-gem-leda.wav",
+  "id": "dhal-gem-leda",
+  "letter": "ذ",
+  "label": "G1",
+  "provider": "gemini",
+  "voice": "Leda",
+  "text": "ذَ",
+  "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+  "note": "Gemini voice Leda (youthful)"
  }
 ]
