@@ -8,8 +8,8 @@ var SHELL = ['./', 'index.html', 'style.css', 'content.js', 'game.js', 'manifest
 
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(VERSION).then(function(c){
-    return c.addAll(SHELL).then(function(){
-      return fetch('audio/index.json').then(function(r){ return r.ok ? r.json() : {}; }).then(function(idx){
+    return c.addAll(SHELL.map(function(u){ return new Request(u, {cache: 'reload'}); })).then(function(){
+      return fetch('audio/index.json', {cache: 'reload'}).then(function(r){ return r.ok ? r.json() : {}; }).then(function(idx){
         var files = {}; Object.keys(idx).forEach(function(k){ files['audio/' + idx[k]] = 1; });
         return c.addAll(Object.keys(files));
       }).catch(function(){});

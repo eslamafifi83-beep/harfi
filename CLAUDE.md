@@ -22,6 +22,8 @@ An Arabic phonics game for one learner: Eslam's 6-year-old daughter, a beginner.
 - Publishing: the GitHub Actions workflow `.github/workflows/deploy.yml` in the repo `eslamafifi83-beep/harfi` runs `voices/generate.mjs` with the `ELEVENLABS_API_KEY` repo secret, commits new clips to `app/audio` (so they are never paid for twice), runs monthly to finish clips when free credits renew, and deploys `app/` to GitHub Pages. Everything must stay on free tiers.
 - `npm run lines` plays every level headlessly and writes `voices/lines.json`. `npm run voices` makes missing MP3s locally, which needs a `.env`.
 - Clip key: `speaker|speed|text`. The speed is `slow` (rate ≤ .62), `calm` (≤ .8) or `normal`. The text has `!؟?…` removed and spaces collapsed.
+- Designed voices sometimes keep talking after the line ends. `voices/fix-clips.py` (run by the workflow after `generate.mjs`) finds clips much longer than their text, transcribes them with Whisper and trims after the last real word; trimmed clips end in `-t.mp3`.
+- Clips play a little slower than recorded (`PLAY_RATE` in `game.js`: normal .88, calm .92, slow 1), which costs no credits. The service worker fetches the app code and `audio/index.json` network-first, so updates show straight away.
 - A line with no clip falls back to the device voice. In the browser console, `harfiMissing()` lists those lines.
 - **Whenever you add or change a spoken line, run `npm run lines` and commit `voices/lines.json`.**
 - Keys live only in GitHub secrets or a git-ignored `.env`. Never print them or commit them.

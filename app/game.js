@@ -177,7 +177,8 @@ function talking(on){
   if (on) document.querySelectorAll('.buddy[data-who="'+speaker+'"]').forEach(function(b){ b.classList.add('talking'); });
 }
 var CLIPS = {}, MISSING = {};
-try { fetch('audio/index.json').then(function(r){ return r.ok ? r.json() : {}; }).then(function(j){ CLIPS = j || {}; }).catch(function(){}); } catch(e) {}
+var PLAY_RATE = {normal: .88, calm: .92, slow: 1};   /* playback speed per clip speed (1 = as recorded) */
+try { fetch('audio/index.json', {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : {}; }).then(function(j){ CLIPS = j || {}; }).catch(function(){}); } catch(e) {}
 function speedOf(rate){ rate = rate || .85; return rate <= .62 ? 'slow' : (rate <= .8 ? 'calm' : 'normal'); }
 function clean(t){ return String(t).replace(/[!؟?…]/g,' ').replace(/\s+/g,' ').trim(); }
 function clipFor(who, rate, text){
@@ -202,12 +203,18 @@ function utter(text, rate, done, keep, who){
     try {
       if (currentAudio && !keep) currentAudio.pause();
       if ('speechSynthesis' in window) { try { speechSynthesis.cancel(); } catch(e) {} }
-      var a = new Audio('audio/' + file); currentAudio = a;
+      var a = new Audio('audio/' + file), retried = false; currentAudio = a;
+      /* a touch slower than the recording, so it's easy to follow (pitch stays the same) */
+      a.playbackRate = PLAY_RATE[speedOf(rate)]; a.preservesPitch = a.mozPreservesPitch = a.webkitPreservesPitch = true;
       a.onplay = function(){ talking(true); };
-      a.onended = fin; a.onerror = fin;
+      a.onended = fin;
+      a.onerror = function(){
+        if (!retried) { retried = true; a.src = 'audio/' + file + '?r=' + Date.now(); var q = a.play(); if (q && q.catch) q.catch(function(){}); return; }
+        delete CLIPS[key]; MISSING[key] = 1; fin();
+      };
       talking(true);
-      var p = a.play(); if (p && p.catch) p.catch(fin);
-      setTimeout(fin, 8000);
+      var p = a.play(); if (p && p.catch) p.catch(function(e){ if (e && e.name === 'NotAllowedError') fin(); });
+      setTimeout(fin, 12000);
       return;
     } catch(e) {}
   }
@@ -887,7 +894,7 @@ function showTime(full){
     sh.querySelectorAll('.sb.on').forEach(function(x){ x.classList.remove('on'); });
     sb.innerHTML = '<span class="ar">'+L0[1]+'</span><span class="tr en">'+L0[2]+'</span><span class="en">'+L0[3]+'</span>';
     void sb.offsetWidth; sb.classList.add('on');
-    speakSeq([{t: L0[1], rate: .85, who: who}], null, function(){ if (!dead && next) at(250, next); });
+    speakSeq([{t: L0[1], rate: .85, who: who}], null, function(){ if (!dead && next) at(500, next); });
   }
   function name(who){
     var nm = actor(who).querySelector('.nm'), t = NAMES[who].ar;
