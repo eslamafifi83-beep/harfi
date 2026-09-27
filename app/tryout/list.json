@@ -1,0 +1,200 @@
+[
+ {
+  "id": "ba-long-turbo",
+  "letter": "ب",
+  "speaker": "b",
+  "text": "بَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "ba-long-multi",
+  "letter": "ب",
+  "speaker": "b",
+  "text": "بَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "tha-long-turbo",
+  "letter": "ث",
+  "speaker": "b",
+  "text": "ثَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "tha-long-multi",
+  "letter": "ث",
+  "speaker": "b",
+  "text": "ثَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "tha-three-turbo",
+  "letter": "ث",
+  "speaker": "b",
+  "text": "ثَ ثَ ثَ",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "short, three times, turbo"
+ },
+ {
+  "id": "dhal-long-turbo",
+  "letter": "ذ",
+  "speaker": "b",
+  "text": "ذَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "dhal-long-multi",
+  "letter": "ذ",
+  "speaker": "b",
+  "text": "ذَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "zaa-long-turbo",
+  "letter": "ظ",
+  "speaker": "b",
+  "text": "ظَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "zaa-long-multi",
+  "letter": "ظ",
+  "speaker": "b",
+  "text": "ظَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "qaf-long-turbo",
+  "letter": "ق",
+  "speaker": "b",
+  "text": "قَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "qaf-long-multi",
+  "letter": "ق",
+  "speaker": "b",
+  "text": "قَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "qaf-three-turbo",
+  "letter": "ق",
+  "speaker": "b",
+  "text": "قَ قَ قَ",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "short, three times, turbo"
+ },
+ {
+  "id": "hha-long-turbo",
+  "letter": "ح",
+  "speaker": "b",
+  "text": "حَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "hha-long-multi",
+  "letter": "ح",
+  "speaker": "b",
+  "text": "حَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "hha-three-turbo",
+  "letter": "ح",
+  "speaker": "b",
+  "text": "حَ حَ حَ",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "short, three times, turbo"
+ },
+ {
+  "id": "ayn-long-turbo",
+  "letter": "ع",
+  "speaker": "b",
+  "text": "عَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "ayn-long-multi",
+  "letter": "ع",
+  "speaker": "b",
+  "text": "عَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "ayn-three-turbo",
+  "letter": "ع",
+  "speaker": "b",
+  "text": "عَ عَ عَ",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "short, three times, turbo"
+ },
+ {
+  "id": "jim-long-turbo",
+  "letter": "ج",
+  "speaker": "b",
+  "text": "جَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "jim-long-multi",
+  "letter": "ج",
+  "speaker": "b",
+  "text": "جَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ },
+ {
+  "id": "ra-long-turbo",
+  "letter": "ر",
+  "speaker": "b",
+  "text": "رَا",
+  "model": "eleven_turbo_v2_5",
+  "speed": 0.9,
+  "note": "long a, turbo (cheap)"
+ },
+ {
+  "id": "ra-long-multi",
+  "letter": "ر",
+  "speaker": "b",
+  "text": "رَا",
+  "model": "eleven_multilingual_v2",
+  "speed": 0.9,
+  "note": "long a, multilingual v2 (2x credits)"
+ }
+]
