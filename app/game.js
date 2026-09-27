@@ -204,7 +204,7 @@ function utter(text, rate, done, keep, who){
       if ('speechSynthesis' in window) { try { speechSynthesis.cancel(); } catch(e) {} }
       var a = new Audio('audio/' + file), retried = false; currentAudio = a;
       /* a touch slower than the recording, so it's easy to follow (pitch stays the same) */
-      a.playbackRate = PLAY_RATE[speedOf(rate)]; a.preservesPitch = a.mozPreservesPitch = a.webkitPreservesPitch = true;
+      a.playbackRate = PLAY_RATE[speedOf(rate)] * (speaker === 'f' ? .93 : 1);   /* Filfil talks fast, so he's slowed a little more */ a.preservesPitch = a.mozPreservesPitch = a.webkitPreservesPitch = true;
       a.onplay = function(){ talking(true); };
       a.onended = fin;
       a.onerror = function(){
@@ -444,10 +444,10 @@ function meetLetters(u, li){
   var seen = {}, cards = el.querySelector('#cards');
   U.letters.forEach(function(k){
     var l = L[k];
-    var c = h('<button class="lcard" aria-label="Letter '+l.en+'"><span class="seen">'+CHECK+'</span><span class="big ar">'+l.ch+'</span><span class="nm"><span class="ar">'+l.name+'</span><span class="en">'+l.en+' · "'+l.tr+'"</span></span></button>');
+    var c = h('<button class="lcard" aria-label="Letter '+l.en+'"><span class="seen">'+CHECK+'</span><span class="big ar">'+l.ch+'</span><span class="nm"><span class="ar">'+l.snd+'</span><span class="en" dir="ltr">“'+(l.key === 'alif' ? 'a' : l.tr + 'a')+'” · '+l.en+'</span></span></button>');
     c.addEventListener('click', function(){
       c.classList.remove('play'); void c.offsetWidth; c.classList.add('play');
-      SFX.tap(); speakSeq([{t:l.name, rate:.8},{t:l.snd, rate:.6},{t:l.snd, rate:.6},{t:l.snd, rate:.6}], function(i){ if (i) { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } }, null, 300);
+      SFX.tap(); speakSeq([{t:l.snd, rate:.6},{t:l.snd, rate:.6},{t:l.snd, rate:.6}], function(i){   /* the letter's sound, three times (not its name) */ if (i) { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } }, null, 300);
       burst(c.querySelector('.big'));
       if (!seen[k]) { seen[k] = true; c.classList.add('was'); }
       if (Object.keys(seen).length === U.letters.length) { next.disabled = false; next.classList.add('ready'); mood('happy'); later(function(){ sayThen('شاطرة! يلّا نلعب بالبلالين','Shaṭra! Yalla nilʿab bil-balalīn','Great! Now let\'s pop balloons', 'f'); }, 2600); }

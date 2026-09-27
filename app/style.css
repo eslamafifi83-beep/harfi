@@ -112,7 +112,7 @@ svg .talk{display:none}
 .cards{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2vw,22px);direction:rtl;align-content:center}
 .lcard{border:none;background:var(--white);border-radius:30px;box-shadow:0 6px 0 var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 6px;position:relative;min-height:180px}
 .lcard .big{font-size:clamp(80px,12vw,150px);line-height:1;font-weight:800;color:var(--teal)}
-.lcard .nm{font-size:22px;font-weight:800}
+.lcard .nm{font-size:30px;font-weight:800;display:flex;align-items:baseline;gap:8px}
 .lcard .nm .en{font-size:16px;font-weight:600;color:var(--muted);margin-inline-start:6px}
 .lcard .seen{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:999px;background:var(--sun);display:none;align-items:center;justify-content:center}
 .lcard.was .seen{display:flex;animation:bubblePop .4s}
