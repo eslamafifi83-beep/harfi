@@ -810,6 +810,12 @@
   "text": "أنا توتة صغيّرة وحلوة"
  },
  {
+  "key": "b|normal|أنا توتة، صاحبتك",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "أنا توتة، صاحبتك"
+ },
+ {
   "key": "b|normal|إنتي شاطرة زيّي",
   "speaker": "b",
   "speed": "normal",
@@ -868,12 +874,6 @@
   "speaker": "b",
   "speed": "normal",
   "text": "برافو عليكي"
- },
- {
-  "key": "b|normal|تو تة توتة",
-  "speaker": "b",
-  "speed": "normal",
-  "text": "تو تة توتة"
  },
  {
   "key": "b|normal|جامدة",
@@ -1150,6 +1150,12 @@
   "speaker": "b",
   "speed": "normal",
   "text": "دوسي على كل حرف"
+ },
+ {
+  "key": "b|normal|دوسي علينا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "دوسي علينا"
  },
  {
   "key": "b|normal|شاطرة",
@@ -1470,10 +1476,16 @@
   "text": "هايل"
  },
  {
-  "key": "b|normal|وأنا",
+  "key": "b|normal|وأنا توتة صغيّرة وحلوة زي السكّر",
   "speaker": "b",
   "speed": "normal",
-  "text": "وأنا"
+  "text": "وأنا توتة صغيّرة وحلوة زي السكّر"
+ },
+ {
+  "key": "b|normal|وهنتعلّم الحروف كلها سوا",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "وهنتعلّم الحروف كلها سوا"
  },
  {
   "key": "b|normal|يا سلام عليكي",
@@ -1486,6 +1498,12 @@
   "speaker": "b",
   "speed": "normal",
   "text": "يلّا نبدأ دوسي على البرتقالي"
+ },
+ {
+  "key": "b|normal|يلّا نكمّل",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "يلّا نكمّل"
  },
  {
   "key": "b|slow|أَ",
@@ -2316,16 +2334,34 @@
   "text": "وَ"
  },
  {
-  "key": "f|normal|أنا",
+  "key": "f|normal|أنا حرّاق شويّة، بس دمّي خفيف",
   "speaker": "f",
   "speed": "normal",
-  "text": "أنا"
+  "text": "أنا حرّاق شويّة، بس دمّي خفيف"
  },
  {
   "key": "f|normal|أنا فلفل حرّاق",
   "speaker": "f",
   "speed": "normal",
   "text": "أنا فلفل حرّاق"
+ },
+ {
+  "key": "f|normal|أنا فلفل، أشطر فلفل في الدنيا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "أنا فلفل، أشطر فلفل في الدنيا"
+ },
+ {
+  "key": "f|normal|أهلًا أهلًا أنا فلفل",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "أهلًا أهلًا أنا فلفل"
+ },
+ {
+  "key": "f|normal|إحنا صحابك الجداد",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "إحنا صحابك الجداد"
  },
  {
   "key": "f|normal|إحنا فخورين بيكي",
@@ -2368,6 +2404,12 @@
   "speaker": "f",
   "speed": "normal",
   "text": "جامدة"
+ },
+ {
+  "key": "f|normal|رجعتي وحشتينا",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "رجعتي وحشتينا"
  },
  {
   "key": "f|normal|شاطرة",
@@ -2500,18 +2542,6 @@
   "speaker": "f",
   "speed": "normal",
   "text": "فرقعي بلالين الواو"
- },
- {
-  "key": "f|normal|فِل فِل فلفل",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "فِل فِل فلفل"
- },
- {
-  "key": "f|normal|قولي أسامينا معانا",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "قولي أسامينا معانا"
  },
  {
   "key": "f|normal|مش ده دوّري على الباء",

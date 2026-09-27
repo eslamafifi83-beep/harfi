@@ -13,6 +13,7 @@ An Arabic phonics game for one learner: Eslam's 6-year-old daughter, a beginner.
 - **Filfil (فلفل)**: a red chili pepper boy, cheeky, with a higher voice. Speaker id `f`.
 - **Toota (توتة)**: a little purple berry girl with a leaf crown and a pink bow, warm. Speaker id `b`. She teaches every letter, sound and word, and only ever has a female voice.
 - Both are inline SVG in `BUDDY_SVG`. Their animations are CSS classes on `.buddy`: `talking`, `happy`, `sad`, `dance`, `spin`.
+- The opening show (`showTime()` in `game.js`, `.show` styles): a stage with curtains, Filfil bursts out of a gift box, Toota drops from the sky, letters rain down, then she can tap them. First visit plays the full show (`save.met < 3`), later visits a short hello. Names are said inside normal sentences at normal speed, never split into slow syllables. Its lines live in `SHOW`.
 - All speech goes through `say()`, `sayThen()`, `speak()`, `speakSeq()` and `soundOut()`. Every line has exactly one speaker: phonics defaults to Toota, and chat lines are assigned by `whoFor()` unless a speaker is passed. Toota never falls back to Filfil's clips.
 
 ## Voices

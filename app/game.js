@@ -57,10 +57,10 @@ var JOKES = {
   f: [['أنا فلفل… حرّاق!','Ana Filfil… ḥarrāʾ!','I\'m Filfil… super spicy!'],
       ['هههه! بتزغزغيني!','Hahaha! Bitzaghzaghīni!','Hee hee! That tickles!'],
       ['يلّا يا بطلة!','Yalla ya baṭala!','Come on, champion!'],
-      ['فِل… فِل… فلفل!','Fil… fil… Filfil!','Fil… fil… Filfil! That\'s my name']],
+      ['أنا فلفل، أشطر فلفل في الدنيا!','Ana Filfil, ashṭar filfil fi-d-dunya!','I\'m Filfil, the cleverest pepper in the world!']],
   b: [['أنا توتة… صغيّرة وحلوة!','Ana Tūta… ṣughayyara w-ḥilwa!','I\'m Toota… small and sweet!'],
       ['إنتي شاطرة زيّي!','Inti shaṭra zayyi!','You\'re clever like me!'],
-      ['تو… تة… توتة!','Tū… ta… Tūta!','Tū… ta… Toota! Say my name!'],
+      ['أنا توتة، صاحبتك!','Ana Tūta, ṣaḥbitik!','I\'m Toota, your friend!'],
       ['يا سلام عليكي!','Ya salām ʿalēki!','Wow, look at you!']]
 };
 function pokeBuddy(btn){
@@ -70,7 +70,7 @@ function pokeBuddy(btn){
   tone(who === 'f' ? 700 : 500, 0, .25, 'sine', .14, who === 'f' ? 1400 : 900); burst(btn);
   say(j[0], j[1], j[2], true, who);
 }
-document.addEventListener('click', function(e){ var b = e.target.closest && e.target.closest('.buddy'); if (b && !b.closest('.friend')) pokeBuddy(b); });
+document.addEventListener('click', function(e){ var b = e.target.closest && e.target.closest('.buddy'); if (b && !b.closest('.friend') && !b.closest('.show')) pokeBuddy(b); });
 function mountBuddies(){
   $('#buddies').innerHTML = buddyBtn('f') + buddyBtn('b');
   $('#splashBuddies').innerHTML = buddyBtn('f') + buddyBtn('b');
@@ -818,24 +818,137 @@ function wordGame(u, li){
   play();
 }
 
-/* ---------- meet the friends ---------- */
-function meetFriends(){
-  var el = scene(task('صحابك الجداد!','Ṣḥābik el-godād!','Meet your new friends. Tap them to hear their names') +
-    '<div class="friends">' +
-      '<div class="friend" data-who="f">'+buddyBtn('f')+'<div class="ar kwbox">'+kwHTML(W.filfil)+'</div><span class="en">Filfil · fil-fil · a chili pepper</span></div>' +
-      '<div class="friend" data-who="b">'+buddyBtn('b')+'<div class="ar kwbox">'+kwHTML(W.toota)+'</div><span class="en">Toota · tū-ta · a little berry</span></div>' +
-    '</div>');
-  function intro(who, done){
-    var f = el.querySelector('.friend[data-who="'+who+'"]'), btn = f.querySelector('.buddy'), w = who === 'f' ? W.filfil : W.toota;
-    btn.classList.remove('spin'); void btn.offsetWidth; btn.classList.add('spin'); setTimeout(function(){ btn.classList.remove('spin'); }, 800);
-    tone(who === 'f' ? 700 : 500, 0, .25, 'sine', .14, who === 'f' ? 1400 : 900);
-    say(who === 'f' ? 'أنا فلفل!' : 'وأنا توتة!', who === 'f' ? 'Ana Filfil!' : 'W-ana Tūta!', who === 'f' ? 'I\'m Filfil! Fil… fil' : 'And I\'m Toota! Tū… ta', false, who);
-    speakSeq([{t: who === 'f' ? 'أنا' : 'وأنا', rate:.9, who:who}], null, function(){ soundOut(f, w, done, who); });
-  }
-  el.querySelectorAll('.friend').forEach(function(f){ f.querySelector('.buddy').addEventListener('click', function(){ intro(f.dataset.who); }); });
-  later(function(){ intro('f', function(){ later(function(){ intro('b', function(){ say('قولي أسامينا معانا!','ʾūli asamīna maʿāna!','Say our names with us! Then let\'s play', true, 'f'); nb.classList.add('ready'); }); }, 500); }); }, 700);
-  var nb = footButton('يلّا نلعب','Let\'s play', function(){ save.met = 2; persist(); showMap(true); });
+/* ---------- the show: Filfil and Toota make their entrance ----------
+   A little stage: drumroll, the curtains open, Filfil bursts out of a gift box, Toota drops from the sky,
+   letters rain down, then she can tap them before pressing play. Names are said inside normal
+   sentences at normal speed (never split into slow syllables). First visit: the full show. After that:
+   a short hello. Every line here is in SHOW_LINES so voices/collect-lines.mjs gets a clip made for it. */
+var SHOW = {
+  hi:    ['f', 'أهلًا أهلًا! أنا فلفل!', 'Ahlan ahlan! Ana Filfil!', 'Hello hello! I\'m Filfil!'],
+  hot:   ['f', 'أنا حرّاق شويّة، بس دمّي خفيف!', 'Ana ḥarrāʾ shwayya, bass dammi khafīf!', 'I\'m a little bit spicy, but very funny!'],
+  toota: ['b', 'وأنا توتة! صغيّرة وحلوة زي السكّر!', 'W-ana Tūta! Ṣughayyara w-ḥilwa zayy es-sukkar!', 'And I\'m Toota! Small and sweet like sugar!'],
+  pals:  ['f', 'إحنا صحابك الجداد!', 'Iḥna ṣḥābik el-godād!', 'We\'re your new friends!'],
+  abc:   ['b', 'وهنتعلّم الحروف كلها سوا!', 'W-hanitʿallim el-ḥurūf kullaha sawa!', 'And we\'ll learn all the letters together!'],
+  tap:   ['b', 'دوسي علينا!', 'Dūsi ʿalēna!', 'Tap us!'],
+  back:  ['f', 'رجعتي! وحشتينا!', 'Rigiʿti! Waḥashtīna!', 'You\'re back! We missed you!'],
+  go:    ['b', 'يلّا نكمّل!', 'Yalla nkammil!', 'Let\'s carry on!']
+};
+var SHOW_LINES = Object.keys(SHOW).map(function(k){ return [SHOW[k][0], SHOW[k][1]]; });
+var ABC = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
+
+function noise(t0, d, g){
+  var a = audio(); if (!a || muted) return;
+  var len = Math.floor(a.sampleRate * d), buf = a.createBuffer(1, len, a.sampleRate), ch = buf.getChannelData(0);
+  for (var i = 0; i < len; i++) ch[i] = (Math.random() * 2 - 1) * (1 - i / len);
+  var src = a.createBufferSource(), gn = a.createGain(), f = a.createBiquadFilter();
+  f.type = 'bandpass'; f.frequency.value = 1800; src.buffer = buf; gn.gain.value = g || .25;
+  src.connect(f); f.connect(gn); gn.connect(a.destination); src.start(a.currentTime + t0);
 }
+var SHOWFX = {
+  drum: function(){ for (var i = 0; i < 16; i++) { tone(110 + (i % 2) * 18, i * .07, .08, 'triangle', .05 + i * .012); noise(i * .07, .05, .05 + i * .01); } tone(80, 1.15, .4, 'sine', .3, 50); noise(1.15, .35, .35); },
+  curtain: function(){ noise(0, .9, .18); tone(200, 0, .8, 'sine', .06, 500); },
+  wobble: function(){ [0, .22, .44].forEach(function(t){ tone(520, t, .1, 'square', .05, 380); }); },
+  boom: function(){ tone(160, 0, .35, 'sine', .3, 40); noise(0, .3, .4); [1047,1319,1568,2093].forEach(function(f,i){ tone(f, .12 + i * .06, .25, 'triangle', .1); }); },
+  flame: function(){ noise(0, .7, .4); tone(300, 0, .6, 'sawtooth', .04, 90); },
+  whistle: function(){ tone(1900, 0, .9, 'sine', .1, 380); },
+  boing: function(){ tone(180, 0, .28, 'sine', .25, 520); tone(260, .3, .22, 'sine', .15, 480); },
+  letter: function(i){ tone(700 + i * 160, 0, .12, 'triangle', .14, 1100 + i * 160); }
+};
+
+function showTime(full){
+  clearScene(); stopSpeech();
+  var old = $('#show'); if (old) old.remove();
+  var stars = ''; for (var i = 0; i < 40; i++) stars += '<i style="left:'+(Math.random()*100)+'%;top:'+(Math.random()*62)+'%;animation-delay:-'+(Math.random()*3).toFixed(2)+'s;--s:'+(2+Math.random()*4).toFixed(1)+'px"></i>';
+  var sh = h('<div class="show" id="show" role="dialog" aria-label="Meet Filfil and Toota">' +
+    '<div class="sky">'+stars+'</div><div class="beam l"></div><div class="beam r"></div>' +
+    '<div class="floor"></div>' +
+    '<div class="rain" aria-hidden="true"></div>' +
+    '<div class="actor f" data-who="f"><div class="sb"></div><div class="nm ar"></div><div class="puff" aria-hidden="true"></div>'+buddyBtn('f')+'</div>' +
+    '<div class="gift" aria-hidden="true"><div class="lid"></div><div class="box"></div></div>' +
+    '<div class="actor b" data-who="b"><div class="sb"></div><div class="nm ar"></div><div class="hearts" aria-hidden="true"></div>'+buddyBtn('b')+'</div>' +
+    '<div class="valance"></div><div class="curtain l"></div><div class="curtain r"></div>' +
+    '<button class="skip" id="showSkip"><span class="ar">تخطّي</span> <span class="en">Skip</span></button>' +
+    '<button class="go huge showgo" id="showGo" hidden><span class="ar">يلّا نلعب!</span><span class="en" style="font-size:20px">Let\'s play</span></button>' +
+  '</div>');
+  document.body.appendChild(sh);
+  var ts = [], dead = false;
+  function at(ms, fn){ ts.push(setTimeout(function(){ if (!dead) fn(); }, ms)); }
+  function actor(who){ return sh.querySelector('.actor.' + who); }
+  function line(k, next){
+    var L0 = SHOW[k], who = L0[0], a = actor(who), sb = a.querySelector('.sb');
+    sh.querySelectorAll('.sb.on').forEach(function(x){ x.classList.remove('on'); });
+    sb.innerHTML = '<span class="ar">'+L0[1]+'</span><span class="tr en">'+L0[2]+'</span><span class="en">'+L0[3]+'</span>';
+    void sb.offsetWidth; sb.classList.add('on');
+    speakSeq([{t: L0[1], rate: .85, who: who}], null, function(){ if (!dead && next) at(250, next); });
+  }
+  function name(who){
+    var nm = actor(who).querySelector('.nm'), t = NAMES[who].ar;
+    nm.innerHTML = '<span>'+t+'</span>';   /* one joined word (splitting it would break the letter joins) */
+    t.split('').forEach(function(c, i){ at(i * 160, function(){ SHOWFX.letter(i); }); });
+  }
+  function move(who, cls, ms){ var b = actor(who).querySelector('.buddy'); b.classList.remove('happy','spin','dance','hot'); void b.offsetWidth; b.classList.add(cls); at(ms || 900, function(){ b.classList.remove(cls); }); }
+  function flame(){ var p = actor('f').querySelector('.puff'); p.classList.remove('on'); void p.offsetWidth; p.classList.add('on'); SHOWFX.flame(); move('f', 'hot', 800); }
+  function hearts(){
+    var hb = actor('b').querySelector('.hearts'); hb.innerHTML = '';
+    for (var i = 0; i < 6; i++) hb.appendChild(h('<i style="--x:'+(Math.random()*120-60)+'px;animation-delay:'+(i*.09)+'s">&#10084;</i>'));
+    tone(1320, 0, .12, 'sine', .1); tone(1760, .1, .16, 'sine', .1);
+  }
+  function rainLetters(){
+    var r = sh.querySelector('.rain'), cols = ['#F2994A','#F2C94C','#0F7C78','#E88FA8','#9ED27F','#FFFFFF','#C79BE0'];
+    ABC.split('').forEach(function(c, i){
+      var e = h('<i class="ar">'+c+'</i>');
+      e.style.left = (3 + Math.random() * 94) + '%'; e.style.color = cols[i % cols.length];
+      e.style.animationDelay = (Math.random() * 1.6) + 's'; e.style.setProperty('--r', (Math.random()*80-40)+'deg');
+      e.style.fontSize = (34 + Math.random() * 40) + 'px';
+      r.appendChild(e);
+    });
+    SFX.fanfare(); confetti(60);
+  }
+  function openStage(){ SHOWFX.drum(); at(1250, function(){ sh.classList.add('open'); SHOWFX.curtain(); }); }
+  function finish(){
+    if (dead) return; dead = true; ts.forEach(clearTimeout); stopSpeech();
+    save.met = 3; persist();
+    sh.classList.add('bye'); setTimeout(function(){ sh.remove(); }, 450);
+    showMap(true);
+  }
+  function showPlay(){ var g = $('#showGo'); g.hidden = false; g.classList.add('ready'); }
+  $('#showGo').addEventListener('click', function(){ SFX.fanfare(); finish(); });
+  $('#showSkip').addEventListener('click', function(){ SFX.tap(); finish(); });
+  sh.querySelectorAll('.actor .buddy').forEach(function(b){
+    b.addEventListener('click', function(e){
+      e.stopPropagation(); if (!sh.classList.contains('live')) return;
+      var who = b.dataset.who, j = JOKES[who][Math.floor(Math.random() * JOKES[who].length)];
+      if (who === 'f') flame(); else { hearts(); move('b', 'spin', 800); }
+      burst(b);
+      var sb = actor(who).querySelector('.sb');
+      sh.querySelectorAll('.sb.on').forEach(function(x){ x.classList.remove('on'); });
+      sb.innerHTML = '<span class="ar">'+j[0]+'</span><span class="tr en">'+j[1]+'</span><span class="en">'+j[2]+'</span>'; void sb.offsetWidth; sb.classList.add('on');
+      speakSeq([{t: j[0], rate: .85, who: who}]);
+    });
+  });
+
+  openStage();
+  if (!full) {
+    at(2100, function(){ sh.classList.add('in-f', 'in-b', 'quick'); SHOWFX.boom(); burst(actor('f')); burst(actor('b')); });
+    at(3000, function(){ line('back', function(){ move('b', 'happy'); line('go', function(){ sh.classList.add('live'); showPlay(); at(1400, finish); }); }); });
+    at(3400, showPlay);
+    return;
+  }
+  at(2200, function(){ sh.classList.add('gift-in'); SHOWFX.wobble(); });
+  at(3000, function(){ sh.classList.add('in-f'); SHOWFX.boom(); burst(actor('f').querySelector('.buddy')); });
+  at(3900, function(){ name('f');
+    line('hi', function(){ flame(); line('hot', function(){
+      SHOWFX.whistle(); sh.classList.add('in-b'); at(900, function(){ SHOWFX.boing(); hearts(); name('b'); });
+      at(1500, function(){ line('toota', function(){
+        move('f', 'dance', 2400); move('b', 'dance', 2400);
+        line('pals', function(){ rainLetters(); line('abc', function(){
+          sh.classList.add('live'); line('tap'); showPlay();
+        }); });
+      }); });
+    }); });
+  });
+}
+function meetFriends(){ showTime(true); }
 
 /* ---------- chrome ---------- */
 $('#homeBtn').addEventListener('click', function(){ SFX.tap(); showMap(true); });
@@ -863,10 +976,10 @@ $('#bookOv').addEventListener('click', function(e){ if (e.target === this) this.
 $('#startBtn').addEventListener('click', function(){
   audio(); SFX.fanfare(); pickVoice();
   $('#splash').hidden = true;
-  if (save.met === 2) showMap(true); else meetFriends();   /* everyone meets Toota once, even if they met the old friend */
+  showTime((save.met || 0) < 3);   /* first visit: the full show; after that, a short hello */
 });
 
-window.HARFI_DEBUG = { startLevel: startLevel, LEVELS: LEVELS, UNITS: UNITS, L: L, W: W, VOW: VOW, PRAISE: PRAISE, JOKES: JOKES, pokeBuddy: pokeBuddy, meetFriends: meetFriends, showMap: showMap, save: save, theName: theName };
+window.HARFI_DEBUG = { startLevel: startLevel, LEVELS: LEVELS, UNITS: UNITS, L: L, W: W, VOW: VOW, PRAISE: PRAISE, JOKES: JOKES, pokeBuddy: pokeBuddy, meetFriends: meetFriends, showTime: showTime, SHOW_LINES: SHOW_LINES, showMap: showMap, save: save, theName: theName };
 mountBuddies();
 updateCounts();
 showMap(false);

@@ -58,7 +58,7 @@ async function act() {
 
 // Intro with the two friends, then every level of every unit.
 await page.click('#startBtn', { force: true }); await tick(40000);
-await page.evaluate(() => { const b = document.querySelector('#footAct .go'); if (b) b.click(); });
+await page.evaluate(() => { const b = document.querySelector('#showGo:not([hidden])') || document.querySelector('#footAct .go'); if (b) b.click(); });
 await tick(3000);
 const { units, levels } = await page.evaluate(() => ({ units: window.HARFI_DEBUG.UNITS.length, levels: window.HARFI_DEBUG.LEVELS.length }));
 for (let u = 0; u < units; u++) {
@@ -102,6 +102,7 @@ const data = await page.evaluate(() => {
   });
   ['filfil', 'toota', 'baba'].forEach(k => { const w = d.W[k]; add('b', 'calm', w.word); w.syl.forEach(s => add('b', 'slow', s.t)); });
   add('f', 'calm', d.W.filfil.word); add('f', 'calm', d.W.baba.word); d.W.filfil.syl.forEach(s => add('f', 'slow', s.t));
+  d.SHOW_LINES.forEach(([who, t]) => add(who, 'normal', t));
   d.PRAISE.forEach(p => { add('f', 'normal', p[0]); add('b', 'normal', p[0]); });
   Object.keys(d.JOKES).forEach(who => d.JOKES[who].forEach(j => add(who, 'normal', j[0])));
   return out;
