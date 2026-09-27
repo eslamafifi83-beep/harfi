@@ -827,21 +827,18 @@ function wordGame(u, li){
 /* ---------- the show: Filfil and Toota make their entrance ----------
    A little stage: drumroll, the curtains open, Filfil bursts out of a gift box, Toota drops from the sky,
    letters rain down, then she can tap them before pressing play. Names are said inside normal
-   sentences at normal speed (never split into slow syllables). First visit: the full show. After that:
-   a short hello. Every line here is in SHOW_LINES so voices/collect-lines.mjs gets a clip made for it. */
+   sentences at normal speed (never split into slow syllables). Every visit, each friend greets her by the
+   time of day, says their name, and says let's play. The first visit adds the gift box and letter rain.
+   Every line here is in SHOW_LINES so voices/collect-lines.mjs gets a clip made for it. */
 var SHOW = {
-  hi_am:   ['f', 'صباح الخير! إزّيك؟ عاملة إيه؟ أنا فلفل!', 'Ṣabāḥ el-khēr! Izzayyik? ʿAmla ēh? Ana Filfil!', 'Good morning! How are you? I\'m Filfil!'],
-  hi_pm:   ['f', 'مساء الخير! إزّيك؟ عاملة إيه؟ أنا فلفل!', 'Masāʾ el-khēr! Izzayyik? ʿAmla ēh? Ana Filfil!', 'Good evening! How are you? I\'m Filfil!'],
-  toota_am:['b', 'صباح الفل! وأنا توتة، صاحبتك الحلوة!', 'Ṣabāḥ el-full! W-ana Tūta, ṣaḥbitik el-ḥilwa!', 'Morning sunshine! And I\'m Toota, your sweet friend!'],
-  toota_pm:['b', 'مساء الفل! وأنا توتة، صاحبتك الحلوة!', 'Masāʾ el-full! W-ana Tūta, ṣaḥbitik el-ḥilwa!', 'Good evening! And I\'m Toota, your sweet friend!'],
-  learn:   ['b', 'إحنا جايين نلعب معاكي ونتعلّم عربي!', 'Iḥna gayyīn nilʿab maʿāki w-nitʿallim ʿarabi!', 'We came to play with you and learn Arabic!'],
-  abc:     ['f', 'وهنتعلّم الحروف كلها، من الألف للياء!', 'W-hanitʿallim el-ḥurūf kullaha, min el-alif lil-ya!', 'We\'ll learn all the letters, from alif to ya!'],
-  stars:   ['b', 'وكل ما تشطري، تكسبي نجوم وستيكرات!', 'W-kull ma tishṭari, tiksabi nugūm w-stikarāt!', 'And every time you do well, you win stars and stickers!'],
+  hi_am:   ['f', 'صباح الخير! أنا فلفل!', 'Ṣabāḥ el-khēr! Ana Filfil!', 'Good morning! I\'m Filfil!'],
+  hi_af:   ['f', 'مساء الخير! أنا فلفل!', 'Masāʾ el-khēr! Ana Filfil!', 'Good afternoon! I\'m Filfil!'],
+  hi_pm:   ['f', 'مساء الخير! أنا فلفل!', 'Masāʾ el-khēr! Ana Filfil!', 'Good evening! I\'m Filfil!'],
+  toota_am:['b', 'صباح الخير! وأنا توتة!', 'Ṣabāḥ el-khēr! W-ana Tūta!', 'Good morning! And I\'m Toota!'],
+  toota_af:['b', 'مساء الخير! وأنا توتة!', 'Masāʾ el-khēr! W-ana Tūta!', 'Good afternoon! And I\'m Toota!'],
+  toota_pm:['b', 'مساء الخير! وأنا توتة!', 'Masāʾ el-khēr! W-ana Tūta!', 'Good evening! And I\'m Toota!'],
   ready:   ['f', 'جاهزة؟ يلّا بينا!', 'Gahza? Yalla bīna!', 'Ready? Let\'s go!'],
-  tap:     ['b', 'دوسي علينا، أو دوسي يلّا نلعب!', 'Dūsi ʿalēna, aw dūsi yalla nilʿab!', 'Tap us, or tap Let\'s play!'],
-  back_am: ['f', 'صباح الخير! رجعتي! وحشتينا!', 'Ṣabāḥ el-khēr! Rigiʿti! Waḥashtīna!', 'Good morning! You\'re back! We missed you!'],
-  back_pm: ['f', 'مساء الخير! رجعتي! وحشتينا!', 'Masāʾ el-khēr! Rigiʿti! Waḥashtīna!', 'Good evening! You\'re back! We missed you!'],
-  go:      ['b', 'يلّا نكمّل لعب!', 'Yalla nkammil liʿb!', 'Let\'s keep playing!']
+  play:    ['b', 'يلّا نبدأ نلعب!', 'Yalla nibdaʾ nilʿab!', 'Let\'s start playing!']
 };
 var SHOW_LINES = Object.keys(SHOW).map(function(k){ return [SHOW[k][0], SHOW[k][1]]; });
 var ABC = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
@@ -881,7 +878,7 @@ function showTime(full){
     '<button class="go huge showgo" id="showGo" hidden><span class="ar">يلّا نلعب!</span><span class="en" style="font-size:20px">Let\'s play</span></button>' +
   '</div>');
   document.body.appendChild(sh);
-  var hr = new Date().getHours(), P = (hr >= 4 && hr < 12) ? 'am' : 'pm';   /* صباح الخير before noon, مساء الخير after */
+  var hr = new Date().getHours(), P = (hr >= 4 && hr < 12) ? 'am' : (hr >= 12 && hr < 17) ? 'af' : 'pm';   /* صباح الخير before noon, مساء الخير after (af/pm differ only in English) */
   var ts = [], dead = false;
   function at(ms, fn){ ts.push(setTimeout(function(){ if (!dead) fn(); }, ms)); }
   function actor(who){ return sh.querySelector('.actor.' + who); }
@@ -939,10 +936,22 @@ function showTime(full){
     });
   });
 
+  /* the same four lines every visit: each friend says good morning/afternoon and their name, then let's play */
+  function greet(){
+    line('toota_' + P, function(){
+      if (full) { rainLetters(); starShower(); }
+      move('f', 'dance', 2400); move('b', 'dance', 2400);
+      line('ready', function(){
+        SFX.fanfare(); confetti(80); sh.classList.add('live'); showPlay();
+        line('play', full ? null : function(){ at(1400, finish); });   /* later visits go straight on to the map */
+      });
+    });
+  }
+
   openStage();
   if (!full) {
-    at(2100, function(){ sh.classList.add('in-f', 'in-b', 'quick'); SHOWFX.boom(); burst(actor('f')); burst(actor('b')); });
-    at(3000, function(){ line('back_' + P, function(){ move('b', 'happy'); line('go', function(){ sh.classList.add('live'); showPlay(); at(1400, finish); }); }); });
+    at(2100, function(){ sh.classList.add('in-f', 'in-b', 'quick'); SHOWFX.boom(); burst(actor('f')); burst(actor('b')); name('f'); name('b'); });
+    at(3000, function(){ move('f', 'happy'); line('hi_' + P, function(){ move('b', 'happy'); greet(); }); });
     at(3400, showPlay);
     return;
   }
@@ -951,14 +960,7 @@ function showTime(full){
   at(3500, function(){ name('f'); move('f', 'happy');
     line('hi_' + P, function(){
       SHOWFX.whistle(); sh.classList.add('in-b'); at(900, function(){ SHOWFX.boing(); hearts(); name('b'); });
-      at(1400, function(){ line('toota_' + P, function(){
-        move('f', 'happy'); line('learn', function(){
-        rainLetters(); line('abc', function(){
-        starShower(); line('stars', function(){
-        move('f', 'dance', 2400); move('b', 'dance', 2400); line('ready', function(){
-          SFX.fanfare(); confetti(80); sh.classList.add('live'); showPlay(); line('tap');
-        }); }); }); });
-      }); });
+      at(1400, greet);
     });
   });
 }
