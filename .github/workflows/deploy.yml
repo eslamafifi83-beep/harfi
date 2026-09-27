@@ -48,7 +48,7 @@ jobs:
         run: |
           git config user.name "harfi-bot"
           git config user.email "harfi-bot@users.noreply.github.com"
-          git add -A app/audio app/tryout voices/fix-report.txt 2>/dev/null || git add -A app/audio app/tryout
+          git add -A app/audio app/tryout voices/fix-report.txt voices/tryout-log.txt 2>/dev/null || git add -A app/audio app/tryout
           if ! git diff --cached --quiet; then git commit -m "Voice clips" && git push; fi
       - name: New version for tablets
         run: sed -i "s/var VERSION = 'harfi-v1';/var VERSION = 'harfi-${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}';/" app/sw.js

@@ -37,20 +37,23 @@ async function eleven(it) {
   return Buffer.from(await res.arrayBuffer());
 }
 
+const log = [];
 let made = 0, failed = 0, stop = { gemini: !GEMINI_KEY, eleven: !KEY };
 if (stop.gemini) console.log('No GEMINI_API_KEY: skipping Gemini tryout clips.');
 for (const it of T.items) {
   const kind = it.provider === 'gemini' ? 'gemini' : 'eleven';
   if (existsSync(path.join(outDir, fileOf(it))) || stop[kind]) continue;
   try {
+    if (kind === 'gemini' && made) await new Promise(r => setTimeout(r, 7000));   // stay under the free tier's per-minute limit
     const buf = kind === 'gemini' ? await gemini({ text: it.text, voice: it.voice, style: it.style }) : await eleven(it);
     writeFileSync(path.join(outDir, fileOf(it)), buf); made++;
   } catch (e) {
-    failed++; console.log(`  could not make ${it.id}: ${e.message.slice(0, 300)}`);
+    failed++; console.log(`  could not make ${it.id}: ${e.message.slice(0, 300)}`); log.push(`${new Date().toISOString()} ${it.id}: ${e.message.slice(0, 400)}`);
     // out of credits or daily limit: stop this provider; the rest are made on the next run
     if (/quota|insufficient|credits|RESOURCE_EXHAUSTED|429|40[013]/i.test(e.message)) stop[kind] = true;
   }
 }
 const list = T.items.filter(it => existsSync(path.join(outDir, fileOf(it)))).map(it => Object.assign({ file: fileOf(it) }, it));
 writeFileSync(path.join(outDir, 'list.json'), JSON.stringify(list, null, 1));
+writeFileSync(path.join(here, 'tryout-log.txt'), log.map(l => l + '\n').join(''));
 console.log(`Tryout: made ${made} clip(s)${failed ? `, ${failed} failed` : ''}; ${list.length} of ${T.items.length} ready.`);
