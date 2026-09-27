@@ -54,8 +54,7 @@ var BUDDY_SVG = {
 PIC.filfil = BUDDY_SVG.f; PIC.toota = BUDDY_SVG.b;
 function buddyBtn(who, extra){ return '<button class="buddy '+(who==='f'?'b1':'b2')+' '+(extra||'')+'" data-who="'+who+'" aria-label="'+NAMES[who].en+'">'+BUDDY_SVG[who]+'</button>'; }
 var JOKES = {
-  f: [['أنا فلفل… حرّاق!','Ana Filfil… ḥarrāʾ!','I\'m Filfil… super spicy!'],
-      ['هههه! بتزغزغيني!','Hahaha! Bitzaghzaghīni!','Hee hee! That tickles!'],
+  f: [['هههه! بتزغزغيني!','Hahaha! Bitzaghzaghīni!','Hee hee! That tickles!'],
       ['يلّا يا بطلة!','Yalla ya baṭala!','Come on, champion!'],
       ['أنا فلفل، أشطر فلفل في الدنيا!','Ana Filfil, ashṭar filfil fi-d-dunya!','I\'m Filfil, the cleverest pepper in the world!']],
   b: [['أنا توتة… صغيّرة وحلوة!','Ana Tūta… ṣughayyara w-ḥilwa!','I\'m Toota… small and sweet!'],
@@ -833,11 +832,8 @@ function wordGame(u, li){
 var SHOW = {
   hi_am:   ['f', 'صباح الخير! إزّيك؟ عاملة إيه؟ أنا فلفل!', 'Ṣabāḥ el-khēr! Izzayyik? ʿAmla ēh? Ana Filfil!', 'Good morning! How are you? I\'m Filfil!'],
   hi_pm:   ['f', 'مساء الخير! إزّيك؟ عاملة إيه؟ أنا فلفل!', 'Masāʾ el-khēr! Izzayyik? ʿAmla ēh? Ana Filfil!', 'Good evening! How are you? I\'m Filfil!'],
-  hot:     ['f', 'أنا حرّاق شويّة، بس دمّي خفيف!', 'Ana ḥarrāʾ shwayya, bass dammi khafīf!', 'I\'m a little bit spicy, but very funny!'],
   toota_am:['b', 'صباح الفل! وأنا توتة، صاحبتك الحلوة!', 'Ṣabāḥ el-full! W-ana Tūta, ṣaḥbitik el-ḥilwa!', 'Morning sunshine! And I\'m Toota, your sweet friend!'],
   toota_pm:['b', 'مساء الفل! وأنا توتة، صاحبتك الحلوة!', 'Masāʾ el-full! W-ana Tūta, ṣaḥbitik el-ḥilwa!', 'Good evening! And I\'m Toota, your sweet friend!'],
-  careful: ['b', 'يا فلفل، براحة! هتحرق المسرح!', 'Ya Filfil, bi-rāḥa! Hatiḥraʾ el-masraḥ!', 'Easy, Filfil! You\'ll set the stage on fire!'],
-  sorry:   ['f', 'هههه! خلاص خلاص، آسف!', 'Hahaha! Khalāṣ khalāṣ, āsif!', 'Ha ha! OK, OK, sorry!'],
   learn:   ['b', 'إحنا جايين نلعب معاكي ونتعلّم عربي!', 'Iḥna gayyīn nilʿab maʿāki w-nitʿallim ʿarabi!', 'We came to play with you and learn Arabic!'],
   abc:     ['f', 'وهنتعلّم الحروف كلها، من الألف للياء!', 'W-hanitʿallim el-ḥurūf kullaha, min el-alif lil-ya!', 'We\'ll learn all the letters, from alif to ya!'],
   stars:   ['b', 'وكل ما تشطري، تكسبي نجوم وستيكرات!', 'W-kull ma tishṭari, tiksabi nugūm w-stikarāt!', 'And every time you do well, you win stars and stickers!'],
@@ -934,7 +930,7 @@ function showTime(full){
     b.addEventListener('click', function(e){
       e.stopPropagation(); if (!sh.classList.contains('live')) return;
       var who = b.dataset.who, j = JOKES[who][Math.floor(Math.random() * JOKES[who].length)];
-      if (who === 'f') flame(); else { hearts(); move('b', 'spin', 800); }
+      if (who === 'f') move('f', 'spin', 800); else { hearts(); move('b', 'spin', 800); }
       burst(b);
       var sb = actor(who).querySelector('.sb');
       sh.querySelectorAll('.sb.on').forEach(function(x){ x.classList.remove('on'); });
@@ -953,19 +949,18 @@ function showTime(full){
   at(2200, function(){ sh.classList.add('gift-in'); SHOWFX.wobble(); });
   at(3000, function(){ sh.classList.add('in-f'); SHOWFX.boom(); burst(actor('f').querySelector('.buddy')); });
   at(3500, function(){ name('f'); move('f', 'happy');
-    line('hi_' + P, function(){ flame(); line('hot', function(){
+    line('hi_' + P, function(){
       SHOWFX.whistle(); sh.classList.add('in-b'); at(900, function(){ SHOWFX.boing(); hearts(); name('b'); });
       at(1400, function(){ line('toota_' + P, function(){
-        move('b', 'happy'); line('careful', function(){
-        move('f', 'spin'); line('sorry', function(){
-        move('b', 'happy'); line('learn', function(){
+        move('f', 'happy'); line('learn', function(){
         rainLetters(); line('abc', function(){
         starShower(); line('stars', function(){
         move('f', 'dance', 2400); move('b', 'dance', 2400); line('ready', function(){
           SFX.fanfare(); confetti(80); sh.classList.add('live'); showPlay(); line('tap');
-        }); }); }); }); }); }); });
+        }); }); }); });
       }); });
-    }); });
+    });
+  });
 }
 function meetFriends(){ showTime(true); }
 

@@ -1506,12 +1506,6 @@
   "text": "يا سلام عليكي"
  },
  {
-  "key": "b|normal|يا فلفل، براحة هتحرق المسرح",
-  "speaker": "b",
-  "speed": "normal",
-  "text": "يا فلفل، براحة هتحرق المسرح"
- },
- {
   "key": "b|normal|يلّا نبدأ دوسي على البرتقالي",
   "speaker": "b",
   "speed": "normal",
@@ -2352,18 +2346,6 @@
   "text": "وَ"
  },
  {
-  "key": "f|normal|أنا حرّاق شويّة، بس دمّي خفيف",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "أنا حرّاق شويّة، بس دمّي خفيف"
- },
- {
-  "key": "f|normal|أنا فلفل حرّاق",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "أنا فلفل حرّاق"
- },
- {
   "key": "f|normal|أنا فلفل، أشطر فلفل في الدنيا",
   "speaker": "f",
   "speed": "normal",
@@ -2710,12 +2692,6 @@
   "speaker": "f",
   "speed": "normal",
   "text": "هههه بتزغزغيني"
- },
- {
-  "key": "f|normal|هههه خلاص خلاص، آسف",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "هههه خلاص خلاص، آسف"
  },
  {
   "key": "f|normal|وهنتعلّم الحروف كلها، من الألف للياء",
