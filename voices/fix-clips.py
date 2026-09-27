@@ -82,4 +82,10 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:   # never block publishing: report it (shows on GitHub as a warning) and carry on
+        import traceback
+        msg = traceback.format_exc().strip().splitlines()
+        print('::warning title=fix-clips::' + ' | '.join(msg[-4:]).replace('\n', ' '))
+        print('\n'.join(msg))

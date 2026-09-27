@@ -36,7 +36,9 @@ jobs:
           path: ~/.cache/huggingface
           key: whisper-small
       - name: Trim clips where the voice kept talking (free, uses Whisper)
-        run: python3 voices/fix-clips.py
+        run: |
+          command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          python3 voices/fix-clips.py
       - name: Save new clips in the project
         run: |
           git config user.name "harfi-bot"
