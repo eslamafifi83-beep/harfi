@@ -21,12 +21,16 @@ self.addEventListener('activate', function(e){
     return Promise.all(keys.filter(function(k){ return k !== VERSION; }).map(function(k){ return caches.delete(k); }));
   }).then(function(){ return self.clients.claim(); }));
 });
+/* The app's own code and the clip list: network first (so a new version shows straight away), cache when offline.
+   Everything else (fonts, pictures, voice clips): cache first. */
+var FRESH = /(\/|index\.html|\.js|\.css|\.webmanifest|audio\/index\.json)$/;
 self.addEventListener('fetch', function(e){
   if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request).then(function(hit){
-    return hit || fetch(e.request).then(function(res){
-      if (res.ok && new URL(e.request.url).origin === location.origin) { var copy = res.clone(); caches.open(VERSION).then(function(c){ c.put(e.request, copy); }); }
-      return res;
-    });
-  }));
+  var url = new URL(e.request.url), same = url.origin === location.origin;
+  function save(res){ if (res.ok && same) { var copy = res.clone(); caches.open(VERSION).then(function(c){ c.put(e.request, copy); }); } return res; }
+  if (same && (e.request.mode === 'navigate' || FRESH.test(url.pathname))) {
+    e.respondWith(fetch(e.request, {cache: 'no-cache'}).then(save).catch(function(){ return caches.match(e.request, {ignoreSearch: true}); }));
+    return;
+  }
+  e.respondWith(caches.match(e.request).then(function(hit){ return hit || fetch(e.request).then(save); }));
 });

@@ -824,14 +824,21 @@ function wordGame(u, li){
    sentences at normal speed (never split into slow syllables). First visit: the full show. After that:
    a short hello. Every line here is in SHOW_LINES so voices/collect-lines.mjs gets a clip made for it. */
 var SHOW = {
-  hi:    ['f', 'أهلًا أهلًا! أنا فلفل!', 'Ahlan ahlan! Ana Filfil!', 'Hello hello! I\'m Filfil!'],
-  hot:   ['f', 'أنا حرّاق شويّة، بس دمّي خفيف!', 'Ana ḥarrāʾ shwayya, bass dammi khafīf!', 'I\'m a little bit spicy, but very funny!'],
-  toota: ['b', 'وأنا توتة! صغيّرة وحلوة زي السكّر!', 'W-ana Tūta! Ṣughayyara w-ḥilwa zayy es-sukkar!', 'And I\'m Toota! Small and sweet like sugar!'],
-  pals:  ['f', 'إحنا صحابك الجداد!', 'Iḥna ṣḥābik el-godād!', 'We\'re your new friends!'],
-  abc:   ['b', 'وهنتعلّم الحروف كلها سوا!', 'W-hanitʿallim el-ḥurūf kullaha sawa!', 'And we\'ll learn all the letters together!'],
-  tap:   ['b', 'دوسي علينا!', 'Dūsi ʿalēna!', 'Tap us!'],
-  back:  ['f', 'رجعتي! وحشتينا!', 'Rigiʿti! Waḥashtīna!', 'You\'re back! We missed you!'],
-  go:    ['b', 'يلّا نكمّل!', 'Yalla nkammil!', 'Let\'s carry on!']
+  hi_am:   ['f', 'صباح الخير! إزّيك؟ عاملة إيه؟ أنا فلفل!', 'Ṣabāḥ el-khēr! Izzayyik? ʿAmla ēh? Ana Filfil!', 'Good morning! How are you? I\'m Filfil!'],
+  hi_pm:   ['f', 'مساء الخير! إزّيك؟ عاملة إيه؟ أنا فلفل!', 'Masāʾ el-khēr! Izzayyik? ʿAmla ēh? Ana Filfil!', 'Good evening! How are you? I\'m Filfil!'],
+  hot:     ['f', 'أنا حرّاق شويّة، بس دمّي خفيف!', 'Ana ḥarrāʾ shwayya, bass dammi khafīf!', 'I\'m a little bit spicy, but very funny!'],
+  toota_am:['b', 'صباح الفل! وأنا توتة، صاحبتك الحلوة!', 'Ṣabāḥ el-full! W-ana Tūta, ṣaḥbitik el-ḥilwa!', 'Morning sunshine! And I\'m Toota, your sweet friend!'],
+  toota_pm:['b', 'مساء الفل! وأنا توتة، صاحبتك الحلوة!', 'Masāʾ el-full! W-ana Tūta, ṣaḥbitik el-ḥilwa!', 'Good evening! And I\'m Toota, your sweet friend!'],
+  careful: ['b', 'يا فلفل، براحة! هتحرق المسرح!', 'Ya Filfil, bi-rāḥa! Hatiḥraʾ el-masraḥ!', 'Easy, Filfil! You\'ll set the stage on fire!'],
+  sorry:   ['f', 'هههه! خلاص خلاص، آسف!', 'Hahaha! Khalāṣ khalāṣ, āsif!', 'Ha ha! OK, OK, sorry!'],
+  learn:   ['b', 'إحنا جايين نلعب معاكي ونتعلّم عربي!', 'Iḥna gayyīn nilʿab maʿāki w-nitʿallim ʿarabi!', 'We came to play with you and learn Arabic!'],
+  abc:     ['f', 'وهنتعلّم الحروف كلها، من الألف للياء!', 'W-hanitʿallim el-ḥurūf kullaha, min el-alif lil-ya!', 'We\'ll learn all the letters, from alif to ya!'],
+  stars:   ['b', 'وكل ما تشطري، تكسبي نجوم وستيكرات!', 'W-kull ma tishṭari, tiksabi nugūm w-stikarāt!', 'And every time you do well, you win stars and stickers!'],
+  ready:   ['f', 'جاهزة؟ يلّا بينا!', 'Gahza? Yalla bīna!', 'Ready? Let\'s go!'],
+  tap:     ['b', 'دوسي علينا، أو دوسي يلّا نلعب!', 'Dūsi ʿalēna, aw dūsi yalla nilʿab!', 'Tap us, or tap Let\'s play!'],
+  back_am: ['f', 'صباح الخير! رجعتي! وحشتينا!', 'Ṣabāḥ el-khēr! Rigiʿti! Waḥashtīna!', 'Good morning! You\'re back! We missed you!'],
+  back_pm: ['f', 'مساء الخير! رجعتي! وحشتينا!', 'Masāʾ el-khēr! Rigiʿti! Waḥashtīna!', 'Good evening! You\'re back! We missed you!'],
+  go:      ['b', 'يلّا نكمّل لعب!', 'Yalla nkammil liʿb!', 'Let\'s keep playing!']
 };
 var SHOW_LINES = Object.keys(SHOW).map(function(k){ return [SHOW[k][0], SHOW[k][1]]; });
 var ABC = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
@@ -871,6 +878,7 @@ function showTime(full){
     '<button class="go huge showgo" id="showGo" hidden><span class="ar">يلّا نلعب!</span><span class="en" style="font-size:20px">Let\'s play</span></button>' +
   '</div>');
   document.body.appendChild(sh);
+  var hr = new Date().getHours(), P = (hr >= 4 && hr < 12) ? 'am' : 'pm';   /* صباح الخير before noon, مساء الخير after */
   var ts = [], dead = false;
   function at(ms, fn){ ts.push(setTimeout(function(){ if (!dead) fn(); }, ms)); }
   function actor(who){ return sh.querySelector('.actor.' + who); }
@@ -904,6 +912,7 @@ function showTime(full){
     });
     SFX.fanfare(); confetti(60);
   }
+  function starShower(){ for (var i = 0; i < 7; i++) at(i * 180, function(){ burst(null, innerWidth * (.15 + Math.random() * .7), innerHeight * (.15 + Math.random() * .4)); SFX.star(); }); }
   function openStage(){ SHOWFX.drum(); at(1250, function(){ sh.classList.add('open'); SHOWFX.curtain(); }); }
   function finish(){
     if (dead) return; dead = true; ts.forEach(clearTimeout); stopSpeech();
@@ -930,23 +939,26 @@ function showTime(full){
   openStage();
   if (!full) {
     at(2100, function(){ sh.classList.add('in-f', 'in-b', 'quick'); SHOWFX.boom(); burst(actor('f')); burst(actor('b')); });
-    at(3000, function(){ line('back', function(){ move('b', 'happy'); line('go', function(){ sh.classList.add('live'); showPlay(); at(1400, finish); }); }); });
+    at(3000, function(){ line('back_' + P, function(){ move('b', 'happy'); line('go', function(){ sh.classList.add('live'); showPlay(); at(1400, finish); }); }); });
     at(3400, showPlay);
     return;
   }
   at(2200, function(){ sh.classList.add('gift-in'); SHOWFX.wobble(); });
   at(3000, function(){ sh.classList.add('in-f'); SHOWFX.boom(); burst(actor('f').querySelector('.buddy')); });
-  at(3900, function(){ name('f');
-    line('hi', function(){ flame(); line('hot', function(){
+  at(3500, function(){ name('f'); move('f', 'happy');
+    line('hi_' + P, function(){ flame(); line('hot', function(){
       SHOWFX.whistle(); sh.classList.add('in-b'); at(900, function(){ SHOWFX.boing(); hearts(); name('b'); });
-      at(1500, function(){ line('toota', function(){
-        move('f', 'dance', 2400); move('b', 'dance', 2400);
-        line('pals', function(){ rainLetters(); line('abc', function(){
-          sh.classList.add('live'); line('tap'); showPlay();
-        }); });
+      at(1400, function(){ line('toota_' + P, function(){
+        move('b', 'happy'); line('careful', function(){
+        move('f', 'spin'); line('sorry', function(){
+        move('b', 'happy'); line('learn', function(){
+        rainLetters(); line('abc', function(){
+        starShower(); line('stars', function(){
+        move('f', 'dance', 2400); move('b', 'dance', 2400); line('ready', function(){
+          SFX.fanfare(); confetti(80); sh.classList.add('live'); showPlay(); line('tap');
+        }); }); }); }); }); }); });
       }); });
     }); });
-  });
 }
 function meetFriends(){ showTime(true); }
 
