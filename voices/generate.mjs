@@ -102,11 +102,16 @@ async function azure(line, tries = 0) {
 if (PROVIDER !== 'azure') await resolveVoices();
 const voiceOf = l => PROVIDER === 'azure' ? cfg.azure.speakers[l.speaker].voice : resolved[l.speaker + ':' + kindOf(l)];
 // the file name includes the voice, so changing a voice remakes only the clips that voice says
-const fileFor = l => createHash('sha1').update(l.key + '|' + voiceOf(l)).digest('hex').slice(0, 12) + '.mp3';
+const hash = t => createHash('sha1').update(t).digest('hex').slice(0, 12) + '.mp3';
+// new clips' names include the model (so a remade clip never reuses an old file name that tablets have cached);
+// clips made before that, with multilingual v2, keep their older names
+const MODEL = PROVIDER === 'azure' ? 'azure' : cfg.elevenlabs.model;
+const fileFor = l => hash(l.key + '|' + voiceOf(l) + '|' + MODEL);
+const oldFileFor = l => hash(l.key + '|' + voiceOf(l));
 
 console.log(`${lines.filter(l => kindOf(l) === 'chat').length} chat lines use the Egyptian voices, ${lines.filter(l => kindOf(l) === 'std').length} letter/word lines use the standard voices.`);
 // a clip counts as made if it exists, either as recorded or trimmed by voices/fix-clips.py (name ending -t.mp3)
-const have = l => [fileFor(l), fileFor(l).replace(/\.mp3$/, '-t.mp3')].some(f => index[l.key] === f && existsSync(path.join(audioDir, f)));
+const have = l => [fileFor(l), oldFileFor(l)].flatMap(f => [f, f.replace(/\.mp3$/, '-t.mp3')]).some(f => index[l.key] === f && existsSync(path.join(audioDir, f)));
 const todo = lines.filter(l => only ? l.text === only : !have(l));
 const allChars = lines.reduce((n, l) => n + l.text.length, 0);
 console.log(`${todo.length} clip(s) to make (${todo.reduce((n, l) => n + l.text.length, 0)} characters), ${lines.length} lines in total (${allChars} characters).`);

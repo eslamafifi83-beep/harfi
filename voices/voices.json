@@ -3,7 +3,7 @@
   "provider": "elevenlabs",
   "elevenlabs": {
     "_voices": "Each friend speaks with ONE voice for everything (chat, letters and words), so they always sound like the same person. The first voice in each list is the Egyptian voice made with ElevenLabs Voice Design; the others are fallbacks. Optional chat_voice_ids would give a friend a second voice just for chat (not used: it made them sound like two different people). Toota must only ever get women's or girls' voices.",
-    "model": "eleven_multilingual_v2",
+    "model": "eleven_turbo_v2_5",
     "speakers": {
       "b": {
         "name": "Toota",
@@ -13,8 +13,8 @@
           "Xb7hH8MSUJpSbSDYk0k2",
           "EXAVITQu4vr4xnSDxMaL"
         ],
-        "stability": 0.45,
-        "style": 0.4
+        "stability": 0.6,
+        "style": 0.2
       },
       "f": {
         "name": "Filfil",
@@ -22,15 +22,16 @@
           "TAUHcxYrNVaznntDvYnG",
           "TX3LPaxmHKxFdv7VOQHJ"
         ],
-        "stability": 0.35,
-        "style": 0.55
+        "stability": 0.6,
+        "style": 0.25
       }
     },
     "speeds": {
       "slow": 0.75,
       "calm": 0.88,
       "normal": 1.0
-    }
+    },
+    "_model": "eleven_turbo_v2_5 costs half the credits of eleven_multilingual_v2 and rambles less with designed voices. Clips made earlier with multilingual v2 are kept."
   },
   "azure": {
     "speakers": {
