@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harfi sound check</title>
+<style>
+  @font-face { font-family: Baloo; src: url(../fonts/baloo-bhaijaan-2-arabic-800-normal.woff2) format('woff2'); }
+  :root { --bg:#FFF8EC; --ink:#2B2140; --muted:#6B5E52; --card:#FFFFFF; --line:#EADFCB; --old:#B5476B; --a:#0F7C78; --b:#5B4BB0; --c:#C0651E; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.45 system-ui, sans-serif; padding:20px 16px 40px; }
+  main { max-width:760px; margin:0 auto; }
+  h1 { margin:0 0 4px; font-size:24px; }
+  p { margin:0 0 16px; color:var(--muted); }
+  .row { display:flex; align-items:center; gap:12px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:12px; margin-bottom:10px; flex-wrap:wrap; }
+  .ch { font-family:Baloo, serif; font-size:44px; line-height:1; width:64px; text-align:center; }
+  button { font:inherit; font-weight:700; border:0; border-radius:12px; padding:10px 14px; color:#fff; cursor:pointer; min-width:54px; }
+  button.old { background:var(--old); } button.A { background:var(--a); } button.B { background:var(--b); } button.C { background:var(--c); }
+  button:active { transform:scale(.96); }
+  .key { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:16px; font-size:14px; color:var(--muted); }
+  .key b { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:5px; vertical-align:-1px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Harfi sound check</h1>
+  <p>Tap each button and listen. For every letter, tell Claude which one sounds right, for example "ث: B". "Now" is the clip the game uses today.</p>
+  <div class="key">
+    <span><b style="background:var(--old)"></b>Now: the current clip</span>
+    <span><b style="background:var(--a)"></b>A: long "aa", cheap model</span>
+    <span><b style="background:var(--b)"></b>B: long "aa", better model (2× credits)</span>
+    <span><b style="background:var(--c)"></b>C: short "a" three times, cheap model</span>
+  </div>
+  <div id="rows"></div>
+</main>
+<script>
+var LABEL = { 'long-turbo':'A', 'long-multi':'B', 'three-turbo':'C' };
+var audio = null;
+function play(src){ if (audio) audio.pause(); audio = new Audio(src); audio.play(); }
+Promise.all([
+  fetch('list.json', {cache:'no-store'}).then(function(r){ return r.json(); }),
+  fetch('../audio/index.json', {cache:'no-store'}).then(function(r){ return r.json(); }).catch(function(){ return {}; })
+]).then(function(res){
+  var items = res[0], idx = res[1], rows = document.getElementById('rows'), by = {};
+  items.forEach(function(it){ (by[it.letter] = by[it.letter] || []).push(it); });
+  Object.keys(by).forEach(function(ch){
+    var row = document.createElement('div'); row.className = 'row';
+    row.innerHTML = '<span class="ch" dir="rtl">' + ch + '</span>';
+    var now = idx['b|slow|' + ch + 'َ'];
+    if (now) { var o = document.createElement('button'); o.className = 'old'; o.textContent = 'Now'; o.onclick = function(){ play('../audio/' + now); }; row.appendChild(o); }
+    by[ch].forEach(function(it){
+      var form = it.id.split('-').slice(1).join('-'), b = document.createElement('button');
+      b.className = LABEL[form]; b.textContent = LABEL[form]; b.title = it.note;
+      b.onclick = function(){ play(it.id + '.mp3'); }; row.appendChild(b);
+    });
+    rows.appendChild(row);
+  });
+});
+</script>
+</body>
+</html>
