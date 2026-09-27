@@ -16,6 +16,7 @@ An Arabic phonics game for one learner: Eslam's 6-year-old daughter, a beginner.
 - All speech goes through `say()`, `sayThen()`, `speak()`, `speakSeq()` and `soundOut()`. Every line has exactly one speaker: phonics defaults to Toota, and chat lines are assigned by `whoFor()` unless a speaker is passed. Toota never falls back to Filfil's clips.
 
 ## Voices
+- Each friend has two voices: a standard one for letter names, sounds, syllables and words (`voice_ids`), and an Egyptian one designed with ElevenLabs Voice Design ("Harfi Toota Egyptian", "Harfi Filfil Egyptian") for everything they chat (`chat_voice_ids`). `generate.mjs` sorts lines using `app/content.js`: anything that is a letter, sound, syllable or word is phonics, and the rest is chat.
 - Clips come from **ElevenLabs' free plan** (no card, about 10k characters a month; credit shown on the splash screen). Azure's Egyptian voices remain an option: set `"provider": "azure"` in `voices/voices.json`. Voice IDs and speeds are in the same file.
 - Publishing: the GitHub Actions workflow `.github/workflows/deploy.yml` in the repo `eslamafifi83-beep/harfi` runs `voices/generate.mjs` with the `ELEVENLABS_API_KEY` repo secret, commits new clips to `app/audio` (so they are never paid for twice), runs monthly to finish clips when free credits renew, and deploys `app/` to GitHub Pages. Everything must stay on free tiers.
 - `npm run lines` plays every level headlessly and writes `voices/lines.json`. `npm run voices` makes missing MP3s locally, which needs a `.env`.

@@ -9,6 +9,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, unlink
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import vm from 'node:vm';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, '..');
@@ -32,6 +33,16 @@ const indexFile = path.join(audioDir, 'index.json');
 const index = existsSync(indexFile) ? JSON.parse(readFileSync(indexFile, 'utf8')) : {};
 const args = process.argv.slice(2);
 const only = args.includes('--only') ? args[args.indexOf('--only') + 1] : null;
+// Phonics lines (letter names and sounds, syllables, words to read) keep the standard voices,
+// so ج stays "j" and ق stays "q". Everything else is chat and uses the friend's Egyptian voice (chat_voice_ids).
+const clean = t => t.replace(/[!؟?…]/g, ' ').replace(/\s+/g, ' ').trim();
+const sandbox = { window: {} };
+vm.runInNewContext(readFileSync(path.join(root, 'app', 'content.js'), 'utf8'), sandbox);
+const C = sandbox.window.HARFI_CONTENT, PHONICS = new Set();
+Object.values(C.L).forEach(l => [l.name, l.snd, l.ch].forEach(t => PHONICS.add(clean(t))));
+Object.values(C.W).forEach(w => { PHONICS.add(clean(w.word)); w.syl.forEach(s => PHONICS.add(clean(s.t))); });
+const isPhonics = l => PHONICS.has(l.text) || (l.text.length <= 3 && !l.text.includes(' ')) || /^[\u0621-\u064A][\u064B-\u0652]+$/.test(l.text);
+const kindOf = l => (!isPhonics(l) && cfg.provider !== 'azure' && cfg.elevenlabs.speakers[l.speaker].chat_voice_ids) ? 'chat' : 'std';
 const textFor = line => (cfg.pronounce && cfg.pronounce[line.text]) || line.text;
 
 class OutOfCredits extends Error {}
@@ -56,16 +67,20 @@ async function eleven(line, voiceId, tries = 0) {
   return Buffer.from(await res.arrayBuffer());
 }
 // pick the first voice in each friend's list that works on this plan (costs one short test clip each)
-const resolved = {};
+const resolved = {};   // resolved['b:std'], resolved['b:chat'] ...
 async function resolveVoices() {
   for (const who of Object.keys(cfg.elevenlabs.speakers)) {
-    const ids = [].concat(cfg.elevenlabs.speakers[who].voice_ids || cfg.elevenlabs.speakers[who].voice_id);
-    for (const id of ids) {
-      try { await eleven({ speaker: who, speed: 'normal', text: 'أ' }, id); resolved[who] = id; break; }
-      catch (e) { if (e instanceof OutOfCredits) throw e; console.log(`  voice ${id} not usable for ${cfg.elevenlabs.speakers[who].name}: ${e.message.slice(0, 80)}`); }
+    const sp = cfg.elevenlabs.speakers[who];
+    for (const kind of ['std', 'chat']) {
+      const ids = kind === 'std' ? [].concat(sp.voice_ids || sp.voice_id) : [].concat(sp.chat_voice_ids || []);
+      if (!ids.length) continue;
+      for (const id of ids) {
+        try { await eleven({ speaker: who, speed: 'normal', text: 'أ' }, id); resolved[who + ':' + kind] = id; break; }
+        catch (e) { if (e instanceof OutOfCredits) throw e; console.log(`  voice ${id} not usable for ${sp.name} (${kind}): ${e.message.slice(0, 80)}`); }
+      }
+      if (!resolved[who + ':' + kind]) throw new Error(`No usable ${kind} voice for ${sp.name}. Add a free voice ID to voices.json.`);
+      console.log(`${sp.name} (${kind === 'std' ? 'letters and words' : 'Egyptian chat'}): voice ${resolved[who + ':' + kind]}`);
     }
-    if (!resolved[who]) throw new Error(`No usable voice for ${cfg.elevenlabs.speakers[who].name}. Add a free voice ID to voices.json.`);
-    console.log(`${cfg.elevenlabs.speakers[who].name}: voice ${resolved[who]}`);
   }
 }
 
@@ -85,10 +100,11 @@ async function azure(line, tries = 0) {
 
 // ---------- run ----------
 if (PROVIDER !== 'azure') await resolveVoices();
-const voiceOf = who => PROVIDER === 'azure' ? cfg.azure.speakers[who].voice : resolved[who];
-// the file name includes the voice, so changing a voice remakes that friend's clips
-const fileFor = l => createHash('sha1').update(l.key + '|' + voiceOf(l.speaker)).digest('hex').slice(0, 12) + '.mp3';
+const voiceOf = l => PROVIDER === 'azure' ? cfg.azure.speakers[l.speaker].voice : resolved[l.speaker + ':' + kindOf(l)];
+// the file name includes the voice, so changing a voice remakes only the clips that voice says
+const fileFor = l => createHash('sha1').update(l.key + '|' + voiceOf(l)).digest('hex').slice(0, 12) + '.mp3';
 
+console.log(`${lines.filter(l => kindOf(l) === 'chat').length} chat lines use the Egyptian voices, ${lines.filter(l => kindOf(l) === 'std').length} letter/word lines use the standard voices.`);
 const todo = lines.filter(l => only ? l.text === only : !(index[l.key] === fileFor(l) && existsSync(path.join(audioDir, fileFor(l)))));
 const allChars = lines.reduce((n, l) => n + l.text.length, 0);
 console.log(`${todo.length} clip(s) to make (${todo.reduce((n, l) => n + l.text.length, 0)} characters), ${lines.length} lines in total (${allChars} characters).`);
@@ -97,7 +113,7 @@ async function worker() {
   while (todo.length && !outOfCredits) {
     const l = todo.shift();
     try {
-      const buf = PROVIDER === 'azure' ? await azure(l) : await eleven(l, resolved[l.speaker]);
+      const buf = PROVIDER === 'azure' ? await azure(l) : await eleven(l, voiceOf(l));
       writeFileSync(path.join(audioDir, fileFor(l)), buf);
       index[l.key] = fileFor(l); chars += l.text.length; done++;
       if (done % 25 === 0) console.log(`  ${done} made...`);

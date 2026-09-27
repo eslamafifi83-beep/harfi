@@ -2,11 +2,11 @@
   "_about": "Who sounds like what. Each friend has a list of voices: the first one that works on the free plan is used. Changing the list remakes that friend's clips.",
   "provider": "elevenlabs",
   "elevenlabs": {
-    "_voices": "Voice IDs from elevenlabs.io > Voices. Voices from the Voice Library usually need a paid plan, so built-in voices are listed. Toota must only ever get women's or girls' voices.",
+    "_voices": "voice_ids read the letters, sounds and words (standard Arabic). chat_voice_ids (optional) are Egyptian voices made with ElevenLabs Voice Design, used for everything the friends chat. Voice IDs from elevenlabs.io > Voices. Voices from the Voice Library usually need a paid plan, so built-in voices are listed. Toota must only ever get women's or girls' voices.",
     "model": "eleven_multilingual_v2",
     "speakers": {
-      "b": { "name": "Toota",  "voice_ids": ["pFZP5JQG7iQjIQuC4Bku", "Xb7hH8MSUJpSbSDYk0k2", "EXAVITQu4vr4xnSDxMaL"], "stability": 0.45, "style": 0.4 },
-      "f": { "name": "Filfil", "voice_ids": ["TX3LPaxmHKxFdv7VOQHJ"], "stability": 0.35, "style": 0.55 }
+      "b": { "name": "Toota",  "voice_ids": ["pFZP5JQG7iQjIQuC4Bku", "Xb7hH8MSUJpSbSDYk0k2", "EXAVITQu4vr4xnSDxMaL"], "chat_voice_ids": ["D5V31q7XnpsczeNRCLMB"], "stability": 0.45, "style": 0.4 },
+      "f": { "name": "Filfil", "voice_ids": ["TX3LPaxmHKxFdv7VOQHJ"], "chat_voice_ids": ["TAUHcxYrNVaznntDvYnG"], "stability": 0.35, "style": 0.55 }
     },
     "speeds": { "slow": 0.75, "calm": 0.88, "normal": 1.0 }
   },
