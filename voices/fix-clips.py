@@ -50,7 +50,35 @@ def best_window(target, words):
     return best
 
 
+def audit():
+    """Transcribe every clip (except single sounds) and list how well each matches its text. Writes voices/audit.txt."""
+    from faster_whisper import WhisperModel
+    model = WhisperModel('small', device='cpu', compute_type='int8')
+    index = json.load(open(os.path.join(AUDIO, 'index.json'), encoding='utf8'))
+    rows = []
+    for key, f in index.items():
+        text = key.split('|', 2)[2]
+        if len(norm(text).replace(' ', '')) < 3:
+            continue
+        segs, _ = model.transcribe(os.path.join(AUDIO, f), language='ar', word_timestamps=True, beam_size=5,
+                                   condition_on_previous_text=False)
+        words = [w for s in segs for w in (s.words or [])]
+        heard = ''.join(norm(w.word) for w in words)
+        score = difflib.SequenceMatcher(None, norm(text).replace(' ', ''), heard).ratio() if heard else 0
+        rows.append((score, key, ' '.join(w.word.strip() for w in words)))
+    rows.sort()
+    open(os.path.join(HERE, 'audit.txt'), 'w', encoding='utf8').write(
+        ''.join(f'{s:.2f}  {k}\n      heard: {h}\n' for s, k, h in rows))
+    print(f'Audited {len(rows)} clips; {sum(1 for r in rows if r[0] < 0.7)} match poorly.')
+
+
 def main():
+    if '--audit' in sys.argv:
+        try:
+            import faster_whisper  # noqa
+        except ImportError:
+            subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', 'faster-whisper'], check=True)
+        return audit()
     index_file = os.path.join(AUDIO, 'index.json')
     index = json.load(open(index_file, encoding='utf8'))
     suspects = []
