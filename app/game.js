@@ -330,7 +330,11 @@ function footButton(ar, en, fn, cls){
 var SPEAKER = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg>';
 var CHECK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2140" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg>';
 var LOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
-function theName(l){ return 'ال' + l.name.replace(/^ال/, ''); }   /* "الباء", "الألف" */
+function theName(l){ return 'ال' + l.name.replace(/^ال/, ''); }   /* "الباء", "الألف" (shown, never spoken: she learns sounds, not names) */
+/* Phonics first: a letter is always spoken as its SOUND (بَ "ba"), never its name (باء). Every single sound
+   plays at this one rate, so each letter sound has exactly one clip. */
+var SND = .6;
+function sounds(l, n){ var p = []; for (var i = 0; i < (n || 1); i++) p.push({t:l.snd, rate:SND}); return p; }
 
 var mistakes = 0;
 function starsFor(m){ return m <= 1 ? 3 : (m <= 4 ? 2 : 1); }
@@ -447,7 +451,7 @@ function meetLetters(u, li){
     var c = h('<button class="lcard" aria-label="Letter '+l.en+'"><span class="seen">'+CHECK+'</span><span class="big ar">'+l.ch+'</span><span class="nm"><span class="ar">'+l.snd+'</span><span class="en" dir="ltr">“'+(l.key === 'alif' ? 'a' : l.tr + 'a')+'” · '+l.en+'</span></span></button>');
     c.addEventListener('click', function(){
       c.classList.remove('play'); void c.offsetWidth; c.classList.add('play');
-      SFX.tap(); speakSeq([{t:l.snd, rate:.6},{t:l.snd, rate:.6},{t:l.snd, rate:.6}], function(i){   /* the letter's sound, three times (not its name) */ if (i) { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } }, null, 300);
+      SFX.tap(); speakSeq(sounds(l, 3), function(i){   /* the letter's sound, three times (not its name) */ if (i) { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } }, null, 300);
       burst(c.querySelector('.big'));
       if (!seen[k]) { seen[k] = true; c.classList.add('was'); }
       if (Object.keys(seen).length === U.letters.length) { next.disabled = false; next.classList.add('ready'); mood('happy'); later(function(){ sayThen('شاطرة! يلّا نلعب بالبلالين','Shaṭra! Yalla nilʿab bil-balalīn','Great! Now let\'s pop balloons', 'f'); }, 2600); }
@@ -463,9 +467,9 @@ function popGame(u, li, round){
   var targets = UNITS[u].sounding.slice(0, 3);
   var tk = targets[round], T = L[tk], NEED = 4;
   var others = distractors(u, [tk], 3);
-  var el = scene(dotsHTML(targets.length, round) + '<div class="target"><div class="task"><span class="ar">فرقعي بلالين '+theName(T)+'</span><span class="en">Farqaʿi balalīn '+T.en+' · Pop the '+T.en+' balloons</span></div><div class="tg ar">'+T.ch+'</div><button class="listen" id="lis" style="width:72px;height:72px" aria-label="Hear the sound">'+SPEAKER+'</button><div class="dots" id="cnt"></div></div><div class="sky" id="sky"></div>');
+  var el = scene(dotsHTML(targets.length, round) + '<div class="target"><div class="task"><span class="ar">فرقعي بلالين '+T.snd+'</span><span class="en">Farqaʿi balalīn '+T.en+' · Pop the '+T.en+' balloons</span></div><div class="tg ar">'+T.ch+'</div><button class="listen" id="lis" style="width:72px;height:72px" aria-label="Hear the sound">'+SPEAKER+'</button><div class="dots" id="cnt"></div></div><div class="sky" id="sky"></div>');
   var lis = el.querySelector('#lis');
-  function hearT(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq([{t:T.snd,rate:.6},{t:T.snd,rate:.6}], null, null, 250); }
+  function hearT(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq(sounds(T, 2), null, null, 250); }
   lis.addEventListener('click', hearT);
   var sky = el.querySelector('#sky'), cnt = el.querySelector('#cnt');
   [[8,12,120],[60,22,160],[30,48,90],[78,60,130]].forEach(function(c){ sky.appendChild(h('<i class="cloud" style="left:'+c[0]+'%;top:'+c[1]+'%;width:'+c[2]+'px;height:'+(c[2]*.38)+'px"></i>')); });
@@ -483,7 +487,7 @@ function popGame(u, li, round){
     b.addEventListener('pointerdown', function(e){
       e.preventDefault(); if (o.dead || !run) return;
       if (o.key === tk) {
-        o.dead = true; b.classList.add('popped'); SFX.pop(); burst(b); speak(T.snd, .8);
+        o.dead = true; b.classList.add('popped'); SFX.pop(); burst(b); speak(T.snd, SND);
         got++; drawCount(); mood('happy');
         setTimeout(function(){ b.remove(); }, 300);
         if (got >= NEED) { run = false; later(function(){ praise(); confetti(40); }, 250); later(function(){ round+1 < targets.length ? popGame(u, li, round+1) : soundMatch(u, li); }, 1900); }
@@ -491,7 +495,8 @@ function popGame(u, li, round){
       } else {
         mistakes++;
         b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
-        oops('مش ده! دوّري على '+theName(T), 'Mish da! Dawwari ʿala '+T.en, 'That\'s '+L[o.key].en+'. Look for '+T.en+' '+T.ch, true);
+        oops('مش ده… اسمعي تاني: '+T.snd, 'Mish da… ismaʿi tāni: "'+T.tr+'"', 'Not that one. Listen again: "'+T.tr+'" '+T.ch, false);
+        speakSeq([{t:'مش ده… اسمعي تاني', rate:.85, who:'f'}].concat(sounds(T, 2)), null, null, 300);
       }
     });
     sky.appendChild(b); balloons.push(o);
@@ -513,8 +518,8 @@ function popGame(u, li, round){
   }
   raf = requestAnimationFrame(frame);
   cleanup = function(){ run = false; cancelAnimationFrame(raf); };
-  say('فرقعي بلالين '+theName(T)+' بس!', 'Farqaʿi balalīn '+T.en+' bass!', 'Pop only the balloons that say "'+T.tr+'". Tap the speaker to hear it', false, 'f');
-  speakSeq([{t:'فرقعي بلالين '+theName(T), rate:.85, who:'f'},{t:T.snd,rate:.6},{t:T.snd,rate:.6}], null, null, 300);
+  say('فرقعي البلالين اللي بتقول '+T.snd, 'Farqaʿi el-balalīn elli bit\'ūl "'+T.tr+'"', 'Pop only the balloons that say "'+T.tr+'". Tap the speaker to hear it', false, 'f');
+  speakSeq([{t:'فرقعي البلالين اللي بتقول', rate:.85, who:'f'}].concat(sounds(T, 2)), null, null, 300);
 }
 
 function soundMatch(u, li){
@@ -525,7 +530,7 @@ function soundMatch(u, li){
     var el = scene(dotsHTML(rounds.length, r) + task('مين بيقول الصوت ده؟','Mīn biy\'ūl eṣ-ṣōt da?','Which letter makes this sound?') +
       '<div class="stage"><div class="row"><button class="listen" id="lis" aria-label="Hear the sound again">'+SPEAKER+'</button></div><div class="choices" id="ch"></div></div>');
     var lis = el.querySelector('#lis'), ch = el.querySelector('#ch'), locked = false;
-    function hear(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq([{t:l.snd,rate:.6},{t:l.snd,rate:.6}], null, null, 300); }
+    function hear(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq(sounds(l, 2), null, null, 300); }
     lis.addEventListener('click', hear);
     opts.forEach(function(o){
       var b = h('<button class="choice" aria-label="Letter '+L[o].en+'"><span class="big ar" style="color:#2B2140">'+L[o].ch+'</span><span class="sm en">"'+L[o].tr+'"</span></button>');
@@ -533,12 +538,12 @@ function soundMatch(u, li){
         if (locked) return;
         if (o === k) {
           locked = true; b.classList.add('right'); praise(b.querySelector('.big'));
-          later(function(){ speakSeq([{t:l.snd,rate:.6},{t:l.name,rate:.8}], null, null, 250); }, 1000);
+          later(function(){ speakSeq(sounds(l, 2), null, null, 250); }, 1000);
           later(function(){ r++; r < rounds.length ? play() : finishLevel(u, li); }, 2600);
         } else {
           mistakes++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); SFX.bad(); mood('sad');
           say('ده بيقول '+L[o].snd+'… اسمعي تاني', 'Da biy\'ūl "'+L[o].tr+'"… ismaʿi tāni', 'That one says "'+L[o].tr+'". Listen again', false, 'b');
-          speakSeq([{t:L[o].snd,rate:.6}], null, function(){ later(hear, 500); });
+          speakSeq(sounds(L[o]), null, function(){ later(hear, 500); });
         }
       });
       ch.appendChild(b);
@@ -552,7 +557,7 @@ function soundMatch(u, li){
 /* ---------- 2 · say it with me ---------- */
 function sayGame(u, li){
   var U = UNITS[u];
-  var items = U.sounding.slice(0, 3).map(function(k){ var l = L[k]; return {show:l.snd, parts:[{t:l.snd,rate:.6}], tr:l.tr+'a', en:'the sound of '+l.ch}; });
+  var items = U.sounding.slice(0, 3).map(function(k){ var l = L[k]; return {show:l.snd, parts:sounds(l), tr:l.tr+'a', en:'the sound of '+l.ch}; });
   var words = u === 0 ? [W.baba, W.filfil, W.toota] : U.words.map(function(k){ return W[k]; });
   items = items.concat(words.map(function(w){ return {w:w}; }));
   var r = 0;
@@ -564,8 +569,9 @@ function sayGame(u, li){
         '<span class="tr en">'+(w ? w.syl.map(function(s){ return s.tr; }).join(' · ')+'  →  '+w.tr+' ('+w.en+')' : '"'+it.tr+'" · '+it.en)+'</span>' +
       '</div></div><div class="turn turnbox" id="turn"></div></div>');
     var st = el.querySelector('#st'), card = el.querySelector('#card'), turn = el.querySelector('#turn');
-    /* Toota says it slowly in pieces, then one friend says it whole: Filfil says his own name, Toota says hers */
-    var second = w === W.toota ? 'b' : 'f', first = w === W.filfil ? 'f' : 'b';
+    /* Toota says it slowly in pieces, then one friend says it whole: Filfil says his own name, Toota says hers.
+       A single sound is only ever said by Toota, so it always comes from the same clip. */
+    var second = (w === W.toota || !w) ? 'b' : 'f', first = w === W.filfil ? 'f' : 'b';
     function friendsSay(done){
       st.classList.add('phase-listen');
       var all = w ? w.letters.map(function(_,k){ return k; }) : [0];
@@ -573,14 +579,15 @@ function sayGame(u, li){
       say(word, trw, w ? NAMES[first].en+' says it in little pieces' : NAMES[first].en+' says the sound', false, first);
       function secondTurn(){
         say(word, trw, 'Now '+NAMES[second].en+' says it', false, second);
-        speakSeq([{t: w ? w.word : it.parts[0].t, rate:.75, who:second}], function(){ lightUp(card, all); }, function(){ lightUp(card, null); if (done) done(); });
+        speakSeq([w ? {t:w.word, rate:.75, who:second} : it.parts[0]], function(){ lightUp(card, all); }, function(){ lightUp(card, null); if (done) done(); });
       }
       if (w) soundOut(card, w, function(){ setTimeout(secondTurn, 350); }, first);
       else speakSeq(it.parts.concat(it.parts), function(){ lightUp(card, [0]); }, function(){ lightUp(card, null); setTimeout(secondTurn, 350); }, 400);
     }
     function herTurn(){
       st.classList.remove('phase-listen'); SFX.dot(); mood('happy');
-      sayThen('دورك! قولي '+(w ? w.word : it.show), 'Dōrik! ʾūli '+(w ? w.tr : it.tr), w === W.filfil ? 'Your turn! Say Filfil\'s name' : w === W.toota ? 'Your turn! Say Toota\'s name' : 'Your turn! Say it out loud', 'b');
+      say('دورك! قولي '+(w ? w.word : it.show), 'Dōrik! ʾūli '+(w ? w.tr : it.tr), w === W.filfil ? 'Your turn! Say Filfil\'s name' : w === W.toota ? 'Your turn! Say Toota\'s name' : 'Your turn! Say it out loud', false, 'b');
+      speakSeq([{t:'دورك! قولي', rate:.85}, w ? {t:w.word, rate:.75} : it.parts[0]], null, null, 150);   /* the sound or word comes from its own clip */
       document.querySelectorAll('#buddies .buddy').forEach(function(b){ b.style.transform = 'rotate(-8deg) translateY(-4px)'; });
       later(function(){ document.querySelectorAll('#buddies .buddy').forEach(function(b){ b.style.transform = ''; }); }, 3100);
       turn.innerHTML = '<div class="ring"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="none" stroke="#F3E6CE" stroke-width="8"/><circle class="run" cx="42" cy="42" r="38" fill="none" stroke="#F2994A" stroke-width="8" stroke-dasharray="239" stroke-linecap="round"/></svg><span class="face"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#2B2140" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r=".6" fill="#2B2140"/><circle cx="15" cy="10" r=".6" fill="#2B2140"/><ellipse cx="12" cy="15.5" rx="2.4" ry="2" fill="#2B2140"/></svg></span></div><span class="ar">دورك!</span><span class="en" style="font-size:18px;color:#6B5E52">Your turn</span>';
@@ -671,13 +678,13 @@ function firstSound(u, li){
         if (k === R.first) {
           locked = true; b.classList.add('right'); praise(b.querySelector('.big'));
           var wd = el.querySelector('#word'); wd.innerHTML = kwHTML(R);
-          later(function(){ lightUp(wd, [0]); speakSeq([{t:l.snd,rate:.6}], null, function(){ soundOut(wd, R); }); }, 1100);
+          later(function(){ lightUp(wd, [0]); speakSeq(sounds(l), null, function(){ soundOut(wd, R); }); }, 1100);
           later(function(){ r++; r < rounds.length ? play() : finishLevel(u, li); }, 7200);
         } else {
           mistakes++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no');
           SFX.bad(); mood('sad');
           say('ده بيقول '+l.snd+'… اسمعي أوّل الكلمة', 'Da biy\'ūl "'+l.tr+'"… ismaʿi awwel el-kilma', 'That says "'+l.tr+'". Listen to the start: "'+R.syl[0].tr+'…"', false, 'b');
-          speakSeq([{t:l.snd,rate:.6},{t:onset,rate:.55},{t:onset,rate:.55}], null, null, 450);
+          speakSeq(sounds(l).concat([{t:onset,rate:.55},{t:onset,rate:.55}]), null, null, 450);
         }
       });
       ch.appendChild(b);
@@ -693,7 +700,7 @@ function traceGame(u, li){
   var keys = UNITS[u].letters, r = 0;
   function play(){
     var l = L[keys[r]];
-    var el = scene(dotsHTML(keys.length, r) + task('لوّني '+theName(l),'Lawwini '+l.en,'Colour in '+l.en+' with your finger. Start at the green dot') +
+    var el = scene(dotsHTML(keys.length, r) + task('لوّني '+l.snd,'Lawwini "'+(l.key === 'alif' ? 'a' : l.tr + 'a')+'"','Colour in '+l.en+' with your finger. Start at the green dot') +
       '<div class="trace-wrap"><div class="board" id="board"><canvas id="cv" aria-label="Colour in the letter '+l.en+'"></canvas></div><div class="side"><div class="model"><span class="big ar">'+l.ch+'</span><span class="en" style="color:#6B5E52">'+l.en+'</span></div><div class="meter" aria-hidden="true"><i id="fill"></i></div></div></div>');
     var board = el.querySelector('#board'), cv = el.querySelector('#cv'), ctx = cv.getContext('2d'), fillBar = el.querySelector('#fill');
     var dpr, Wd, Ht, fs, mask, paint, pctx, clip, cctx, samples = [], startPt = null, drawing = false, lastP = null, moves = 0, finished = false, started = false;
@@ -752,7 +759,7 @@ function traceGame(u, li){
       var c = coverage(); fillBar.style.width = Math.min(100, Math.round(c / 0.72 * 100)) + '%';
       if (c >= 0.72 && !finished) {
         finished = true; draw(true); SFX.good(); mood('happy'); burst(board); confetti(40); praise();
-        later(function(){ speakSeq([{t:l.name, rate:.8},{t:l.snd, rate:.6}], null, null, 300); }, 1200);
+        later(function(){ speakSeq(sounds(l, 2), null, null, 300); }, 1200);
         later(function(){ r++; r < keys.length ? play() : finishLevel(u, li); }, 3600);
       }
     }
@@ -763,7 +770,7 @@ function traceGame(u, li){
     if (document.fonts && document.fonts.load) document.fonts.load('800 100px "Baloo Bhaijaan 2"', l.ch).then(go, go); else go();
     footButton('تاني','Start again', function(){ play(); });
     if (r === 0) say('ابدئي من النقطة الخضرا ولوّني الحرف كله','Ibda\'i min en-nu\'ṭa el-khaḍra w-lawwini el-ḥarf kullu','Start at the green dot and colour in the whole letter', true, 'b');
-    else speak(l.name, .8);
+    else speakSeq(sounds(l, 2), null, null, 300);
   }
   play();
 }
@@ -794,7 +801,7 @@ function wordGame(u, li){
         tiles.querySelectorAll('.tile').forEach(function(x){ x.classList.remove('hint'); });
         if (c === plain[pos]) {
           var s = slots.children[pos]; s.textContent = c; s.classList.add('filled'); s.classList.remove('next');
-          SFX.pop(); burst(s); speak(c === 'ا' ? 'آ' : L[lk].snd, .8);
+          SFX.pop(); burst(s); if (c === 'ا') speak('آ', .8); else speak(L[lk].snd, SND);
           pos++; wrongHere = 0; mark();
           if (pos === plain.length) done();
         } else {

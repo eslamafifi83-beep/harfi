@@ -91,12 +91,11 @@ const logged = await page.evaluate(() => window.HARFI_LOG);
 const data = await page.evaluate(() => {
   const d = window.HARFI_DEBUG, out = [], clean = t => t.replace(/[!؟?…]/g, ' ').replace(/\s+/g, ' ').trim();
   const add = (who, speed, t) => out.push(who + '|' + speed + '|' + clean(t));
-  // Toota teaches: every letter name and sound, the vowel syllables, and every word with its syllables
-  Object.values(d.L).forEach(l => { add('b', 'calm', l.name); add('b', 'slow', l.snd); add('b', 'calm', l.snd); });
+  // Toota teaches: every letter SOUND (never its name), the vowel syllables, and every word with its syllables.
+  // Single sounds all use one clip each, at the slow speed.
+  Object.values(d.L).forEach(l => add('b', 'slow', l.snd));
   d.UNITS.forEach((U, u) => {
     U.sounding.slice(0, 2).forEach(k => d.VOW.forEach(v => add('b', 'calm', d.L[k].ch + v.mark)));
-    U.sounding.slice(0, 3).forEach(k => { add('f', 'calm', d.L[k].snd); add('f', 'normal', 'فرقعي بلالين ' + d.theName(d.L[k])); add('f', 'normal', 'مش ده دوّري على ' + d.theName(d.L[k])); add('b', 'normal', 'مش ده دوّري على ' + d.theName(d.L[k])); });
-    U.letters.forEach(k => add('b', 'normal', 'لوّني ' + d.theName(d.L[k])));
     U.keywords.concat(U.words).forEach(k => { const w = d.W[k]; add('b', 'calm', w.word); w.syl.forEach(s => add('b', 'slow', s.t)); });
     U.words.forEach(k => add('f', 'calm', d.W[k].word));
   });
