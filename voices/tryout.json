@@ -1,5 +1,5 @@
 {
- "_about": "Candidate spellings for letter sounds. Listen at /tryout/ on the live site.",
+ "_about": "Candidate letter sounds. Listen at /tryout/ on the live site. A/B/C: ElevenLabs (Toota). G1/G2: Gemini TTS, free tier.",
  "items": [
   {
    "id": "ba-long-turbo",
@@ -8,7 +8,8 @@
    "text": "بَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "ba-long-multi",
@@ -17,7 +18,8 @@
    "text": "بَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "tha-long-turbo",
@@ -26,7 +28,8 @@
    "text": "ثَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "tha-long-multi",
@@ -35,7 +38,8 @@
    "text": "ثَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "tha-three-turbo",
@@ -44,7 +48,8 @@
    "text": "ثَ ثَ ثَ",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "short, three times, turbo"
+   "note": "short, three times, turbo",
+   "label": "C"
   },
   {
    "id": "dhal-long-turbo",
@@ -53,7 +58,8 @@
    "text": "ذَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "dhal-long-multi",
@@ -62,7 +68,8 @@
    "text": "ذَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "zaa-long-turbo",
@@ -71,7 +78,8 @@
    "text": "ظَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "zaa-long-multi",
@@ -80,7 +88,8 @@
    "text": "ظَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "qaf-long-turbo",
@@ -89,7 +98,8 @@
    "text": "قَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "qaf-long-multi",
@@ -98,7 +108,8 @@
    "text": "قَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "qaf-three-turbo",
@@ -107,7 +118,8 @@
    "text": "قَ قَ قَ",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "short, three times, turbo"
+   "note": "short, three times, turbo",
+   "label": "C"
   },
   {
    "id": "hha-long-turbo",
@@ -116,7 +128,8 @@
    "text": "حَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "hha-long-multi",
@@ -125,7 +138,8 @@
    "text": "حَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "hha-three-turbo",
@@ -134,7 +148,8 @@
    "text": "حَ حَ حَ",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "short, three times, turbo"
+   "note": "short, three times, turbo",
+   "label": "C"
   },
   {
    "id": "ayn-long-turbo",
@@ -143,7 +158,8 @@
    "text": "عَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "ayn-long-multi",
@@ -152,7 +168,8 @@
    "text": "عَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "ayn-three-turbo",
@@ -161,7 +178,8 @@
    "text": "عَ عَ عَ",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "short, three times, turbo"
+   "note": "short, three times, turbo",
+   "label": "C"
   },
   {
    "id": "jim-long-turbo",
@@ -170,7 +188,8 @@
    "text": "جَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "jim-long-multi",
@@ -179,7 +198,8 @@
    "text": "جَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
   },
   {
    "id": "ra-long-turbo",
@@ -188,7 +208,8 @@
    "text": "رَا",
    "model": "eleven_turbo_v2_5",
    "speed": 0.9,
-   "note": "long a, turbo (cheap)"
+   "note": "long a, turbo (cheap)",
+   "label": "A"
   },
   {
    "id": "ra-long-multi",
@@ -197,7 +218,568 @@
    "text": "رَا",
    "model": "eleven_multilingual_v2",
    "speed": 0.9,
-   "note": "long a, multilingual v2 (2x credits)"
+   "note": "long a, multilingual v2 (2x credits)",
+   "label": "B"
+  },
+  {
+   "id": "alif-gem-leda",
+   "letter": "ا",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "أَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "alif-gem-achird",
+   "letter": "ا",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "أَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "ba-gem-leda",
+   "letter": "ب",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "بَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "ba-gem-achird",
+   "letter": "ب",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "بَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "ta-gem-leda",
+   "letter": "ت",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "تَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "ta-gem-achird",
+   "letter": "ت",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "تَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "tha-gem-leda",
+   "letter": "ث",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "ثَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "tha-gem-achird",
+   "letter": "ث",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "ثَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "jim-gem-leda",
+   "letter": "ج",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "جَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "jim-gem-achird",
+   "letter": "ج",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "جَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "hha-gem-leda",
+   "letter": "ح",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "حَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "hha-gem-achird",
+   "letter": "ح",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "حَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "kha-gem-leda",
+   "letter": "خ",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "خَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "kha-gem-achird",
+   "letter": "خ",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "خَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "dal-gem-leda",
+   "letter": "د",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "دَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "dal-gem-achird",
+   "letter": "د",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "دَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "dhal-gem-leda",
+   "letter": "ذ",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "ذَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "dhal-gem-achird",
+   "letter": "ذ",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "ذَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "ra-gem-leda",
+   "letter": "ر",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "رَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "ra-gem-achird",
+   "letter": "ر",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "رَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "zay-gem-leda",
+   "letter": "ز",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "زَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "zay-gem-achird",
+   "letter": "ز",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "زَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "sin-gem-leda",
+   "letter": "س",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "سَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "sin-gem-achird",
+   "letter": "س",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "سَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "shin-gem-leda",
+   "letter": "ش",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "شَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "shin-gem-achird",
+   "letter": "ش",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "شَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "sad-gem-leda",
+   "letter": "ص",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "صَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "sad-gem-achird",
+   "letter": "ص",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "صَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "dad-gem-leda",
+   "letter": "ض",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "ضَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "dad-gem-achird",
+   "letter": "ض",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "ضَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "taa-gem-leda",
+   "letter": "ط",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "طَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "taa-gem-achird",
+   "letter": "ط",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "طَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "zaa-gem-leda",
+   "letter": "ظ",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "ظَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "zaa-gem-achird",
+   "letter": "ظ",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "ظَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "ayn-gem-leda",
+   "letter": "ع",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "عَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "ayn-gem-achird",
+   "letter": "ع",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "عَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "ghayn-gem-leda",
+   "letter": "غ",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "غَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "ghayn-gem-achird",
+   "letter": "غ",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "غَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "fa-gem-leda",
+   "letter": "ف",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "فَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "fa-gem-achird",
+   "letter": "ف",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "فَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "qaf-gem-leda",
+   "letter": "ق",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "قَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "qaf-gem-achird",
+   "letter": "ق",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "قَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "kaf-gem-leda",
+   "letter": "ك",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "كَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "kaf-gem-achird",
+   "letter": "ك",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "كَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "lam-gem-leda",
+   "letter": "ل",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "لَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "lam-gem-achird",
+   "letter": "ل",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "لَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "mim-gem-leda",
+   "letter": "م",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "مَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "mim-gem-achird",
+   "letter": "م",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "مَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "nun-gem-leda",
+   "letter": "ن",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "نَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "nun-gem-achird",
+   "letter": "ن",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "نَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "ha-gem-leda",
+   "letter": "ه",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "هَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "ha-gem-achird",
+   "letter": "ه",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "هَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "waw-gem-leda",
+   "letter": "و",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "وَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "waw-gem-achird",
+   "letter": "و",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "وَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
+  },
+  {
+   "id": "ya-gem-leda",
+   "letter": "ي",
+   "label": "G1",
+   "provider": "gemini",
+   "voice": "Leda",
+   "text": "يَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Leda (youthful)"
+  },
+  {
+   "id": "ya-gem-achird",
+   "letter": "ي",
+   "label": "G2",
+   "provider": "gemini",
+   "voice": "Achird",
+   "text": "يَ",
+   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
+   "note": "Gemini voice Achird (friendly)"
   }
  ]
 }

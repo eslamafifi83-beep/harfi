@@ -31,6 +31,7 @@ jobs:
       - name: Make tryout clips for the sound check page (only if voices/tryout.json lists missing ones)
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node voices/tryout.mjs
       - uses: actions/setup-python@v5
         with:

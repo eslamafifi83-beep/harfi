@@ -1,200 +1,244 @@
 [
  {
+  "file": "ba-long-turbo.mp3",
   "id": "ba-long-turbo",
   "letter": "ب",
   "speaker": "b",
   "text": "بَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "ba-long-multi.mp3",
   "id": "ba-long-multi",
   "letter": "ب",
   "speaker": "b",
   "text": "بَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "tha-long-turbo.mp3",
   "id": "tha-long-turbo",
   "letter": "ث",
   "speaker": "b",
   "text": "ثَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "tha-long-multi.mp3",
   "id": "tha-long-multi",
   "letter": "ث",
   "speaker": "b",
   "text": "ثَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "tha-three-turbo.mp3",
   "id": "tha-three-turbo",
   "letter": "ث",
   "speaker": "b",
   "text": "ثَ ثَ ثَ",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "short, three times, turbo"
+  "note": "short, three times, turbo",
+  "label": "C"
  },
  {
+  "file": "dhal-long-turbo.mp3",
   "id": "dhal-long-turbo",
   "letter": "ذ",
   "speaker": "b",
   "text": "ذَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "dhal-long-multi.mp3",
   "id": "dhal-long-multi",
   "letter": "ذ",
   "speaker": "b",
   "text": "ذَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "zaa-long-turbo.mp3",
   "id": "zaa-long-turbo",
   "letter": "ظ",
   "speaker": "b",
   "text": "ظَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "zaa-long-multi.mp3",
   "id": "zaa-long-multi",
   "letter": "ظ",
   "speaker": "b",
   "text": "ظَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "qaf-long-turbo.mp3",
   "id": "qaf-long-turbo",
   "letter": "ق",
   "speaker": "b",
   "text": "قَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "qaf-long-multi.mp3",
   "id": "qaf-long-multi",
   "letter": "ق",
   "speaker": "b",
   "text": "قَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "qaf-three-turbo.mp3",
   "id": "qaf-three-turbo",
   "letter": "ق",
   "speaker": "b",
   "text": "قَ قَ قَ",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "short, three times, turbo"
+  "note": "short, three times, turbo",
+  "label": "C"
  },
  {
+  "file": "hha-long-turbo.mp3",
   "id": "hha-long-turbo",
   "letter": "ح",
   "speaker": "b",
   "text": "حَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "hha-long-multi.mp3",
   "id": "hha-long-multi",
   "letter": "ح",
   "speaker": "b",
   "text": "حَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "hha-three-turbo.mp3",
   "id": "hha-three-turbo",
   "letter": "ح",
   "speaker": "b",
   "text": "حَ حَ حَ",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "short, three times, turbo"
+  "note": "short, three times, turbo",
+  "label": "C"
  },
  {
+  "file": "ayn-long-turbo.mp3",
   "id": "ayn-long-turbo",
   "letter": "ع",
   "speaker": "b",
   "text": "عَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "ayn-long-multi.mp3",
   "id": "ayn-long-multi",
   "letter": "ع",
   "speaker": "b",
   "text": "عَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "ayn-three-turbo.mp3",
   "id": "ayn-three-turbo",
   "letter": "ع",
   "speaker": "b",
   "text": "عَ عَ عَ",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "short, three times, turbo"
+  "note": "short, three times, turbo",
+  "label": "C"
  },
  {
+  "file": "jim-long-turbo.mp3",
   "id": "jim-long-turbo",
   "letter": "ج",
   "speaker": "b",
   "text": "جَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "jim-long-multi.mp3",
   "id": "jim-long-multi",
   "letter": "ج",
   "speaker": "b",
   "text": "جَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  },
  {
+  "file": "ra-long-turbo.mp3",
   "id": "ra-long-turbo",
   "letter": "ر",
   "speaker": "b",
   "text": "رَا",
   "model": "eleven_turbo_v2_5",
   "speed": 0.9,
-  "note": "long a, turbo (cheap)"
+  "note": "long a, turbo (cheap)",
+  "label": "A"
  },
  {
+  "file": "ra-long-multi.mp3",
   "id": "ra-long-multi",
   "letter": "ر",
   "speaker": "b",
   "text": "رَا",
   "model": "eleven_multilingual_v2",
   "speed": 0.9,
-  "note": "long a, multilingual v2 (2x credits)"
+  "note": "long a, multilingual v2 (2x credits)",
+  "label": "B"
  }
 ]
