@@ -27,6 +27,7 @@ jobs:
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node voices/generate.mjs
       - name: Make tryout clips for the sound check page (only if voices/tryout.json lists missing ones)
         env:
