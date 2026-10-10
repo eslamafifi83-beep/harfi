@@ -51,8 +51,12 @@ const textFor = line => (cfg.pronounce && cfg.pronounce[line.text]) || line.text
 // and per-sound fixes ("overrides"). Everything else stays with ElevenLabs.
 const G = cfg.gemini || null;
 const LETTER_SOUNDS = new Set(Object.values(C.L).map(l => clean(l.snd)));
-const viaGemini = l => !!G && l.speaker === 'b' && l.speed === 'slow' && LETTER_SOUNDS.has(l.text);
-const gemSpec = l => Object.assign({ text: l.text, voice: G.voice, style: G.style }, (G.overrides || {})[l.text] || {});
+const SYLLABLE = /^[ء-ي][ً-ْ]$/;   // one letter with one vowel mark: بَ بِ بُ
+const viaGemini = l => !!G && l.speaker === 'b' && ((l.speed === 'slow' && LETTER_SOUNDS.has(l.text)) || SYLLABLE.test(l.text));
+// the delivery instruction names the vowel: fatha "a", kasra "i", damma "u"
+const AFTER = { 'ِ': 'followed by a short i (as in "sit")', 'ُ': 'followed by a short u (as in "put")', 'ْ': 'on its own with no vowel after it, cut short' };
+const styleFor = text => AFTER[text.slice(-1)] ? G.style.replace('followed by a short a', AFTER[text.slice(-1)]) : G.style;
+const gemSpec = l => Object.assign({ text: l.text, voice: G.voice, style: styleFor(l.text) }, (G.overrides || {})[l.text] || {});
 
 class OutOfCredits extends Error {}
 class PaidVoice extends Error {}

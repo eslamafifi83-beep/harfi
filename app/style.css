@@ -476,3 +476,19 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
   .lcard .nm .ar{font-size:26px}.lcard .nm .en{font-size:14px}
 }
 .brand b{white-space:nowrap}
+/* rest of unit 1 in the sticker look */
+.saycard{border:5px solid var(--sk-ink);box-shadow:0 8px 0 var(--sk-ink);border-radius:36px}
+.saycard .kw{color:var(--sk-ink)}
+.saycard .kw .hot{color:var(--sk-orange)}
+.saycard .sayen{font-size:20px;font-weight:700;color:#4A3D6B}
+.earbtn{background:var(--sk-teal);border:4px solid var(--sk-ink);box-shadow:0 5px 0 var(--sk-ink)}
+.earbtn:active{box-shadow:0 2px 0 var(--sk-ink)}
+.meter{height:20px;background:#fff;border:3px solid var(--sk-ink);box-shadow:0 3px 0 var(--sk-ink)}
+.meter i{background:var(--sk-green)}
+.side .model .big{color:var(--sk-orange);-webkit-text-stroke:4px var(--sk-ink);paint-order:stroke fill}
+.slot{border:4px dashed rgba(43,27,72,.45);background:rgba(255,255,255,.6);color:var(--sk-ink)}
+.slot.next{border-color:var(--sk-orange)}
+.slot.filled{border-style:solid;color:var(--sk-ink)}
+.joined{color:var(--sk-orange);-webkit-text-stroke:6px var(--sk-ink);paint-order:stroke fill}
+.pic .word .q{color:rgba(43,27,72,.3)}
+.ring circle.run{stroke:var(--sk-orange)}

@@ -1,12 +1,14 @@
 # Makes any missing voice clips (ElevenLabs free plan; key kept as a GitHub secret), saves them in the
 # project so they are never paid for twice, and publishes the app on GitHub Pages.
-# Runs on every push to main, on the 2nd of each month (to finish clips when free credits renew), or by hand.
+# Runs on every push to main, every day at 04:00 UTC (Gemini makes about 10 letter sounds a day on its free tier;
+# a daily run only publishes when it made something), on the 2nd of each month, or by hand.
 name: Voices and publish
 on:
   push:
     branches: [main]
   schedule:
     - cron: '0 3 2 * *'
+    - cron: '0 4 * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -18,6 +20,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.save.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -46,11 +50,12 @@ jobs:
           command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
           python3 voices/fix-clips.py
       - name: Save new clips in the project
+        id: save
         run: |
           git config user.name "harfi-bot"
           git config user.email "harfi-bot@users.noreply.github.com"
           git add -A app/audio app/tryout voices/fix-report.txt voices/tryout-log.txt 2>/dev/null || git add -A app/audio app/tryout
-          if ! git diff --cached --quiet; then git commit -m "Voice clips" && git push; fi
+          if ! git diff --cached --quiet; then git commit -m "Voice clips" && git push && echo "changed=true" >> "$GITHUB_OUTPUT"; fi
       - name: New version for tablets
         run: sed -i "s/var VERSION = 'harfi-v1';/var VERSION = 'harfi-${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}';/" app/sw.js
       - uses: actions/configure-pages@v5
@@ -59,6 +64,7 @@ jobs:
           path: app
   deploy:
     needs: build
+    if: github.event_name != 'schedule' || needs.build.outputs.changed == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

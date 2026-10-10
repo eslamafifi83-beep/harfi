@@ -652,7 +652,7 @@ function sayGame(u, li){
     var el = scene(dotsHTML(items.length, r) + task('اسمعي وقولي معايا','Ismaʿi w-ʾūli maʿāya','Listen, then say it out loud') +
       '<div class="stage phase-listen" id="st"><div class="row"><div class="saycard" id="card">' +
         (w ? kwHTML(w) : '<span class="kw"><span data-i="0">'+it.show+'</span></span>') +
-        '<span class="tr en">'+(w ? w.syl.map(function(s){ return s.tr; }).join(' · ')+'  →  '+w.tr+' ('+w.en+')' : '"'+it.tr+'" · '+it.en)+'</span>' +
+        '<span class="en sayen">'+(w ? w.en : '“'+it.tr+'” · '+it.en)+'</span>' +
       '</div></div><div class="turn turnbox" id="turn"></div></div>');
     var st = el.querySelector('#st'), card = el.querySelector('#card'), turn = el.querySelector('#turn');
     /* Toota says it slowly in pieces, then one friend says it whole: Filfil says his own name, Toota says hers.
@@ -868,7 +868,7 @@ function wordGame(u, li){
   function play(){
     var R = rounds[r], plain = R.plain, pos = 0, wrongHere = 0;
     var el = scene(dotsHTML(rounds.length, r) + task('ركّبي الكلمة','Rakkibi el-kilma','Build the word. Right to left!') +
-      '<div class="stage"><div class="row"><button class="pic" id="pic" aria-label="Hear the word" style="padding:8px 16px">'+PIC[R.pic]+'<span class="en" style="font-size:16px;color:#6B5E52">'+R.tr+' · '+R.en+'</span></button>'+earBtn('قطّعي الكلمة','Sound it out')+'<div id="out" style="display:flex;flex-direction:column;align-items:center;gap:10px"><div class="slots" id="slots"></div></div></div><div class="tiles" id="tiles"></div></div>');
+      '<div class="stage"><div class="row"><button class="pic" id="pic" aria-label="Hear the word" style="padding:8px 16px">'+PIC[R.pic]+'<span class="en" style="font-size:16px;color:#4A3D6B;font-weight:700">'+R.en+'</span></button>'+earBtn('قطّعي الكلمة','Sound it out')+'<div id="out" style="display:flex;flex-direction:column;align-items:center;gap:10px"><div class="slots" id="slots"></div></div></div><div class="tiles" id="tiles"></div></div>');
     var slots = el.querySelector('#slots'), tiles = el.querySelector('#tiles');
     el.querySelector('#pic').addEventListener('click', function(){ SFX.tap(); speak(R.word, .75); });
     function pieces(){ speakSeq(R.syl.map(function(s){ return {t:s.t,rate:.55}; }).concat([{t:R.word,rate:.7}]), null, null, 450); }
