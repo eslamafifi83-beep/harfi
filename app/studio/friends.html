@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harfi friends</title>
+<style>
+  :root {
+    --sky1:#8FD3FF; --sky2:#D9F2FF; --grass:#7ED957; --grass2:#4FB83A; --ink:#2B1B48; --card:#FFFFFF;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.4 system-ui, sans-serif; color:var(--ink); background:linear-gradient(var(--sky1), var(--sky2) 70%); min-height:100vh; }
+  header { text-align:center; padding:22px 16px 6px; }
+  h1 { margin:0; font-size:26px; }
+  header p { margin:6px auto 0; max-width:620px; color:#3E3060; }
+  .looks { display:grid; grid-template-columns:repeat(auto-fit, minmax(330px, 1fr)); gap:18px; padding:16px; max-width:1150px; margin:0 auto; }
+  .look { background:rgba(255,255,255,.55); border-radius:28px; padding:14px 14px 18px; backdrop-filter:blur(4px); }
+  .look h2 { margin:2px 0 0; text-align:center; font-size:22px; }
+  .look .sub { text-align:center; margin:0 0 4px; color:#3E3060; font-size:14px; }
+  .stage { position:relative; height:300px; border-radius:22px; overflow:hidden; background:linear-gradient(#BFE8FF, #E8F7FF 62%); }
+  .stage::after { content:''; position:absolute; left:-10%; right:-10%; bottom:-40px; height:110px; border-radius:50%; background:radial-gradient(ellipse at 50% 20%, var(--grass), var(--grass2)); }
+  .stage .sun { position:absolute; right:22px; top:18px; width:54px; height:54px; border-radius:50%; background:#FFD43B; box-shadow:0 0 0 10px rgba(255,212,59,.25); }
+  .stage .cloud { position:absolute; height:26px; background:#fff; border-radius:20px; opacity:.9; animation:drift 26s linear infinite; }
+  .stage .cloud::before { content:''; position:absolute; width:46%; height:150%; left:18%; bottom:30%; background:#fff; border-radius:50%; }
+  @keyframes drift { from { transform:translateX(-140px); } to { transform:translateX(560px); } }
+  .pair { position:absolute; z-index:1; left:0; right:0; bottom:18px; display:flex; justify-content:center; gap:4px; }
+  .friend { width:46%; max-width:190px; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  .friend svg { width:100%; height:auto; display:block; overflow:visible; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px; }
+  .controls button { font:inherit; font-weight:700; border:0; border-radius:999px; padding:10px 16px; background:var(--ink); color:#fff; cursor:pointer; }
+  .controls button:focus-visible, .friend:focus-visible { outline:3px solid #FF7EB6; outline-offset:3px; }
+  footer { text-align:center; color:#3E3060; font-size:14px; padding:6px 16px 28px; }
+
+  /* ---------- animation (shared by both looks) ---------- */
+  .rig { transform-box:fill-box; transform-origin:50% 100%; animation:breathe 2.6s ease-in-out infinite; }
+  .f .rig { animation-duration:2.2s; }
+  @keyframes breathe { 0%,100% { transform:scale(1,1); } 50% { transform:scale(1.025,.97); } }
+  .eyes { transform-box:fill-box; transform-origin:50% 50%; animation:blink 4.6s infinite; }
+  .b .eyes { animation-delay:-2.1s; }
+  @keyframes blink { 0%,93%,100% { transform:scaleY(1); } 95.5% { transform:scaleY(.08); } }
+  .armR, .armL { transform-box:view-box; }
+  .waving .armR { animation:wave .5s ease-in-out 4 alternate; }
+  @keyframes wave { from { transform:rotate(0deg); } to { transform:rotate(-38deg); } }
+  .jump .whole { animation:jump .75s cubic-bezier(.3,.7,.4,1); }
+  @keyframes jump { 0% { transform:translateY(0) scale(1,1); } 15% { transform:translateY(0) scale(1.12,.86); } 45% { transform:translateY(-70px) scale(.94,1.08) rotate(-6deg); } 75% { transform:translateY(0) scale(1.1,.9); } 100% { transform:translateY(0) scale(1,1); } }
+  .whole { transform-box:fill-box; transform-origin:50% 100%; }
+  .happy .whole { animation:wiggle .9s ease-in-out; }
+  @keyframes wiggle { 0%,100% { transform:rotate(0); } 20% { transform:rotate(-8deg) scale(1.05); } 45% { transform:rotate(7deg); } 70% { transform:rotate(-4deg); } }
+  .mouthOpen { opacity:0; }
+  .talking .mouthOpen { animation:talk .28s steps(1) infinite; }
+  .talking .mouthShut { animation:talk .28s steps(1) infinite reverse; }
+  @keyframes talk { 0% { opacity:1; } 50% { opacity:0; } }
+  .fx { pointer-events:none; }
+  .heart, .puff { opacity:0; }
+  .hearts .heart { animation:heart 1.2s ease-out forwards; }
+  .hearts .heart:nth-child(2) { animation-delay:.12s; } .hearts .heart:nth-child(3) { animation-delay:.24s; }
+  @keyframes heart { 0% { opacity:0; transform:translateY(0) scale(.4); } 20% { opacity:1; } 100% { opacity:0; transform:translateY(-70px) scale(1.15); } }
+  .steam .puff { animation:puff .9s ease-out forwards; }
+  .steam .puff:nth-child(2) { animation-delay:.1s; }
+  @keyframes puff { 0% { opacity:0; transform:translateY(6px) scale(.5); } 30% { opacity:.95; } 100% { opacity:0; transform:translateY(-46px) scale(1.4); } }
+  .heart, .puff { transform-box:fill-box; transform-origin:50% 50%; }
+  .enter { animation:enter .9s cubic-bezier(.3,1.6,.5,1) both; }
+  .b.enter { animation-delay:.25s; }
+  @keyframes enter { from { transform:translateY(-260px); } to { transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation:none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Filfil and Toota, new look</h1>
+  <p>Two styles of the same friends. Tap a friend to see them react, and move your finger around: their eyes follow it. Which style should we use?</p>
+</header>
+<div class="looks">
+  <section class="look" data-style="sticker">
+    <h2>A · Sticker</h2><p class="sub">Bold outline, bright colours, a shiny highlight</p>
+    <div class="stage"><i class="sun"></i><i class="cloud" style="top:40px;width:90px"></i><i class="cloud" style="top:92px;width:60px;animation-delay:-12s"></i><div class="pair"></div></div>
+    <div class="controls"><button data-act="wave">Wave</button><button data-act="jump">Jump</button><button data-act="talk">Talk</button><button data-act="happy">Happy</button></div>
+  </section>
+  <section class="look" data-style="clay">
+    <h2>B · Clay</h2><p class="sub">No outline, soft shading, like a little toy</p>
+    <div class="stage"><i class="sun"></i><i class="cloud" style="top:40px;width:90px;animation-delay:-6s"></i><i class="cloud" style="top:92px;width:60px;animation-delay:-18s"></i><div class="pair"></div></div>
+    <div class="controls"><button data-act="wave">Wave</button><button data-act="jump">Jump</button><button data-act="talk">Talk</button><button data-act="happy">Happy</button></div>
+  </section>
+</div>
+<footer>All characters and artwork are original to Harfi.</footer>
+<script>
+var uid = 0;
+/* one SVG per friend and style; ids get a prefix so several copies can live on one page */
+function eye(cx, cy, rx, ry, k, ol, sw){
+  return '<g class="eye"><ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="#fff" '+ol+'/>' +
+    '<g class="pupil" data-cx="'+cx+'" data-cy="'+cy+'"><circle cx="'+cx+'" cy="'+(cy+2)+'" r="'+(rx*.62)+'" fill="#2B1B48"/>' +
+    '<circle cx="'+(cx-rx*.22)+'" cy="'+(cy-ry*.18)+'" r="'+(rx*.24)+'" fill="#fff"/><circle cx="'+(cx+rx*.2)+'" cy="'+(cy+ry*.22)+'" r="'+(rx*.1)+'" fill="#fff"/></g></g>';
+}
+function filfil(style){
+  var p = 'f' + (uid++), st = style === 'sticker';
+  var ol = st ? 'stroke="#7A1610" stroke-width="5" stroke-linejoin="round"' : '';
+  var olg = st ? 'stroke="#2C6B22" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round"' : '';
+  var eyeOl = st ? 'stroke="#2B1B48" stroke-width="3.5"' : '';
+  var body = st ? 'url(#'+p+'body)' : 'url(#'+p+'bodyC)';
+  return '<svg viewBox="0 0 200 250" class="char f" role="img" aria-label="Filfil">' +
+  '<defs>' +
+    '<linearGradient id="'+p+'body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF6A45"/><stop offset="1" stop-color="#E5281C"/></linearGradient>' +
+    '<radialGradient id="'+p+'bodyC" cx=".36" cy=".3" r=".8"><stop offset="0" stop-color="#FF9B7A"/><stop offset=".45" stop-color="#F23D24"/><stop offset="1" stop-color="#A3170E"/></radialGradient>' +
+    '<radialGradient id="'+p+'leaf" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#8FE070"/><stop offset="1" stop-color="#2F8A27"/></radialGradient>' +
+    '<filter id="'+p+'soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#5A1A10" flood-opacity=".28"/></filter>' +
+  '</defs>' +
+  '<ellipse cx="100" cy="240" rx="52" ry="8" fill="#2B1B48" opacity=".16"/>' +
+  '<g class="whole"><g class="rig">' +
+    /* legs and sneakers */
+    '<g><path d="M80 200 L78 226 M118 200 L120 226" stroke="'+(st?'#2C6B22':'#3C9A30')+'" stroke-width="9" stroke-linecap="round"/>' +
+    '<path d="M62 232 Q64 220 78 221 Q90 222 90 232 Z" fill="#2B1B48"/><path d="M108 232 Q108 222 120 221 Q134 220 136 232 Z" fill="#2B1B48"/>' +
+    '<path d="M64 232 H90 M108 232 H134" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/></g>' +
+    /* arms (the right one waves) */
+    '<path class="armL" d="M48 136 Q28 140 22 118" fill="none" stroke="'+(st?'#2C6B22':'#3C9A30')+'" stroke-width="8" stroke-linecap="round"/>' +
+    '<circle cx="21" cy="114" r="9" fill="url(#'+p+'leaf)" '+olg+'/>' +
+    '<g class="armR" style="transform-origin:152px 134px"><path d="M152 134 Q174 134 180 112" fill="none" stroke="'+(st?'#2C6B22':'#3C9A30')+'" stroke-width="8" stroke-linecap="round"/>' +
+    '<circle cx="181" cy="108" r="9" fill="url(#'+p+'leaf)" '+olg+'/></g>' +
+    /* body: a plump chili with a little curled tip */
+    '<path d="M100 46 C148 44 162 92 158 136 C156 160 151 176 142 188 C148 196 158 200 164 194 C166 208 150 216 136 204 C124 210 112 212 98 210 C64 206 44 174 42 134 C40 90 54 48 100 46 Z" fill="'+body+'" '+ol+(st?'':' filter="url(#'+p+'soft)"')+'/>' +
+    '<path d="M62 92 C56 112 56 140 66 162" stroke="#fff" stroke-width="'+(st?9:12)+'" stroke-linecap="round" fill="none" opacity="'+(st?.55:.35)+'"/>' +
+    '<circle cx="70" cy="76" r="5" fill="#fff" opacity="'+(st?.7:.5)+'"/>' +
+    /* green cap and curly stem (his cowlick) */
+    '<path d="M58 64 Q66 40 84 52 Q92 32 104 49 Q118 34 126 54 Q144 46 144 66 Q122 74 100 69 Q78 74 58 64 Z" fill="url(#'+p+'leaf)" '+olg+'/>' +
+    '<path d="M100 50 C97 30 110 16 126 20 C136 23 136 34 126 35" fill="none" stroke="'+(st?'#2C6B22':'#3C9A30')+'" stroke-width="7" stroke-linecap="round"/>' +
+    /* face */
+    '<path d="M64 92 Q78 84 92 91" stroke="#2B1B48" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+    '<path d="M108 86 Q122 74 136 82" stroke="#2B1B48" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+    '<g class="eyes">' + eye(80, 113, 15, 18, p, eyeOl) + eye(120, 111, 15, 18, p, eyeOl) + '</g>' +
+    '<ellipse cx="64" cy="140" rx="9" ry="6" fill="#FFB0A0" opacity=".85"/><ellipse cx="138" cy="138" rx="9" ry="6" fill="#FFB0A0" opacity=".85"/>' +
+    '<g class="mouthShut"><path d="M80 141 Q100 166 124 139 Q102 150 80 141 Z" fill="#5A0F0A"/><path d="M95 146 L95 151 L103 151 L103 146.5 Z" fill="#fff"/><path d="M98 156 Q104 160 110 155 Q106 151 98 156 Z" fill="#FF7A8A"/></g>' +
+    '<g class="mouthOpen"><ellipse cx="102" cy="150" rx="15" ry="12" fill="#5A0F0A"/><ellipse cx="102" cy="156" rx="9" ry="5" fill="#FF7A8A"/></g>' +
+  '</g>' +
+  '<g class="fx"><circle class="puff" cx="112" cy="18" r="9" fill="#fff"/><circle class="puff" cx="132" cy="10" r="7" fill="#fff"/></g>' +
+  '</g></svg>';
+}
+function toota(style){
+  var p = 't' + (uid++), st = style === 'sticker';
+  var cx = 100, cy = 146, R = 62, r = 11.5, gap = 19, inner = '', outer = '';
+  /* the berry is made of little round drupelets: an outline layer, then the shaded balls on top */
+  for (var y = cy - R; y <= cy + R - 12; y += gap * .87) {
+    var row = Math.round((y - (cy - R)) / (gap * .87));
+    for (var x = cx - R; x <= cx + R; x += gap) {
+      var xx = x + (row % 2 ? gap / 2 : 0);
+      if ((xx - cx) * (xx - cx) / (R * R) + (y - cy) * (y - cy) / ((R - 4) * (R - 4)) > 1) continue;
+      if (st) outer += '<circle cx="'+xx.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(r + 4)+'" fill="#3E1458"/>';
+      inner += '<circle cx="'+xx.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="url(#'+p+'dru)"/>' +
+        '<circle cx="'+(xx - 4).toFixed(1)+'" cy="'+(y - 5).toFixed(1)+'" r="2.8" fill="#fff" opacity="'+(st?.55:.45)+'"/>';
+    }
+  }
+  var olg = st ? 'stroke="#2C6B22" stroke-width="4.5" stroke-linejoin="round"' : '';
+  var olp = st ? 'stroke="#B0306E" stroke-width="4" stroke-linejoin="round"' : '';
+  var eyeOl = st ? 'stroke="#2B1B48" stroke-width="3.5"' : '';
+  var limb = st ? '#4A1A68' : '#6A2C8E';
+  return '<svg viewBox="0 0 200 250" class="char b" role="img" aria-label="Toota">' +
+  '<defs>' +
+    '<radialGradient id="'+p+'dru" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="'+(st?'#B46BDB':'#C68AE8')+'"/><stop offset=".6" stop-color="'+(st?'#8A3FB5':'#8A3FB5')+'"/><stop offset="1" stop-color="'+(st?'#6B2A92':'#521E72')+'"/></radialGradient>' +
+    '<radialGradient id="'+p+'leaf" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#8FE070"/><stop offset="1" stop-color="#2F8A27"/></radialGradient>' +
+    '<filter id="'+p+'soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#2B0F3E" flood-opacity=".3"/></filter>' +
+  '</defs>' +
+  '<ellipse cx="100" cy="240" rx="50" ry="8" fill="#2B1B48" opacity=".16"/>' +
+  '<g class="whole"><g class="rig">' +
+    '<g><path d="M86 200 L85 226 M114 200 L115 226" stroke="'+limb+'" stroke-width="11" stroke-linecap="round"/>' +
+    '<path d="M68 232 Q70 220 84 221 Q96 222 96 232 Z" fill="#FF7EB6" '+olp+'/><path d="M104 232 Q104 222 116 221 Q130 220 132 232 Z" fill="#FF7EB6" '+olp+'/></g>' +
+    '<path class="armL" d="M46 150 Q26 152 22 132" fill="none" stroke="'+limb+'" stroke-width="8" stroke-linecap="round"/><circle cx="21" cy="128" r="8.5" fill="'+limb+'"/>' +
+    '<g class="armR" style="transform-origin:154px 148px"><path d="M154 148 Q176 148 180 128" fill="none" stroke="'+limb+'" stroke-width="8" stroke-linecap="round"/><circle cx="181" cy="124" r="8.5" fill="'+limb+'"/></g>' +
+    '<g '+(st?'':'filter="url(#'+p+'soft)"')+'>' + outer + inner + '</g>' +
+    /* leaf crown */
+    '<g transform="translate(100 92)">' +
+      '<path transform="rotate(-38)" d="M0 0 C-13 -10 -11 -36 0 -46 C11 -36 13 -10 0 0 Z" fill="url(#'+p+'leaf)" '+olg+'/>' +
+      '<path transform="rotate(38)" d="M0 0 C-13 -10 -11 -36 0 -46 C11 -36 13 -10 0 0 Z" fill="url(#'+p+'leaf)" '+olg+'/>' +
+      '<path d="M0 2 C-14 -10 -12 -40 0 -52 C12 -40 14 -10 0 2 Z" fill="url(#'+p+'leaf)" '+olg+'/>' +
+      '<path d="M0 -4 V-40" stroke="#2C6B22" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>' +
+    '</g>' +
+    /* pink bow */
+    '<g transform="translate(152 106) rotate(18)">' +
+      '<path d="M0 0 L-20 -13 Q-26 0 -20 13 Z" fill="#FF7EB6" '+olp+'/><path d="M0 0 L20 -13 Q26 0 20 13 Z" fill="#FF7EB6" '+olp+'/>' +
+      '<circle r="6.5" fill="#FF5AA0" '+olp+'/>' +
+    '</g>' +
+    /* face, on a soft lighter patch so it reads clearly on the bumps */
+    '<ellipse cx="100" cy="152" rx="46" ry="34" fill="'+(st?'#A35FCB':'#B97BDB')+'" opacity="'+(st?.7:.35)+'"/>' +
+    '<g class="eyes">' + eye(82, 139, 14, 17, p, eyeOl) + eye(118, 139, 14, 17, p, eyeOl) + '</g>' +
+    '<path d="M70 126 l-6 -6 M74 123 l-3 -7 M130 126 l6 -6 M126 123 l3 -7" stroke="#2B1B48" stroke-width="3" stroke-linecap="round"/>' +
+    '<ellipse cx="68" cy="162" rx="9" ry="6" fill="#FF9AC8" opacity=".9"/><ellipse cx="132" cy="162" rx="9" ry="6" fill="#FF9AC8" opacity=".9"/>' +
+    '<g class="mouthShut"><path d="M88 160 Q100 174 112 160 Q100 165 88 160 Z" fill="#3A0F4E"/><path d="M95 166 Q100 170 105 166 Q100 164 95 166 Z" fill="#FF7A9E"/></g>' +
+    '<g class="mouthOpen"><ellipse cx="100" cy="165" rx="11" ry="9" fill="#3A0F4E"/><ellipse cx="100" cy="169" rx="7" ry="4" fill="#FF7A9E"/></g>' +
+  '</g>' +
+  '<g class="fx"><path class="heart" d="M100 70 c-6 -8 -18 -2 -12 8 l12 12 l12 -12 c6 -10 -6 -16 -12 -8 Z" fill="#FF5AA0"/>' +
+    '<path class="heart" d="M66 84 c-4 -6 -13 -1 -9 6 l9 9 l9 -9 c4 -7 -5 -12 -9 -6 Z" fill="#FF7EB6"/>' +
+    '<path class="heart" d="M136 80 c-4 -6 -13 -1 -9 6 l9 9 l9 -9 c4 -7 -5 -12 -9 -6 Z" fill="#FF7EB6"/></g>' +
+  '</g></svg>';
+}
+
+function play(el, cls, ms){ el.classList.remove(cls); void el.getBoundingClientRect(); el.classList.add(cls); clearTimeout(el['_' + cls]); el['_' + cls] = setTimeout(function(){ el.classList.remove(cls); }, ms); }
+document.querySelectorAll('.look').forEach(function(look){
+  var style = look.dataset.style, pair = look.querySelector('.pair');
+  pair.innerHTML = '<div class="friend enter" tabindex="0" data-who="f">' + filfil(style) + '</div><div class="friend enter" tabindex="0" data-who="b">' + toota(style) + '</div>';
+  pair.querySelectorAll('.friend').forEach(function(fr){
+    var react = function(){
+      if (fr.dataset.who === 'f') { play(fr, 'jump', 800); play(fr, 'steam', 1100); }
+      else { play(fr, 'happy', 950); play(fr, 'hearts', 1500); }
+      play(fr, 'talking', 1100);
+    };
+    fr.addEventListener('click', react);
+    fr.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); react(); } });
+    fr.addEventListener('animationend', function(e){ if (e.animationName === 'enter') fr.classList.remove('enter'); });
+  });
+  look.querySelectorAll('[data-act]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var a = btn.dataset.act;
+      pair.querySelectorAll('.friend').forEach(function(fr, i){
+        setTimeout(function(){
+          if (a === 'wave') play(fr, 'waving', 2100);
+          if (a === 'jump') { play(fr, 'jump', 800); if (fr.dataset.who === 'f') play(fr, 'steam', 1100); }
+          if (a === 'talk') play(fr, 'talking', 1800);
+          if (a === 'happy') { play(fr, 'happy', 950); if (fr.dataset.who === 'b') play(fr, 'hearts', 1500); }
+        }, i * 160);
+      });
+    });
+  });
+});
+/* eyes follow the finger or mouse */
+function look(x, y){
+  document.querySelectorAll('.pupil').forEach(function(p){
+    var svg = p.ownerSVGElement, b = svg.getBoundingClientRect(), s = b.width / 200;
+    var ex = b.left + (+p.dataset.cx) * s, ey = b.top + (+p.dataset.cy) * s;
+    var dx = x - ex, dy = y - ey, d = Math.hypot(dx, dy) || 1, m = Math.min(5, d / 30);
+    p.setAttribute('transform', 'translate(' + (dx / d * m).toFixed(2) + ' ' + (dy / d * m).toFixed(2) + ')');
+  });
+}
+addEventListener('pointermove', function(e){ look(e.clientX, e.clientY); });
+addEventListener('pointerdown', function(e){ look(e.clientX, e.clientY); });
+</script>
+</body>
+</html>
