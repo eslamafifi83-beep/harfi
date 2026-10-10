@@ -25,34 +25,93 @@ function earBtn(ar, en){ return '<button class="earbtn"><span class="ar">'+ar+'<
 
 /* ---------- the friends: Filfil (a chili pepper boy) and Toota (a little berry girl) ---------- */
 var NAMES = {f:{ar:'فلفل', en:'Filfil'}, b:{ar:'توتة', en:'Toota'}};
-var LIMBS = function(c){ return '<g stroke="'+c+'" stroke-width="5" stroke-linecap="round" fill="none"><path d="M28 88 Q16 84 10 72"/><path d="M92 88 Q104 84 110 72"/><path d="M48 128 L46 144"/><path d="M72 128 L74 144"/></g><g fill="#2B2140"><ellipse cx="42" cy="146" rx="9" ry="5"/><ellipse cx="78" cy="146" rx="9" ry="5"/></g><g fill="'+c+'"><circle cx="10" cy="70" r="6"/><circle cx="110" cy="70" r="6"/></g>'; };
-var FACE = function(y){ return '<g class="eyes"><ellipse cx="47" cy="'+y+'" rx="9" ry="10" fill="#FFFFFF" stroke="#2B2140" stroke-width="2"/><ellipse cx="73" cy="'+y+'" rx="9" ry="10" fill="#FFFFFF" stroke="#2B2140" stroke-width="2"/><circle cx="49" cy="'+(y+2)+'" r="4.6" fill="#2B2140"/><circle cx="75" cy="'+(y+2)+'" r="4.6" fill="#2B2140"/><circle cx="50.5" cy="'+(y)+'" r="1.6" fill="#FFFFFF"/><circle cx="76.5" cy="'+(y)+'" r="1.6" fill="#FFFFFF"/></g>'; };
-var BERRY = [[36,62],[52,52],[68,52],[84,62],[30,82],[90,82],[28,102],[92,102],[36,120],[52,128],[68,128],[84,120]];
-var BUDDY_SVG = {
-  f: '<svg viewBox="0 0 120 152" aria-hidden="true">' + LIMBS('#3F8A33') +
-     '<path d="M60 30 C95 30 101 64 95 96 C90 122 75 134 60 134 C45 134 30 122 25 96 C19 64 25 30 60 30 Z" fill="#E4432F" stroke="#A62A1C" stroke-width="4"/>' +
-     '<path d="M36 56 C34 76 36 98 44 114" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" fill="none" opacity=".35"/>' +
-     '<path d="M38 36 Q60 20 82 36 Q72 44 60 41 Q48 44 38 36 Z" fill="#4E9A3E" stroke="#2F6B25" stroke-width="3" stroke-linejoin="round"/>' +
-     '<path d="M60 30 C58 16 66 6 78 8 C84 9 86 16 80 18" stroke="#3F8A33" stroke-width="6" fill="none" stroke-linecap="round"/>' +
-     '<path class="brow" d="M38 58 L54 55 M66 55 L82 58" stroke="#2B2140" stroke-width="3.5" stroke-linecap="round"/>' + FACE(68) +
-     '<circle cx="38" cy="86" r="6" fill="#FF9C8A" opacity=".8"/><circle cx="82" cy="86" r="6" fill="#FF9C8A" opacity=".8"/>' +
-     '<path class="smile" d="M46 88 Q60 104 74 88 Z" fill="#7A1E14"/><path class="smile" d="M50 90 L70 90" stroke="#FFFFFF" stroke-width="4"/>' +
-     '<ellipse class="talk" cx="60" cy="94" rx="10" ry="8" fill="#7A1E14"/></svg>',
-  b: '<svg viewBox="0 0 120 152" aria-hidden="true">' + LIMBS('#6A2F80') +
-     '<ellipse cx="60" cy="90" rx="42" ry="48" fill="#8E44AD" stroke="#5E2A73" stroke-width="4"/>' +
-     '<g fill="#A865C9">' + BERRY.map(function(p){ return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="7"/>'; }).join('') + '</g>' +
-     '<g fill="#C79BE0" opacity=".8">' + BERRY.map(function(p){ return '<circle cx="'+(p[0]-2)+'" cy="'+(p[1]-2)+'" r="2.4"/>'; }).join('') + '</g>' +
-     '<path d="M60 46 Q40 30 26 40 Q42 54 60 48 Q78 54 94 40 Q80 30 60 46 Z" fill="#5FA052" stroke="#3E7535" stroke-width="3" stroke-linejoin="round"/>' +
-     '<path d="M60 44 Q60 30 68 22" stroke="#3E7535" stroke-width="5" fill="none" stroke-linecap="round"/>' +
-     '<path d="M92 56 L104 48 L104 64 Z M92 56 L80 48 L80 64 Z" fill="#F28FA8" stroke="#C45877" stroke-width="2.5" stroke-linejoin="round"/><circle cx="92" cy="56" r="4" fill="#C45877"/>' +
-     '<path class="brow" d="M39 65 Q47 61 55 65 M65 65 Q73 61 81 65" stroke="#2B2140" stroke-width="3" stroke-linecap="round" fill="none"/>' + FACE(78) +
-     '<path d="M38 69 l-4 -4 M42 67 l-2 -5 M82 69 l4 -4 M78 67 l2 -5" stroke="#2B2140" stroke-width="2" stroke-linecap="round"/>' +
-     '<circle cx="36" cy="96" r="7" fill="#F28FA8" opacity=".8"/><circle cx="84" cy="96" r="7" fill="#F28FA8" opacity=".8"/>' +
-     '<path class="smile" d="M49 99 Q60 110 71 99" stroke="#3A1446" stroke-width="4" fill="none" stroke-linecap="round"/>' +
-     '<ellipse class="talk" cx="60" cy="103" rx="8" ry="7" fill="#3A1446"/></svg>'
-};
-PIC.filfil = BUDDY_SVG.f; PIC.toota = BUDDY_SVG.b;
+/* Style A "sticker" friends: bold outline, bright colours, a shiny highlight. Drawn in a 200x250 box.
+   Each copy gets its own ids (gradients), so many can be on screen at once. Animated by CSS on .buddy:
+   .eyes blink, .rig breathes, .mouthOpen/.mouthShut talk, .armR waves, .stm (steam) and .hrt (hearts) pop. */
+var buddyUid = 0;
+function buddyEye(cx, cy, rx, ry){
+  return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="#fff" stroke="#2B1B48" stroke-width="3.5"/>' +
+    '<g class="pupil" data-cx="'+cx+'" data-cy="'+cy+'"><circle cx="'+cx+'" cy="'+(cy+2)+'" r="'+(rx*.62)+'" fill="#2B1B48"/>' +
+    '<circle cx="'+(cx-rx*.22)+'" cy="'+(cy-ry*.18)+'" r="'+(rx*.24)+'" fill="#fff"/><circle cx="'+(cx+rx*.2)+'" cy="'+(cy+ry*.22)+'" r="'+(rx*.1)+'" fill="#fff"/></g>';
+}
+function filfilSVG(){
+  var p = 'bf' + (buddyUid++), g = '#2C6B22', olg = 'stroke="'+g+'" stroke-width="4.5" stroke-linejoin="round"';
+  return '<svg viewBox="0 0 200 250" aria-hidden="true"><defs>' +
+    '<linearGradient id="'+p+'a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF6A45"/><stop offset="1" stop-color="#E5281C"/></linearGradient>' +
+    '<radialGradient id="'+p+'l" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#8FE070"/><stop offset="1" stop-color="#2F8A27"/></radialGradient></defs>' +
+    '<ellipse cx="100" cy="240" rx="52" ry="8" fill="#2B1B48" opacity=".16"/>' +
+    '<g class="rig">' +
+      '<path d="M80 200 L78 226 M118 200 L120 226" stroke="'+g+'" stroke-width="9" stroke-linecap="round"/>' +
+      '<path d="M62 232 Q64 220 78 221 Q90 222 90 232 Z M108 232 Q108 222 120 221 Q134 220 136 232 Z" fill="#2B1B48"/>' +
+      '<path d="M64 232 H90 M108 232 H134" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>' +
+      '<path d="M48 136 Q28 140 22 118" fill="none" stroke="'+g+'" stroke-width="8" stroke-linecap="round"/><circle cx="21" cy="114" r="9" fill="url(#'+p+'l)" '+olg+'/>' +
+      '<g class="armR" style="transform-origin:152px 134px"><path d="M152 134 Q174 134 180 112" fill="none" stroke="'+g+'" stroke-width="8" stroke-linecap="round"/><circle cx="181" cy="108" r="9" fill="url(#'+p+'l)" '+olg+'/></g>' +
+      '<path d="M100 46 C148 44 162 92 158 136 C156 160 151 176 142 188 C148 196 158 200 164 194 C166 208 150 216 136 204 C124 210 112 212 98 210 C64 206 44 174 42 134 C40 90 54 48 100 46 Z" fill="url(#'+p+'a)" stroke="#7A1610" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M62 92 C56 112 56 140 66 162" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none" opacity=".55"/><circle cx="70" cy="76" r="5" fill="#fff" opacity=".7"/>' +
+      '<path d="M58 64 Q66 40 84 52 Q92 32 104 49 Q118 34 126 54 Q144 46 144 66 Q122 74 100 69 Q78 74 58 64 Z" fill="url(#'+p+'l)" '+olg+'/>' +
+      '<path d="M100 50 C97 30 110 16 126 20 C136 23 136 34 126 35" fill="none" stroke="'+g+'" stroke-width="7" stroke-linecap="round"/>' +
+      '<path class="brow" d="M64 92 Q78 84 92 91 M108 86 Q122 74 136 82" stroke="#2B1B48" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+      '<g class="eyes">' + buddyEye(80, 113, 15, 18) + buddyEye(120, 111, 15, 18) + '</g>' +
+      '<ellipse cx="64" cy="140" rx="9" ry="6" fill="#FFB0A0" opacity=".85"/><ellipse cx="138" cy="138" rx="9" ry="6" fill="#FFB0A0" opacity=".85"/>' +
+      '<g class="mouthShut"><path d="M80 141 Q100 166 124 139 Q102 150 80 141 Z" fill="#5A0F0A"/><path d="M95 146 L95 151 L103 151 L103 146.5 Z" fill="#fff"/><path d="M98 156 Q104 160 110 155 Q106 151 98 156 Z" fill="#FF7A8A"/></g>' +
+      '<g class="mouthOpen"><ellipse cx="102" cy="150" rx="15" ry="12" fill="#5A0F0A"/><ellipse cx="102" cy="156" rx="9" ry="5" fill="#FF7A8A"/></g>' +
+    '</g>' +
+    '<circle class="stm" cx="112" cy="18" r="9" fill="#fff"/><circle class="stm" cx="132" cy="10" r="7" fill="#fff"/>' +
+  '</svg>';
+}
+function tootaSVG(){
+  var p = 'bt' + (buddyUid++), cx = 100, cy = 146, R = 62, r = 11.5, gap = 19, outer = '', inner = '';
+  for (var y = cy - R; y <= cy + R - 12; y += gap * .87) {
+    var row = Math.round((y - (cy - R)) / (gap * .87));
+    for (var x = cx - R; x <= cx + R; x += gap) {
+      var xx = x + (row % 2 ? gap / 2 : 0);
+      if ((xx - cx) * (xx - cx) / (R * R) + (y - cy) * (y - cy) / ((R - 4) * (R - 4)) > 1) continue;
+      outer += '<circle cx="'+xx.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(r + 4)+'"/>';
+      inner += '<circle cx="'+xx.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="url(#'+p+'d)"/><circle cx="'+(xx - 4).toFixed(1)+'" cy="'+(y - 5).toFixed(1)+'" r="2.8" fill="#fff" opacity=".55"/>';
+    }
+  }
+  var olg = 'stroke="#2C6B22" stroke-width="4.5" stroke-linejoin="round"', olp = 'stroke="#B0306E" stroke-width="4" stroke-linejoin="round"', limb = '#4A1A68';
+  var leaf = 'C-13 -10 -11 -36 0 -46 C11 -36 13 -10 0 0 Z';
+  return '<svg viewBox="0 0 200 250" aria-hidden="true"><defs>' +
+    '<radialGradient id="'+p+'d" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#B46BDB"/><stop offset=".6" stop-color="#8A3FB5"/><stop offset="1" stop-color="#6B2A92"/></radialGradient>' +
+    '<radialGradient id="'+p+'l" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#8FE070"/><stop offset="1" stop-color="#2F8A27"/></radialGradient></defs>' +
+    '<ellipse cx="100" cy="240" rx="50" ry="8" fill="#2B1B48" opacity=".16"/>' +
+    '<g class="rig">' +
+      '<path d="M86 200 L85 226 M114 200 L115 226" stroke="'+limb+'" stroke-width="11" stroke-linecap="round"/>' +
+      '<path d="M68 232 Q70 220 84 221 Q96 222 96 232 Z M104 232 Q104 222 116 221 Q130 220 132 232 Z" fill="#FF7EB6" '+olp+'/>' +
+      '<path d="M46 150 Q26 152 22 132" fill="none" stroke="'+limb+'" stroke-width="8" stroke-linecap="round"/><circle cx="21" cy="128" r="8.5" fill="'+limb+'"/>' +
+      '<g class="armR" style="transform-origin:154px 148px"><path d="M154 148 Q176 148 180 128" fill="none" stroke="'+limb+'" stroke-width="8" stroke-linecap="round"/><circle cx="181" cy="124" r="8.5" fill="'+limb+'"/></g>' +
+      '<g fill="#3E1458">' + outer + '</g>' + inner +
+      '<g transform="translate(100 92)"><path transform="rotate(-38)" d="M0 0 '+leaf+'" fill="url(#'+p+'l)" '+olg+'/><path transform="rotate(38)" d="M0 0 '+leaf+'" fill="url(#'+p+'l)" '+olg+'/>' +
+        '<path d="M0 2 C-14 -10 -12 -40 0 -52 C12 -40 14 -10 0 2 Z" fill="url(#'+p+'l)" '+olg+'/><path d="M0 -4 V-40" stroke="#2C6B22" stroke-width="2.5" stroke-linecap="round" opacity=".6"/></g>' +
+      '<g transform="translate(152 106) rotate(18)"><path d="M0 0 L-20 -13 Q-26 0 -20 13 Z M0 0 L20 -13 Q26 0 20 13 Z" fill="#FF7EB6" '+olp+'/><circle r="6.5" fill="#FF5AA0" '+olp+'/></g>' +
+      '<ellipse cx="100" cy="152" rx="46" ry="34" fill="#A35FCB" opacity=".7"/>' +
+      '<g class="eyes">' + buddyEye(82, 139, 14, 17) + buddyEye(118, 139, 14, 17) + '</g>' +
+      '<path d="M70 126 l-6 -6 M74 123 l-3 -7 M130 126 l6 -6 M126 123 l3 -7" stroke="#2B1B48" stroke-width="3" stroke-linecap="round"/>' +
+      '<ellipse cx="68" cy="162" rx="9" ry="6" fill="#FF9AC8" opacity=".9"/><ellipse cx="132" cy="162" rx="9" ry="6" fill="#FF9AC8" opacity=".9"/>' +
+      '<g class="mouthShut"><path d="M88 160 Q100 174 112 160 Q100 165 88 160 Z" fill="#3A0F4E"/><path d="M95 166 Q100 170 105 166 Q100 164 95 166 Z" fill="#FF7A9E"/></g>' +
+      '<g class="mouthOpen"><ellipse cx="100" cy="165" rx="11" ry="9" fill="#3A0F4E"/><ellipse cx="100" cy="169" rx="7" ry="4" fill="#FF7A9E"/></g>' +
+    '</g>' +
+    '<path class="hrt" d="M100 70 c-6 -8 -18 -2 -12 8 l12 12 l12 -12 c6 -10 -6 -16 -12 -8 Z" fill="#FF5AA0"/>' +
+    '<path class="hrt" d="M66 84 c-4 -6 -13 -1 -9 6 l9 9 l9 -9 c4 -7 -5 -12 -9 -6 Z" fill="#FF7EB6"/>' +
+    '<path class="hrt" d="M136 80 c-4 -6 -13 -1 -9 6 l9 9 l9 -9 c4 -7 -5 -12 -9 -6 Z" fill="#FF7EB6"/>' +
+  '</svg>';
+}
+var BUDDY_SVG = { get f(){ return filfilSVG(); }, get b(){ return tootaSVG(); } };
+PIC.filfil = filfilSVG(); PIC.toota = tootaSVG();
 function buddyBtn(who, extra){ return '<button class="buddy '+(who==='f'?'b1':'b2')+' '+(extra||'')+'" data-who="'+who+'" aria-label="'+NAMES[who].en+'">'+BUDDY_SVG[who]+'</button>'; }
+/* their eyes follow her finger */
+function lookAt(x, y){
+  document.querySelectorAll('.buddy .pupil').forEach(function(pu){
+    var svg = pu.ownerSVGElement, bx = svg.getBoundingClientRect(); if (!bx.width) return;
+    var s = bx.width / 200, dx = x - (bx.left + (+pu.dataset.cx) * s), dy = y - (bx.top + (+pu.dataset.cy) * s), d = Math.hypot(dx, dy) || 1, m = Math.min(5, d / 30);
+    pu.setAttribute('transform', 'translate(' + (dx / d * m).toFixed(1) + ' ' + (dy / d * m).toFixed(1) + ')');
+  });
+}
+addEventListener('pointerdown', function(e){ lookAt(e.clientX, e.clientY); }, true);
+addEventListener('pointermove', function(e){ if (e.pointerType === 'mouse') lookAt(e.clientX, e.clientY); });
+/* one-off reactions: steam for Filfil, hearts for Toota */
+function react(btn){ var c = btn.dataset.who === 'f' ? 'steam' : 'love'; btn.classList.remove(c); void btn.offsetWidth; btn.classList.add(c); setTimeout(function(){ btn.classList.remove(c); }, 1400); }
 var JOKES = {
   f: [['هههه! بتزغزغيني!','Hahaha! Bitzaghzaghīni!','Hee hee! That tickles!'],
       ['يلّا يا بطلة!','Yalla ya baṭala!','Come on, champion!'],
@@ -66,13 +125,29 @@ function pokeBuddy(btn){
   var who = btn.dataset.who, j = JOKES[who][Math.floor(Math.random()*JOKES[who].length)];
   btn.classList.remove('happy','spin'); void btn.offsetWidth; btn.classList.add(Math.random() < .5 ? 'happy' : 'spin');
   setTimeout(function(){ btn.classList.remove('happy','spin'); }, 900);
-  tone(who === 'f' ? 700 : 500, 0, .25, 'sine', .14, who === 'f' ? 1400 : 900); burst(btn);
+  tone(who === 'f' ? 700 : 500, 0, .25, 'sine', .14, who === 'f' ? 1400 : 900); burst(btn); react(btn);
   say(j[0], j[1], j[2], true, who);
 }
 document.addEventListener('click', function(e){ var b = e.target.closest && e.target.closest('.buddy'); if (b && !b.closest('.friend') && !b.closest('.show')) pokeBuddy(b); });
 function mountBuddies(){
   $('#buddies').innerHTML = buddyBtn('f') + buddyBtn('b');
-  $('#splashBuddies').innerHTML = buddyBtn('f') + buddyBtn('b');
+  $('#spF').innerHTML = buddyBtn('f'); $('#spB').innerHTML = buddyBtn('b');
+  /* landing page: letters drift up behind everything, and the friends take turns waving */
+  var fl = $('#spFloat'), cols = ['#FF8A3D','#22B5A6','#FF5AA0','#FFC93C','#8A3FB5','#5BB8F0'];
+  ABC.split('').forEach(function(c, i){
+    var e = document.createElement('i'); e.className = 'ar'; e.textContent = c;
+    e.style.left = (2 + Math.random() * 94) + '%'; e.style.color = cols[i % cols.length];
+    e.style.fontSize = (28 + Math.random() * 34) + 'px'; e.style.animationDuration = (14 + Math.random() * 12) + 's';
+    e.style.animationDelay = (-Math.random() * 26) + 's'; e.style.setProperty('--r', (Math.random() * 60 - 30) + 'deg');
+    fl.appendChild(e);
+  });
+  var turn = 0;
+  (function waveLoop(){
+    if ($('#splash').hidden) return;
+    var b = document.querySelector((turn++ % 2 ? '#spB' : '#spF') + ' .buddy');
+    if (b) { b.classList.remove('waving'); void b.offsetWidth; b.classList.add('waving'); setTimeout(function(){ b.classList.remove('waving'); }, 2800); }
+    setTimeout(waveLoop, 3600);
+  })();
 }
 
 /* ---------- levels (the same six in every unit) ---------- */
@@ -892,13 +967,13 @@ function showTime(full){
   function line(k, next){
     var L0 = SHOW[k], who = L0[0], a = actor(who), sb = a.querySelector('.sb');
     sh.querySelectorAll('.sb.on').forEach(function(x){ x.classList.remove('on'); });
-    sb.innerHTML = '<span class="ar">'+L0[1]+'</span><span class="tr en">'+L0[2]+'</span><span class="en">'+L0[3]+'</span>';
+    sb.innerHTML = '<span class="ar">'+L0[1]+'</span><span class="en">'+L0[3]+'</span>';
     void sb.offsetWidth; sb.classList.add('on');
     speakSeq([{t: L0[1], rate: .85, who: who}], null, function(){ if (!dead && next) at(500, next); });
   }
   function name(who){
     var nm = actor(who).querySelector('.nm'), t = NAMES[who].ar;
-    nm.innerHTML = '<span>'+t+'</span>';   /* one joined word (splitting it would break the letter joins) */
+    nm.innerHTML = '<span>'+t+'</span><small class="en">'+NAMES[who].en+'</small>';   /* one joined word (splitting it would break the letter joins) */
     t.split('').forEach(function(c, i){ at(i * 160, function(){ SHOWFX.letter(i); }); });
   }
   function move(who, cls, ms){ var b = actor(who).querySelector('.buddy'); b.classList.remove('happy','spin','dance','hot'); void b.offsetWidth; b.classList.add(cls); at(ms || 900, function(){ b.classList.remove(cls); }); }
@@ -914,7 +989,8 @@ function showTime(full){
       var e = h('<i class="ar">'+c+'</i>');
       e.style.left = (3 + Math.random() * 94) + '%'; e.style.color = cols[i % cols.length];
       e.style.animationDelay = (Math.random() * 1.6) + 's'; e.style.setProperty('--r', (Math.random()*80-40)+'deg');
-      e.style.fontSize = (34 + Math.random() * 40) + 'px';
+      e.style.fontSize = (40 + Math.random() * 40) + 'px';
+      e.addEventListener('pointerdown', function(ev){ ev.stopPropagation(); if (e.classList.contains('got')) return; e.classList.add('got'); SFX.pop(); burst(e); });
       r.appendChild(e);
     });
     SFX.fanfare(); confetti(60);
@@ -935,10 +1011,10 @@ function showTime(full){
       e.stopPropagation(); if (!sh.classList.contains('live')) return;
       var who = b.dataset.who, j = JOKES[who][Math.floor(Math.random() * JOKES[who].length)];
       if (who === 'f') move('f', 'spin', 800); else { hearts(); move('b', 'spin', 800); }
-      burst(b);
+      burst(b); react(b); SHOWFX.boing();
       var sb = actor(who).querySelector('.sb');
       sh.querySelectorAll('.sb.on').forEach(function(x){ x.classList.remove('on'); });
-      sb.innerHTML = '<span class="ar">'+j[0]+'</span><span class="tr en">'+j[1]+'</span><span class="en">'+j[2]+'</span>'; void sb.offsetWidth; sb.classList.add('on');
+      sb.innerHTML = '<span class="ar">'+j[0]+'</span><span class="en">'+j[2]+'</span>'; void sb.offsetWidth; sb.classList.add('on');
       speakSeq([{t: j[0], rate: .85, who: who}]);
     });
   });
@@ -998,8 +1074,9 @@ $('#bookClose').addEventListener('click', function(){ $('#bookOv').hidden = true
 $('#bookOv').addEventListener('click', function(e){ if (e.target === this) this.hidden = true; });
 $('#startBtn').addEventListener('click', function(){
   audio(); SFX.fanfare(); pickVoice();
-  $('#splash').hidden = true;
-  showTime((save.met || 0) < 3);   /* first visit: the full show; after that, a short hello */
+  var sp = $('#splash'); sp.classList.add('bye');
+  setTimeout(function(){ sp.hidden = true; sp.classList.remove('bye'); }, 560);
+  showTime(true);   /* the full show every visit (about 15 seconds, with a Skip button) */
 });
 
 window.HARFI_DEBUG = { startLevel: startLevel, LEVELS: LEVELS, UNITS: UNITS, L: L, W: W, VOW: VOW, PRAISE: PRAISE, JOKES: JOKES, pokeBuddy: pokeBuddy, meetFriends: meetFriends, showTime: showTime, SHOW_LINES: SHOW_LINES, showMap: showMap, save: save, theName: theName };
