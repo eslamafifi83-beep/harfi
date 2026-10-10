@@ -406,7 +406,7 @@ function clearScene(){
 }
 function scene(html){ clearScene(); var el = h('<section class="scene">'+html+'</section>'); stage.appendChild(el); return el; }
 function dotsHTML(n, cur){ var s=''; for (var i=0;i<n;i++) s += '<i class="'+(i<cur?'on':(i===cur?'now':''))+'"></i>'; return '<div class="dots" aria-label="Round '+(cur+1)+' of '+n+'">'+s+'</div>'; }
-function task(ar, tr, en){ return '<div class="task"><span class="ar">'+ar+'</span><span class="en">'+tr+' · '+en+'</span></div>'; }
+function task(ar, tr, en){ return '<div class="task"><span class="ar">'+ar+'</span><span class="en">'+en+'</span></div>'; }   /* Arabic + English (tr kept for reference) */
 function footButton(ar, en, fn, cls){
   var b = h('<button class="go '+(cls||'')+'"><span class="ar">'+ar+'</span><span class="en" style="font-size:17px">'+en+'</span></button>');
   b.addEventListener('click', function(){ SFX.tap(); fn(); });
@@ -476,7 +476,7 @@ function showMap(greet, u){
       return d;
     }
     var done = Math.min(open, LEVELS.length-1);
-    map.querySelector('#mapPath').innerHTML = '<path d="'+curve(LEVELS.length-1)+'" fill="none" stroke="#E4D6BC" stroke-width="20" stroke-linecap="round" stroke-dasharray="2 30"/>' + (done>0 ? '<path d="'+curve(done)+'" fill="none" stroke="#0F7C78" stroke-width="20" stroke-linecap="round"/>' : '');
+    map.querySelector('#mapPath').innerHTML = '<path d="'+curve(LEVELS.length-1)+'" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" stroke-dasharray="2 32"/>' + (done>0 ? '<path d="'+curve(done)+'" fill="none" stroke="#22B5A6" stroke-width="20" stroke-linecap="round"/>' : '');
   }
   layout();
   window.addEventListener('resize', layout);
@@ -531,9 +531,10 @@ function meetLetters(u, li){
   var U = UNITS[u];
   var el = scene(task('اتعرّفي على الحروف','Itʿarrafi ʿala el-ḥurūf','Meet the letters. Tap each one to hear it') + '<div class="cards" id="cards"></div>');
   var seen = {}, cards = el.querySelector('#cards');
-  U.letters.forEach(function(k){
+  var TILE = ['#FF8A3D','#22B5A6','#FF5AA0','#FFC93C','#8A5CF6','#4FB83A'];
+  U.letters.forEach(function(k, ix){
     var l = L[k];
-    var c = h('<button class="lcard" aria-label="Letter '+l.en+'"><span class="seen">'+CHECK+'</span><span class="big ar">'+l.ch+'</span><span class="nm"><span class="ar">'+l.snd+'</span><span class="en" dir="ltr">“'+(l.key === 'alif' ? 'a' : l.tr + 'a')+'” · '+l.en+'</span></span></button>');
+    var c = h('<button class="lcard" style="--c:'+TILE[ix % TILE.length]+'" aria-label="Letter '+l.en+'"><span class="seen">'+CHECK+'</span><span class="big ar">'+l.ch+'</span><span class="nm"><span class="ar">'+l.snd+'</span><span class="en" dir="ltr">“'+(l.key === 'alif' ? 'a' : l.tr + 'a')+'” · '+l.en+'</span></span></button>');
     c.addEventListener('click', function(){
       c.classList.remove('play'); void c.offsetWidth; c.classList.add('play');
       SFX.tap(); speakSeq(sounds(l, 3), function(i){   /* the letter's sound, three times (not its name) */ if (i) { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } }, null, 300);
@@ -552,7 +553,7 @@ function popGame(u, li, round){
   var targets = UNITS[u].sounding.slice(0, 3);
   var tk = targets[round], T = L[tk], NEED = 4;
   var others = distractors(u, [tk], 3);
-  var el = scene(dotsHTML(targets.length, round) + '<div class="target"><div class="task"><span class="ar">فرقعي بلالين '+T.snd+'</span><span class="en">Farqaʿi balalīn '+T.en+' · Pop the '+T.en+' balloons</span></div><div class="tg ar">'+T.ch+'</div><button class="listen" id="lis" style="width:72px;height:72px" aria-label="Hear the sound">'+SPEAKER+'</button><div class="dots" id="cnt"></div></div><div class="sky" id="sky"></div>');
+  var el = scene(dotsHTML(targets.length, round) + '<div class="target"><div class="task"><span class="ar">فرقعي بلالين '+T.snd+'</span><span class="en">Pop the “'+T.tr+'a” balloons</span></div><div class="tg ar">'+T.ch+'</div><button class="listen" id="lis" style="width:72px;height:72px" aria-label="Hear the sound">'+SPEAKER+'</button><div class="dots" id="cnt"></div></div><div class="sky" id="sky"></div>');
   var lis = el.querySelector('#lis');
   function hearT(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq(sounds(T, 2), null, null, 250); }
   lis.addEventListener('click', hearT);

@@ -10,6 +10,8 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import vm from 'node:vm';
+import { copyFileSync } from 'node:fs';
+import { gemini, GEMINI_KEY } from './gemini.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, '..');
@@ -44,6 +46,13 @@ Object.values(C.W).forEach(w => { PHONICS.add(clean(w.word)); w.syl.forEach(s =>
 const isPhonics = l => PHONICS.has(l.text) || (l.text.length <= 3 && !l.text.includes(' ')) || /^[\u0621-\u064A][\u064B-\u0652]+$/.test(l.text);
 const kindOf = l => (!isPhonics(l) && cfg.provider !== 'azure' && cfg.elevenlabs.speakers[l.speaker].chat_voice_ids) ? 'chat' : 'std';
 const textFor = line => (cfg.pronounce && cfg.pronounce[line.text]) || line.text;
+// Letter sounds (Toota, slow) come from Gemini TTS (free tier, about 10 clips a day): it says single Arabic sounds far
+// more accurately than the designed ElevenLabs voices. voices.json "gemini" sets the voice, the delivery instruction
+// and per-sound fixes ("overrides"). Everything else stays with ElevenLabs.
+const G = cfg.gemini || null;
+const LETTER_SOUNDS = new Set(Object.values(C.L).map(l => clean(l.snd)));
+const viaGemini = l => !!G && l.speaker === 'b' && l.speed === 'slow' && LETTER_SOUNDS.has(l.text);
+const gemSpec = l => Object.assign({ text: l.text, voice: G.voice, style: G.style }, (G.overrides || {})[l.text] || {});
 
 class OutOfCredits extends Error {}
 class PaidVoice extends Error {}
@@ -99,20 +108,28 @@ async function azure(line, tries = 0) {
 }
 
 // ---------- run ----------
-if (PROVIDER !== 'azure') await resolveVoices();
+// ElevenLabs is only contacted (resolveVoices costs a few characters) when an ElevenLabs line has no clip at all.
+const elevenMissing = lines.filter(l => !viaGemini(l) && !(index[l.key] && existsSync(path.join(audioDir, index[l.key]))));
+let elevenOff = false;   // out of ElevenLabs credits (or no usable voice): skip ElevenLabs lines, still make Gemini ones
+if (PROVIDER !== 'azure' && (elevenMissing.length || only)) {
+  try { await resolveVoices(); }
+  catch (e) { elevenOff = true; console.log(`ElevenLabs not available this run (${e instanceof OutOfCredits ? 'free credits used up' : e.message.slice(0, 120)}); its lines wait for the next run.`); }
+}
 const voiceOf = l => PROVIDER === 'azure' ? cfg.azure.speakers[l.speaker].voice : resolved[l.speaker + ':' + kindOf(l)];
 // the file name includes the voice, so changing a voice remakes only the clips that voice says
 const hash = t => createHash('sha1').update(t).digest('hex').slice(0, 12) + '.mp3';
 // new clips' names include the model (so a remade clip never reuses an old file name that tablets have cached);
 // clips made before that, with multilingual v2, keep their older names
 const MODEL = PROVIDER === 'azure' ? 'azure' : cfg.elevenlabs.model;
-const fileFor = l => hash(l.key + '|' + voiceOf(l) + '|' + MODEL);
+const gemFile = l => { const g = gemSpec(l); return hash(l.key + '|gemini|' + g.voice + '|' + g.style + '|' + g.text).replace(/\.mp3$/, '.wav'); };
+const fileFor = l => viaGemini(l) ? gemFile(l) : hash(l.key + '|' + voiceOf(l) + '|' + MODEL);
 const oldFileFor = l => hash(l.key + '|' + voiceOf(l));
 
 console.log(`${lines.filter(l => kindOf(l) === 'chat').length} chat lines use the Egyptian voices, ${lines.filter(l => kindOf(l) === 'std').length} letter/word lines use the standard voices.`);
 // a clip counts as made if it exists, either as recorded or trimmed by voices/fix-clips.py (name ending -t.mp3)
-const have = l => [fileFor(l), oldFileFor(l)].flatMap(f => [f, f.replace(/\.mp3$/, '-t.mp3')]).some(f => index[l.key] === f && existsSync(path.join(audioDir, f)));
-const todo = lines.filter(l => only ? l.text === only : !have(l));
+const have = l => viaGemini(l) ? (index[l.key] === gemFile(l) && existsSync(path.join(audioDir, gemFile(l)))) : !resolved[l.speaker + ':std'] && PROVIDER !== 'azure' ? !!(index[l.key] && existsSync(path.join(audioDir, index[l.key]))) : [fileFor(l), oldFileFor(l)].flatMap(f => [f, f.replace(/\.mp3$/, '-t.mp3')]).some(f => index[l.key] === f && existsSync(path.join(audioDir, f)));
+const all = lines.filter(l => only ? l.text === only : !have(l));
+const gemTodo = all.filter(viaGemini), todo = elevenOff ? [] : all.filter(l => !viaGemini(l));
 const allChars = lines.reduce((n, l) => n + l.text.length, 0);
 console.log(`${todo.length} clip(s) to make (${todo.reduce((n, l) => n + l.text.length, 0)} characters), ${lines.length} lines in total (${allChars} characters).`);
 let done = 0, failed = 0, chars = 0, outOfCredits = false;
@@ -131,6 +148,26 @@ async function worker() {
   }
 }
 await Promise.all((PROVIDER === 'azure' ? [1, 2, 3, 4] : [1, 2]).map(worker));
+// Gemini letter sounds: reuse a clip from the sound-check page when it matches exactly, otherwise make it (paced for the free tier)
+const tryList = existsSync(path.join(root, 'app', 'tryout', 'list.json')) ? JSON.parse(readFileSync(path.join(root, 'app', 'tryout', 'list.json'), 'utf8')) : [];
+let gemMade = 0, gemCalls = 0, gemNoKey = 0;
+for (const l of gemTodo) {
+  const g = gemSpec(l), out = path.join(audioDir, gemFile(l));
+  const t = tryList.find(it => it.provider === 'gemini' && it.text === g.text && it.voice === g.voice && it.style === g.style);
+  try {
+    if (t && existsSync(path.join(root, 'app', 'tryout', t.file))) copyFileSync(path.join(root, 'app', 'tryout', t.file), out);
+    else {
+      if (!GEMINI_KEY) { gemNoKey++; continue; }   // copies from the sound-check page still go ahead
+      if (gemCalls++) await new Promise(r => setTimeout(r, 7000));
+      writeFileSync(out, await gemini(g));
+    }
+    index[l.key] = gemFile(l); gemMade++;
+  } catch (e) {
+    console.log(`  could not make "${l.text}" with Gemini: ${e.message.slice(0, 200)}`);
+    if (/429|quota|RESOURCE_EXHAUSTED/i.test(e.message)) { console.log('  Gemini daily limit reached; the rest are made on the next run.'); break; }
+  }
+}
+if (gemTodo.length) console.log(`Gemini letter sounds: ${gemMade} of ${gemTodo.length} made.${gemNoKey ? ` ${gemNoKey} need GEMINI_API_KEY.` : ''}`);
 // keep only clips that are still used
 const keys = new Set(lines.map(l => l.key));
 for (const k of Object.keys(index)) if (!keys.has(k)) delete index[k];

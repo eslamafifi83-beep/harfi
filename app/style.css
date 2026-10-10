@@ -391,3 +391,88 @@ footer{display:flex;align-items:flex-end;gap:10px;padding-block:6px 12px;min-hei
 .show .showgo.ready{animation:nudgeC 1.4s ease-in-out infinite}
 @keyframes nudgeC{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.08)}}
 @media (prefers-reduced-motion: reduce){.show .rain,.show .beam{display:none}}
+
+/* ===== sticker world: the look of the landing page, carried into the map and the lessons =====
+   Sky background, the friends stand on a grassy hill, and every card, button and bubble is a "sticker":
+   a bold ink outline with a solid drop. Written text is Arabic with English underneath (no transliteration). */
+:root{--sk-ink:#2B1B48;--sk-orange:#FF8A3D;--sk-teal:#22B5A6;--sk-pink:#FF5AA0;--sk-yellow:#FFC93C;--sk-violet:#8A5CF6;--sk-green:#4FB83A}
+body{background:linear-gradient(#7CC8FF 0%,#BDE6FF 55%,#E6F7FF 100%) fixed}
+body::before{content:'';position:fixed;left:-25%;right:-25%;bottom:-20vh;height:32vh;border-radius:50%;background:radial-gradient(ellipse at 50% 12%,#8BE163,#4FB83A 72%);box-shadow:inset 0 10px 0 rgba(255,255,255,.25);z-index:0;pointer-events:none}
+#app{position:relative;z-index:1}
+.tr{display:none!important}
+.pill{border:3px solid var(--sk-ink);box-shadow:0 4px 0 var(--sk-ink)}
+.pill:active{box-shadow:0 1px 0 var(--sk-ink)}
+.brand b{color:var(--sk-ink)}
+.brand small{color:#33266A;font-weight:600}
+.task .ar{color:var(--sk-ink)}
+.task .en{color:#33266A;font-weight:600}
+.bubble{border:4px solid var(--sk-ink);box-shadow:0 5px 0 var(--sk-ink);border-radius:24px 24px 24px 8px}
+.bubble .en{color:#4A3D6B;font-weight:600;font-size:16px}
+footer .buddy{width:clamp(78px,10.5vw,122px)}
+.go{border:4px solid var(--sk-ink);background:var(--sk-orange);color:var(--sk-ink);box-shadow:0 6px 0 var(--sk-ink)}
+.go:active{box-shadow:0 2px 0 var(--sk-ink)}
+.go.teal{background:var(--sk-teal);color:#fff;box-shadow:0 6px 0 var(--sk-ink)}
+.go[disabled]{background:#EEF4FA;color:#8C86A3;border-color:#B9B4CC;box-shadow:0 6px 0 #B9B4CC}
+.ghost{border:4px solid var(--sk-ink);background:#fff;box-shadow:0 5px 0 var(--sk-ink)}
+.dots i{background:rgba(255,255,255,.75);box-shadow:inset 0 0 0 2px rgba(43,27,72,.25)}
+.dots i.on{background:var(--sk-teal);box-shadow:inset 0 0 0 2px var(--sk-ink)}
+.dots i.now{background:var(--sk-orange);box-shadow:inset 0 0 0 2px var(--sk-ink)}
+/* map */
+.uchip{border:3px solid var(--sk-ink);box-shadow:0 4px 0 var(--sk-ink);color:var(--sk-ink)}
+.uchip.on{background:var(--sk-yellow);border-color:var(--sk-ink)}
+.uchip.done{background:#C9F2EC;color:var(--sk-ink)}
+.uchip.locked{background:rgba(255,255,255,.55);color:#7A7395;border-color:#9C96B5;box-shadow:0 4px 0 #9C96B5}
+.node .disc{border:5px solid var(--sk-ink);background:#fff;color:#8C86A3;box-shadow:0 7px 0 var(--sk-ink)}
+.node.done .disc{background:var(--sk-teal);color:#fff;box-shadow:0 7px 0 var(--sk-ink)}
+.node.open .disc{background:var(--sk-orange);color:var(--sk-ink);box-shadow:0 7px 0 var(--sk-ink),0 0 0 10px rgba(255,201,60,.7);animation:pulseSk 1.6s ease-in-out infinite}
+@keyframes pulseSk{0%,100%{box-shadow:0 7px 0 var(--sk-ink),0 0 0 8px rgba(255,201,60,.75)}50%{box-shadow:0 7px 0 var(--sk-ink),0 0 0 20px rgba(255,201,60,.3)}}
+.node.locked .disc{border-color:#9C96B5;box-shadow:0 7px 0 #9C96B5;background:rgba(255,255,255,.7)}
+.node .lbl{color:var(--sk-ink);text-shadow:0 2px 0 rgba(255,255,255,.8)}
+.node .lbl .en{color:#33266A}
+.node.locked .lbl{color:#5E577A}
+/* first lesson: meet the letters. Each letter is a big coloured sticker tile */
+.lcard{border:5px solid var(--sk-ink);border-radius:32px;box-shadow:0 8px 0 var(--sk-ink);background:#fff;padding:0;overflow:hidden;gap:0;justify-content:flex-start}
+.lcard .big{flex:1;width:100%;display:flex;align-items:center;justify-content:center;background:var(--c,var(--sk-orange));color:#fff;-webkit-text-stroke:5px var(--sk-ink);paint-order:stroke fill;padding:10px 0 4px;border-bottom:5px solid var(--sk-ink);font-size:clamp(84px,12vw,150px)}
+.lcard .nm{padding:8px 6px 10px;flex-direction:column;align-items:center;gap:0;line-height:1.1}
+.lcard .nm .ar{font-size:clamp(28px,3.4vw,40px);color:var(--sk-ink)}
+.lcard .nm .en{margin:0;font-size:16px;font-weight:700;color:#4A3D6B}
+.lcard .seen{top:10px;right:10px;border:3px solid var(--sk-ink);background:var(--sk-yellow);z-index:1}
+.lcard.play{animation:tileBoing .6s cubic-bezier(.3,1.8,.5,1)}
+@keyframes tileBoing{0%{transform:scale(1)}25%{transform:scale(1.12,.9) translateY(4px)}55%{transform:scale(.95,1.08) translateY(-14px) rotate(-3deg)}100%{transform:none}}
+/* balloons */
+.sky{background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.15));border:4px solid var(--sk-ink);box-shadow:0 6px 0 var(--sk-ink)}
+.balloon .b{border:4px solid var(--sk-ink);box-shadow:inset -10px -12px 0 rgba(0,0,0,.12);color:var(--sk-ink)}
+.balloon::after{background:var(--sk-ink);width:3px}
+.balloon .knot{border-bottom-color:var(--sk-ink)}
+.target .tg{border:4px solid var(--sk-ink);box-shadow:0 5px 0 var(--sk-ink);color:var(--sk-ink);background:var(--sk-yellow)}
+.listen{background:var(--sk-teal);border:4px solid var(--sk-ink);box-shadow:0 6px 0 var(--sk-ink)}
+.listen.ping{animation:pingSk 1s ease-out}
+@keyframes pingSk{0%{box-shadow:0 6px 0 var(--sk-ink),0 0 0 0 rgba(34,181,166,.6)}100%{box-shadow:0 6px 0 var(--sk-ink),0 0 0 30px rgba(34,181,166,0)}}
+/* choices (which letter makes this sound?) */
+.choice{border:5px solid var(--sk-ink);box-shadow:0 8px 0 var(--sk-ink);border-radius:30px}
+.choice .big{color:var(--sk-ink)!important}
+.choice .sm{color:#4A3D6B;font-weight:700}
+.choice.right{border-color:var(--sk-ink);background:#C9F2EC}
+.choice.no{border-color:var(--sk-ink);background:#FFD3E3}
+.pic,.board,.side .model,.slot.filled{border:4px solid var(--sk-ink);box-shadow:0 6px 0 var(--sk-ink)}
+.tile{border:4px solid var(--sk-ink);background:var(--sk-yellow);box-shadow:0 6px 0 var(--sk-ink)}
+.reward h2{color:var(--sk-orange);-webkit-text-stroke:6px var(--sk-ink);paint-order:stroke fill}
+.reward .sub{color:#33266A;font-weight:700}
+.sheet{background:#fff;border:5px solid var(--sk-ink);box-shadow:0 8px 0 var(--sk-ink)}
+/* phones: compact header, the Next button above the friends, the bubble gets the width */
+@media (max-width:600px){
+  .brand small{display:none}
+  .bar{padding-block:8px}
+  .tools{gap:6px;flex-wrap:nowrap}
+  .pill{height:42px;min-width:42px;padding:0 10px;font-size:16px;border-width:2.5px}
+  footer{flex-wrap:wrap;row-gap:4px;min-height:0}
+  footer .buddy{width:62px}
+  .bubble{flex:1;min-width:0;max-width:none;margin-bottom:14px;padding:8px 12px}
+  .bubble .ar{font-size:20px}.bubble .en{font-size:14px}
+  .foot-act{order:-1;width:100%;display:flex;justify-content:center;margin:0}
+  .foot-act .go{height:56px}
+  .lcard{min-height:0}
+  .lcard .big{font-size:68px;-webkit-text-stroke:4px var(--sk-ink)}
+  .lcard .nm .ar{font-size:26px}.lcard .nm .en{font-size:14px}
+}
+.brand b{white-space:nowrap}

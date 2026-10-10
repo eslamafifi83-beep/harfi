@@ -83,6 +83,8 @@ def main():
     index = json.load(open(index_file, encoding='utf8'))
     suspects = []
     for key, f in index.items():
+        if not f.endswith('.mp3'):   # Gemini letter sounds (.wav) are single sounds with no run-on to trim
+            continue
         if f.endswith('-t.mp3'):
             continue
         path = os.path.join(AUDIO, f)
