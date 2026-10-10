@@ -1,4 +1,6 @@
-# Harfi (حرفي): brief for Claude Code
+# Alif Baa (ألف باء): brief for Claude Code
+
+The app is called **Alif Baa · ألف باء** (renamed from Harfi in October 2026 because "Harfi" is hard to say for non-Arabic speakers). The repo, URL and code still use "harfi".
 
 An Arabic phonics game for one learner: Eslam's 6-year-old daughter, a beginner. The model is the Reading Eggs pattern (lesson map, short games, rewards), with all characters and artwork original. Never recreate existing characters or brands (for example Bougy and Tamtam, Reading Eggs art).
 
@@ -34,7 +36,7 @@ An Arabic phonics game for one learner: Eslam's 6-year-old daughter, a beginner.
 - The friends chat in **Egyptian Arabic** (شاطرة، يلّا، فين، حاولي تاني).
 - Letter sounds and written words are **standard Arabic**, with harakat where they help. Teach ث as "th", although Egyptian speech usually turns it into t or s.
 - Address the learner in the feminine (اسمعي، دوسي، شاطرة).
-- Every screen has three label layers: Arabic, transliteration and English. The EN button hides the last two.
+- Every written word is in Arabic and English (many players have an English background). Speech is Arabic only. The EN button hides the English for parents who want Arabic only.
 
 ## Curriculum
 All 28 letters, in 7 units of 4. Content (letters, picture words, words to build, drawings) lives in `app/content.js`, and the engine in `app/game.js` is unit-driven.

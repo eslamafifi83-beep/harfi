@@ -1,4 +1,4 @@
-# Harfi · حرفي
+# Alif Baa · ألف باء
 
 All 28 Arabic letters and their sounds, with Filfil and Toota.
 

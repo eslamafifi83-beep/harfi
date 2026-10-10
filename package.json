@@ -2,7 +2,7 @@
   "name": "harfi",
   "version": "0.1.0",
   "private": true,
-  "description": "Harfi (حرفي): Arabic phonics game for a 6-year-old, with Filfil and Basbousa",
+  "description": "Alif Baa (ألف باء): Arabic phonics game for a 6-year-old, with Filfil and Toota",
   "type": "module",
   "scripts": {
     "start": "node serve.mjs",
