@@ -658,5 +658,38 @@
   "text": "ثَ",
   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: ث is the soft \"th\" of the English word \"think\" (tongue tip between the teeth, air flowing), followed by a short a: \"tha\". It must not sound like \"s\" or \"t\". Do not say the letter name, and say nothing else.",
   "note": "ث fix: 'th as in think', voice Aoede"
+ },
+ {
+  "file": "tha-en1-leda.wav",
+  "id": "tha-en1-leda",
+  "letter": "ث",
+  "label": "E1",
+  "provider": "gemini",
+  "voice": "Leda",
+  "text": "tha",
+  "style": "Say one short English syllable: the soft voiceless \"th\" sound of \"think\" and \"thank\" (tongue tip between the teeth, air hissing out), then a short \"a\" as in \"father\". It must not be \"s\", not \"t\", and not the \"th\" of \"the\". Say nothing else.",
+  "note": "ث as English \"tha\", voice Leda"
+ },
+ {
+  "file": "tha-en2-leda.wav",
+  "id": "tha-en2-leda",
+  "letter": "ث",
+  "label": "E2",
+  "provider": "gemini",
+  "voice": "Leda",
+  "text": "thah",
+  "style": "Say one short English syllable: the soft voiceless \"th\" sound of \"think\" and \"thank\" (tongue tip between the teeth, air hissing out), then a short \"a\" as in \"father\". It must not be \"s\", not \"t\", and not the \"th\" of \"the\". Say nothing else.",
+  "note": "ث as English \"thah\", voice Leda"
+ },
+ {
+  "file": "tha-en3-kore.wav",
+  "id": "tha-en3-kore",
+  "letter": "ث",
+  "label": "E3",
+  "provider": "gemini",
+  "voice": "Kore",
+  "text": "tha",
+  "style": "Say one short English syllable: the soft voiceless \"th\" sound of \"think\" and \"thank\" (tongue tip between the teeth, air hissing out), then a short \"a\" as in \"father\". It must not be \"s\", not \"t\", and not the \"th\" of \"the\". Say nothing else.",
+  "note": "ث as English \"tha\", voice Kore"
  }
 ]
