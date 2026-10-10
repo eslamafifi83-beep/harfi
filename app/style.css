@@ -235,15 +235,15 @@ footer{display:flex;align-items:flex-end;gap:10px;padding-block:6px 12px;min-hei
 @keyframes floatUp{from{transform:translateY(0) rotate(0)}to{transform:translateY(-125vh) rotate(var(--r))}}
 .sp-top{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:2px}
 .sp-logo{margin:0;display:grid;place-items:center;min-height:clamp(120px,24vmin,230px)}
-.sp-tiles{grid-area:1/1;display:flex;gap:clamp(8px,1.6vw,18px);animation:tilesJoin .45s cubic-bezier(.6,0,.4,1) 2.1s forwards}
-.sp-tiles b{display:grid;place-items:center;width:clamp(68px,12vmin,118px);aspect-ratio:1;border-radius:26%;background:var(--c);color:#fff;font-size:clamp(46px,8.5vmin,86px);font-weight:800;line-height:1;padding-bottom:.12em;border:5px solid #2B1B48;box-shadow:0 7px 0 #2B1B48;-webkit-text-stroke:3px #2B1B48;paint-order:stroke fill;animation:tileDrop .75s cubic-bezier(.3,1.6,.5,1) calc(.25s + var(--i) * .24s) both}
+.sp-tiles{grid-area:1/1;display:flex;gap:clamp(8px,1.6vw,18px);animation:tilesJoin .4s cubic-bezier(.6,0,.4,1) 1.45s forwards}
+.sp-tiles b{display:grid;place-items:center;width:clamp(68px,12vmin,118px);aspect-ratio:1;border-radius:26%;background:var(--c);color:#fff;font-size:clamp(46px,8.5vmin,86px);font-weight:800;line-height:1;padding-bottom:.12em;border:5px solid #2B1B48;box-shadow:0 7px 0 #2B1B48;-webkit-text-stroke:3px #2B1B48;paint-order:stroke fill;animation:tileDrop .65s cubic-bezier(.3,1.6,.5,1) calc(.15s + var(--i) * .16s) both}
 @keyframes tileDrop{from{transform:translateY(-75vh) rotate(-25deg)}to{transform:none}}
 @keyframes tilesJoin{to{gap:0;opacity:0;transform:scale(.55)}}
-.sp-word{grid-area:1/1;font-size:clamp(92px,20vmin,196px);font-weight:800;line-height:1.3;padding-top:.08em;color:#FF8A3D;-webkit-text-stroke:clamp(9px,1.5vmin,15px) #2B1B48;paint-order:stroke fill;filter:drop-shadow(0 8px 0 #2B1B48);opacity:0;transform:scale(.3);animation:wordPop .8s cubic-bezier(.3,1.7,.5,1) 2.4s forwards,wordBob 3.2s ease-in-out 3.4s infinite}
+.sp-word{grid-area:1/1;font-size:clamp(92px,20vmin,196px);font-weight:800;line-height:1.3;padding-top:.08em;color:#FF8A3D;-webkit-text-stroke:clamp(9px,1.5vmin,15px) #2B1B48;paint-order:stroke fill;filter:drop-shadow(0 8px 0 #2B1B48);opacity:0;transform:scale(.3);animation:wordPop .7s cubic-bezier(.3,1.7,.5,1) 1.7s forwards,wordBob 3.2s ease-in-out 2.6s infinite}
 @keyframes wordPop{to{opacity:1;transform:none}}
 @keyframes wordBob{0%,100%{transform:none}50%{transform:translateY(-6px) rotate(-2deg)}}
-.sp-name{font-size:clamp(24px,4vmin,40px);font-weight:800;color:#2B1B48;letter-spacing:.08em;line-height:1;margin-top:-.15em;opacity:0;animation:fadeUp .5s ease-out 2.9s forwards}
-.sp-tag{margin:8px 0 0;display:flex;flex-direction:column;opacity:0;animation:fadeUp .5s ease-out 3.15s forwards}
+.sp-name{font-size:clamp(24px,4vmin,40px);font-weight:800;color:#2B1B48;letter-spacing:.08em;line-height:1;margin-top:-.15em;opacity:0;animation:fadeUp .45s ease-out 2s forwards}
+.sp-tag{margin:8px 0 0;display:flex;flex-direction:column;opacity:0;animation:fadeUp .45s ease-out 2.15s forwards}
 .sp-tag .ar{font-size:clamp(21px,3.4vmin,32px);font-weight:800;color:#2B1B48;line-height:1.25}
 .sp-tag .en{font-size:clamp(16px,2.4vmin,22px);font-weight:600;color:#33266A}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -252,7 +252,7 @@ footer{display:flex;align-items:flex-end;gap:10px;padding-block:6px 12px;min-hei
 .sp-friend.f{animation:inLeft 1s cubic-bezier(.3,1.5,.5,1) .5s both}.sp-friend.b{animation:inRight 1s cubic-bezier(.3,1.5,.5,1) .75s both}
 @keyframes inLeft{from{transform:translate(-60vw,-30px) rotate(-30deg)}to{transform:none}}
 @keyframes inRight{from{transform:translate(60vw,-30px) rotate(30deg)}to{transform:none}}
-.go.huge.sp-go{height:auto;flex-direction:column;gap:0;line-height:1.05;padding:12px clamp(28px,4vw,48px) 14px;margin-bottom:clamp(26px,6vh,70px);border:5px solid #2B1B48;box-shadow:0 7px 0 #2B1B48;background:#FF8A3D;opacity:0;animation:fadeUp .5s ease-out 3.4s forwards,nudge 1.4s ease-in-out 4s infinite}
+.go.huge.sp-go{height:auto;flex-direction:column;gap:0;line-height:1.05;padding:12px clamp(28px,4vw,48px) 14px;margin-bottom:clamp(26px,6vh,70px);border:5px solid #2B1B48;box-shadow:0 7px 0 #2B1B48;background:#FF8A3D;opacity:0;animation:fadeUp .4s ease-out .3s forwards,nudge 1.4s ease-in-out 2.4s infinite}
 .go.huge.sp-go:active{transform:translateY(4px);box-shadow:0 3px 0 #2B1B48}
 .sp-go .ar{font-size:clamp(30px,4.6vmin,44px);color:#2B1B48}
 .sp-go .en{font-size:clamp(17px,2.4vmin,22px);font-weight:800;color:#2B1B48;opacity:.8}

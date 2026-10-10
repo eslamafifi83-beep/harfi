@@ -263,7 +263,16 @@ function clipFor(who, rate, text){
 }
 window.HARFI_LOG = window.HARFI_LOG || null;   /* set to [] to record every line spoken (used by voices/collect-lines.mjs) */
 window.harfiMissing = function(){ return Object.keys(MISSING); };
-var currentAudio = null;
+var currentAudio = null, player = null, blocked = [];
+var SILENCE = 'data:audio/wav;base64,UklGRuQDAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YcADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=';
+function getPlayer(){ if (!player) { player = new Audio(); player.preload = 'auto'; } return player; }
+function unlockAudio(){
+  var a = getPlayer();
+  try { a.src = SILENCE; var q = a.play(); if (q && q.then) q.then(function(){ a.pause(); }).catch(function(){}); } catch(e) {}
+  try { audio(); } catch(e) {}
+}
+['pointerdown', 'touchend', 'keydown'].forEach(function(ev){ addEventListener(ev, function once(){ unlockAudio(); removeEventListener(ev, once, true); }, true); });
+window.harfiBlocked = function(){ return blocked; };
 function utter(text, rate, done, keep, who){
   if (who) speaker = who;
   var finished = false;
@@ -277,7 +286,8 @@ function utter(text, rate, done, keep, who){
     try {
       if (currentAudio && !keep) currentAudio.pause();
       if ('speechSynthesis' in window) { try { speechSynthesis.cancel(); } catch(e) {} }
-      var a = new Audio('audio/' + file), retried = false; currentAudio = a;
+      var a = getPlayer(), retried = false; currentAudio = a;
+      a.onended = a.onerror = a.onplay = null; a.src = 'audio/' + file;
       /* a touch slower than the recording, so it's easy to follow (pitch stays the same) */
       a.playbackRate = PLAY_RATE[speedOf(rate)] * (speaker === 'f' ? .93 : 1);   /* Filfil talks fast, so he's slowed a little more */ a.preservesPitch = a.mozPreservesPitch = a.webkitPreservesPitch = true;
       a.onplay = function(){ talking(true); };
@@ -287,7 +297,7 @@ function utter(text, rate, done, keep, who){
         delete CLIPS[key]; MISSING[key] = 1; fin();
       };
       talking(true);
-      var p = a.play(); if (p && p.catch) p.catch(function(e){ if (e && e.name === 'NotAllowedError') fin(); });
+      var p = a.play(); if (p && p.catch) p.catch(function(e){ if (e && e.name === 'NotAllowedError') { blocked.push(key); unlockAudio(); fin(); } });
       setTimeout(fin, 12000);
       return;
     } catch(e) {}
@@ -934,7 +944,7 @@ function noise(t0, d, g){
   src.connect(f); f.connect(gn); gn.connect(a.destination); src.start(a.currentTime + t0);
 }
 var SHOWFX = {
-  drum: function(){ for (var i = 0; i < 16; i++) { tone(110 + (i % 2) * 18, i * .07, .08, 'triangle', .05 + i * .012); noise(i * .07, .05, .05 + i * .01); } tone(80, 1.15, .4, 'sine', .3, 50); noise(1.15, .35, .35); },
+  drum: function(){ for (var i = 0; i < 10; i++) { tone(110 + (i % 2) * 18, i * .06, .07, 'triangle', .05 + i * .018); noise(i * .06, .045, .05 + i * .015); } tone(80, .62, .4, 'sine', .3, 50); noise(.62, .35, .35); },
   curtain: function(){ noise(0, .9, .18); tone(200, 0, .8, 'sine', .06, 500); },
   wobble: function(){ [0, .22, .44].forEach(function(t){ tone(520, t, .1, 'square', .05, 380); }); },
   boom: function(){ tone(160, 0, .35, 'sine', .3, 40); noise(0, .3, .4); [1047,1319,1568,2093].forEach(function(f,i){ tone(f, .12 + i * .06, .25, 'triangle', .1); }); },
@@ -969,7 +979,7 @@ function showTime(full){
     sh.querySelectorAll('.sb.on').forEach(function(x){ x.classList.remove('on'); });
     sb.innerHTML = '<span class="ar">'+L0[1]+'</span><span class="en">'+L0[3]+'</span>';
     void sb.offsetWidth; sb.classList.add('on');
-    speakSeq([{t: L0[1], rate: .85, who: who}], null, function(){ if (!dead && next) at(500, next); });
+    speakSeq([{t: L0[1], rate: .85, who: who}], null, function(){ if (!dead && next) at(250, next); });
   }
   function name(who){
     var nm = actor(who).querySelector('.nm'), t = NAMES[who].ar;
@@ -996,7 +1006,7 @@ function showTime(full){
     SFX.fanfare(); confetti(60);
   }
   function starShower(){ for (var i = 0; i < 7; i++) at(i * 180, function(){ burst(null, innerWidth * (.15 + Math.random() * .7), innerHeight * (.15 + Math.random() * .4)); SFX.star(); }); }
-  function openStage(){ SHOWFX.drum(); at(1250, function(){ sh.classList.add('open'); SHOWFX.curtain(); }); }
+  function openStage(){ SHOWFX.drum(); at(700, function(){ sh.classList.add('open'); SHOWFX.curtain(); }); }
   function finish(){
     if (dead) return; dead = true; ts.forEach(clearTimeout); stopSpeech();
     save.met = 3; persist();
@@ -1032,18 +1042,12 @@ function showTime(full){
   }
 
   openStage();
-  if (!full) {
-    at(2100, function(){ sh.classList.add('in-f', 'in-b', 'quick'); SHOWFX.boom(); burst(actor('f')); burst(actor('b')); name('f'); name('b'); });
-    at(3000, function(){ move('f', 'happy'); line('hi_' + P, function(){ move('b', 'happy'); greet(); }); });
-    at(3400, showPlay);
-    return;
-  }
-  at(2200, function(){ sh.classList.add('gift-in'); SHOWFX.wobble(); });
-  at(3000, function(){ sh.classList.add('in-f'); SHOWFX.boom(); burst(actor('f').querySelector('.buddy')); });
-  at(3500, function(){ name('f'); move('f', 'happy');
+  at(1100, function(){ sh.classList.add('gift-in'); SHOWFX.wobble(); });
+  at(1800, function(){ sh.classList.add('in-f'); SHOWFX.boom(); burst(actor('f').querySelector('.buddy')); });
+  at(2200, function(){ name('f'); move('f', 'happy');
     line('hi_' + P, function(){
-      SHOWFX.whistle(); sh.classList.add('in-b'); at(900, function(){ SHOWFX.boing(); hearts(); name('b'); });
-      at(1400, greet);
+      SHOWFX.whistle(); sh.classList.add('in-b'); at(750, function(){ SHOWFX.boing(); hearts(); name('b'); });
+      at(950, greet);   /* Toota talks as soon as she lands */
     });
   });
 }
