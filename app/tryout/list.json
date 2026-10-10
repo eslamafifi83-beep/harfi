@@ -625,5 +625,38 @@
   "text": "يَ",
   "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
   "note": "Gemini voice Leda (youthful)"
+ },
+ {
+  "file": "tha-fix-leda.wav",
+  "id": "tha-fix-leda",
+  "letter": "ث",
+  "label": "T1",
+  "provider": "gemini",
+  "voice": "Leda",
+  "text": "ثَ",
+  "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: ث is the soft \"th\" of the English word \"think\" (tongue tip between the teeth, air flowing), followed by a short a: \"tha\". It must not sound like \"s\" or \"t\". Do not say the letter name, and say nothing else.",
+  "note": "ث fix: 'th as in think', voice Leda"
+ },
+ {
+  "file": "tha-fix-kore.wav",
+  "id": "tha-fix-kore",
+  "letter": "ث",
+  "label": "T2",
+  "provider": "gemini",
+  "voice": "Kore",
+  "text": "ثَ",
+  "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: ث is the soft \"th\" of the English word \"think\" (tongue tip between the teeth, air flowing), followed by a short a: \"tha\". It must not sound like \"s\" or \"t\". Do not say the letter name, and say nothing else.",
+  "note": "ث fix: 'th as in think', voice Kore"
+ },
+ {
+  "file": "tha-fix-aoede.wav",
+  "id": "tha-fix-aoede",
+  "letter": "ث",
+  "label": "T3",
+  "provider": "gemini",
+  "voice": "Aoede",
+  "text": "ثَ",
+  "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: ث is the soft \"th\" of the English word \"think\" (tongue tip between the teeth, air flowing), followed by a short a: \"tha\". It must not sound like \"s\" or \"t\". Do not say the letter name, and say nothing else.",
+  "note": "ث fix: 'th as in think', voice Aoede"
  }
 ]
