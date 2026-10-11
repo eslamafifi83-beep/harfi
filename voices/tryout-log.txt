@@ -1,1 +1,0 @@
-2026-10-10T23:34:36.528Z tha-en4-achird: 429 {"error":{"message":"Rate limit exceeded for model gemini-3.8-flash-tts (limit: 10 requests per day on Free Tier). Please retry in 25m23s or upgrade your tier at https://ai.dev/rate-limit.","code":"too_many_requests"}}
