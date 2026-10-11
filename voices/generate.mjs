@@ -170,7 +170,7 @@ async function worker() {
 await Promise.all((PROVIDER === 'azure' ? [1, 2, 3, 4] : [1, 2]).map(worker));
 // Gemini letter sounds: reuse a clip from the sound-check page when it matches exactly, otherwise make it (paced for the free tier)
 const tryList = existsSync(path.join(root, 'app', 'tryout', 'list.json')) ? JSON.parse(readFileSync(path.join(root, 'app', 'tryout', 'list.json'), 'utf8')) : [];
-let gemMade = 0, gemCalls = 0, gemNoKey = 0;
+let gemMade = 0, gemCalls = 0, gemNoKey = 0, gemLimit = false;
 const specId = g => g.text + '|' + g.voice + '|' + g.style, madeBySpec = {};
 lines.filter(viaGemini).forEach(l => { if (index[l.key] === gemFile(l) && existsSync(path.join(audioDir, gemFile(l)))) madeBySpec[specId(gemSpec(l))] = gemFile(l); });
 // npm run voices -- --plan : list the unique Gemini clips still to make, by unit, without making anything
@@ -188,17 +188,17 @@ for (const l of gemTodo) {
     if (madeBySpec[specId(g)]) copyFileSync(path.join(audioDir, madeBySpec[specId(g)]), out);
     else if (t && existsSync(path.join(root, 'app', 'tryout', t.file))) copyFileSync(path.join(root, 'app', 'tryout', t.file), out);
     else {
-      if (!GEMINI_KEY) { gemNoKey++; continue; }   // copies from the sound-check page still go ahead
+      if (!GEMINI_KEY || gemLimit) { gemNoKey++; continue; }   // copies (sound check, identical clips) still go ahead
       if (gemCalls++) await new Promise(r => setTimeout(r, 7000));
       writeFileSync(out, await gemini(g));
     }
     index[l.key] = gemFile(l); madeBySpec[specId(g)] = gemFile(l); gemMade++;
   } catch (e) {
     console.log(`  could not make "${l.text}" with Gemini: ${e.message.slice(0, 200)}`);
-    if (/429|quota|RESOURCE_EXHAUSTED/i.test(e.message)) { console.log('  Gemini daily limit reached; the rest are made on the next run.'); break; }
+    if (/429|quota|RESOURCE_EXHAUSTED/i.test(e.message)) { if (!gemLimit) console.log('  Gemini daily limit reached; the rest are made on the next run (copies still go ahead).'); gemLimit = true; }
   }
 }
-if (gemTodo.length) console.log(`Gemini letter sounds: ${gemMade} of ${gemTodo.length} made.${gemNoKey ? ` ${gemNoKey} need GEMINI_API_KEY.` : ''}`);
+if (gemTodo.length) console.log(`Gemini letter sounds: ${gemMade} of ${gemTodo.length} made.${gemNoKey ? ` ${gemNoKey} wait for Gemini (no key, or today's limit reached).` : ''}`);
 // keep only clips that are still used
 const keys = new Set(lines.map(l => l.key));
 for (const k of Object.keys(index)) if (!keys.has(k)) delete index[k];
