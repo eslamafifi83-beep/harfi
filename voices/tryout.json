@@ -630,16 +630,6 @@
    "text": "tha",
    "style": "Say one short English syllable: the soft voiceless \"th\" sound of \"think\" and \"thank\" (tongue tip between the teeth, air hissing out), then a short \"a\" as in \"father\". It must not be \"s\", not \"t\", and not the \"th\" of \"the\". Say nothing else.",
    "note": "ث as English \"tha\", voice Kore"
-  },
-  {
-   "id": "tha-en4-achird",
-   "letter": "ث",
-   "label": "E4",
-   "provider": "gemini",
-   "voice": "Achird",
-   "text": "tha",
-   "style": "Say one short English syllable: the soft voiceless \"th\" sound of \"think\" and \"thank\" (tongue tip between the teeth, air hissing out), then a short \"a\" as in \"father\". It must not be \"s\", not \"t\", and not the \"th\" of \"the\". Say nothing else.",
-   "note": "ث as English \"tha\", voice Achird"
   }
  ]
 }

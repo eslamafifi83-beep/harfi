@@ -52,11 +52,27 @@ const textFor = line => (cfg.pronounce && cfg.pronounce[line.text]) || line.text
 const G = cfg.gemini || null;
 const LETTER_SOUNDS = new Set(Object.values(C.L).map(l => clean(l.snd)));
 const SYLLABLE = /^[ء-ي][ً-ْ]$/;   // one letter with one vowel mark: بَ بِ بُ
-const viaGemini = l => !!G && l.speaker === 'b' && ((l.speed === 'slow' && LETTER_SOUNDS.has(l.text)) || SYLLABLE.test(l.text));
+// Toota's words and syllables go to Gemini too (her ElevenLabs words added a stray "a" and garbled them).
+// A word is spoken from its fully vowelled form, built from its syllables (جمل -> جَمَل), so it is never misread.
+const WORD_SAY = {}, SYL_TEXTS = new Set(), PRIORITY = {};
+Object.values(C.W).forEach(w => { WORD_SAY[clean(w.word)] = w.syl.map(s => s.t).join(''); w.syl.forEach(s => SYL_TEXTS.add(clean(s.t))); });
+// make clips in unit order, so the unit she is on is fixed first
+C.UNITS.forEach((U, i) => {
+  const mark = t => { t = clean(t); if (!(t in PRIORITY)) PRIORITY[t] = i; };
+  U.letters.forEach(k => { const l = C.L[k]; mark(l.snd); ['َ', 'ِ', 'ُ'].forEach(v => mark(l.ch + v)); });
+  U.keywords.concat(U.words).forEach(k => { const w = C.W[k]; mark(w.word); w.syl.forEach(s => mark(s.t)); });
+});
+const VOWELLED_WORDS = new Set(Object.values(WORD_SAY));
+const isWord = t => t in WORD_SAY || (VOWELLED_WORDS.has(t) && !SYLLABLE.test(t)), isSyl = t => SYL_TEXTS.has(t) && !SYLLABLE.test(t);
+const viaGemini = l => !!G && l.speaker === 'b' && ((l.speed === 'slow' && LETTER_SOUNDS.has(l.text)) || SYLLABLE.test(l.text) || isWord(l.text) || isSyl(l.text));
 // the delivery instruction names the vowel: fatha "a", kasra "i", damma "u"
 const AFTER = { 'ِ': 'followed by a short i (as in "sit")', 'ُ': 'followed by a short u (as in "put")', 'ْ': 'on its own with no vowel after it, cut short' };
 const styleFor = text => AFTER[text.slice(-1)] ? G.style.replace('followed by a short a', AFTER[text.slice(-1)]) : G.style;
-const gemSpec = l => Object.assign({ text: l.text, voice: G.voice, style: styleFor(l.text) }, (G.overrides || {})[l.text] || {});
+const gemSpec = l => Object.assign(
+  isWord(l.text) ? { text: WORD_SAY[l.text] || l.text, voice: G.voice, style: G.style_word }
+  : isSyl(l.text) ? { text: l.text, voice: G.voice, style: G.style_syllable }
+  : { text: l.text, voice: G.voice, style: styleFor(l.text) },
+  (G.overrides || {})[l.text] || {});
 
 class OutOfCredits extends Error {}
 class PaidVoice extends Error {}
@@ -133,7 +149,7 @@ console.log(`${lines.filter(l => kindOf(l) === 'chat').length} chat lines use th
 // a clip counts as made if it exists, either as recorded or trimmed by voices/fix-clips.py (name ending -t.mp3)
 const have = l => viaGemini(l) ? (index[l.key] === gemFile(l) && existsSync(path.join(audioDir, gemFile(l)))) : !resolved[l.speaker + ':std'] && PROVIDER !== 'azure' ? !!(index[l.key] && existsSync(path.join(audioDir, index[l.key]))) : [fileFor(l), oldFileFor(l)].flatMap(f => [f, f.replace(/\.mp3$/, '-t.mp3')]).some(f => index[l.key] === f && existsSync(path.join(audioDir, f)));
 const all = lines.filter(l => only ? l.text === only : !have(l));
-const gemTodo = all.filter(viaGemini), todo = elevenOff ? [] : all.filter(l => !viaGemini(l));
+const gemTodo = all.filter(viaGemini).sort((a, b) => (PRIORITY[a.text] ?? 99) - (PRIORITY[b.text] ?? 99)), todo = elevenOff ? [] : all.filter(l => !viaGemini(l));
 const allChars = lines.reduce((n, l) => n + l.text.length, 0);
 console.log(`${todo.length} clip(s) to make (${todo.reduce((n, l) => n + l.text.length, 0)} characters), ${lines.length} lines in total (${allChars} characters).`);
 let done = 0, failed = 0, chars = 0, outOfCredits = false;
@@ -155,17 +171,28 @@ await Promise.all((PROVIDER === 'azure' ? [1, 2, 3, 4] : [1, 2]).map(worker));
 // Gemini letter sounds: reuse a clip from the sound-check page when it matches exactly, otherwise make it (paced for the free tier)
 const tryList = existsSync(path.join(root, 'app', 'tryout', 'list.json')) ? JSON.parse(readFileSync(path.join(root, 'app', 'tryout', 'list.json'), 'utf8')) : [];
 let gemMade = 0, gemCalls = 0, gemNoKey = 0;
+const specId = g => g.text + '|' + g.voice + '|' + g.style, madeBySpec = {};
+lines.filter(viaGemini).forEach(l => { if (index[l.key] === gemFile(l) && existsSync(path.join(audioDir, gemFile(l)))) madeBySpec[specId(gemSpec(l))] = gemFile(l); });
+// npm run voices -- --plan : list the unique Gemini clips still to make, by unit, without making anything
+if (args.includes('--plan')) {
+  const seen = new Set(Object.keys(madeBySpec)), byUnit = {};
+  for (const l of gemTodo) { const id = specId(gemSpec(l)); if (seen.has(id)) continue; seen.add(id); const u = PRIORITY[l.text] ?? 99; (byUnit[u] = byUnit[u] || []).push(gemSpec(l).text); }
+  Object.keys(byUnit).sort((a, b) => a - b).forEach(u => console.log(`unit ${+u + 1 > 7 ? '(other)' : +u + 1}: ${byUnit[u].length}  ${byUnit[u].join(' ')}`));
+  console.log(`${[...seen].length - Object.keys(madeBySpec).length} unique Gemini clips to make.`);
+  process.exit(0);
+}
 for (const l of gemTodo) {
   const g = gemSpec(l), out = path.join(audioDir, gemFile(l));
   const t = tryList.find(it => it.provider === 'gemini' && it.text === g.text && it.voice === g.voice && it.style === g.style);
   try {
-    if (t && existsSync(path.join(root, 'app', 'tryout', t.file))) copyFileSync(path.join(root, 'app', 'tryout', t.file), out);
+    if (madeBySpec[specId(g)]) copyFileSync(path.join(audioDir, madeBySpec[specId(g)]), out);
+    else if (t && existsSync(path.join(root, 'app', 'tryout', t.file))) copyFileSync(path.join(root, 'app', 'tryout', t.file), out);
     else {
       if (!GEMINI_KEY) { gemNoKey++; continue; }   // copies from the sound-check page still go ahead
       if (gemCalls++) await new Promise(r => setTimeout(r, 7000));
       writeFileSync(out, await gemini(g));
     }
-    index[l.key] = gemFile(l); gemMade++;
+    index[l.key] = gemFile(l); madeBySpec[specId(g)] = gemFile(l); gemMade++;
   } catch (e) {
     console.log(`  could not make "${l.text}" with Gemini: ${e.message.slice(0, 200)}`);
     if (/429|quota|RESOURCE_EXHAUSTED/i.test(e.message)) { console.log('  Gemini daily limit reached; the rest are made on the next run.'); break; }

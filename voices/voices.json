@@ -57,13 +57,15 @@
   "_pronounce": "If a clip sounds wrong (for example a single sound read as a letter name), add the text here with a spelling that reads better, then remake it.",
   "pronounce": {},
   "gemini": {
-    "_about": "Letter sounds (Toota, slow) are made with Gemini TTS on the free tier (about 10 clips a day; key in the GEMINI_API_KEY secret). Changing the voice or style remakes them. 'overrides' fixes single sounds: a different style and/or text for that sound.",
+    "_about": "Letter sounds (Toota, slow) are made with Gemini TTS on the free tier (about 10 clips a day; key in the GEMINI_API_KEY secret). Changing the voice or style remakes them. 'overrides' fixes single sounds: a different style and/or text for that sound. Toota's words use 'style_word' (spoken from their vowelled form) and her syllables 'style_syllable'. Clips are made in unit order.",
     "voice": "Leda",
     "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
     "overrides": {
       "ثَ": {
         "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: ث is the soft \"th\" of the English word \"think\" (tongue tip between the teeth, air flowing), followed by a short a: \"tha\". It must not sound like \"s\" or \"t\". Do not say the letter name, and say nothing else."
       }
-    }
+    },
+    "style_word": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female teacher for a 6-year-old says this one word clearly and a little slowly, exactly as written with its vowel marks. Start straight on the first letter (no extra sound before it). Say nothing else.",
+    "style_syllable": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says this one syllable clearly and slowly, exactly as written with its vowel marks: it is one piece of a word being sounded out. Start straight on the first letter (no extra sound before it). Say nothing else."
   }
 }

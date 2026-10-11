@@ -492,3 +492,4 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
 .joined{color:var(--sk-orange);-webkit-text-stroke:6px var(--sk-ink);paint-order:stroke fill}
 .pic .word .q{color:rgba(43,27,72,.3)}
 .ring circle.run{stroke:var(--sk-orange)}
+.pic svg{width:clamp(110px,16vw,170px)}
