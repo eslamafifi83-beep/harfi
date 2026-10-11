@@ -493,3 +493,4 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
 .pic .word .q{color:rgba(43,27,72,.3)}
 .ring circle.run{stroke:var(--sk-orange)}
 .pic svg{width:clamp(110px,16vw,170px)}
+@media (max-width:600px){.slots{gap:8px;flex-wrap:nowrap}.slot{width:58px;height:70px;font-size:44px;border-radius:18px}.tiles{gap:10px}.tile{width:70px;height:70px;font-size:46px;border-radius:20px}}
