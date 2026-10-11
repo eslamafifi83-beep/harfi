@@ -419,6 +419,7 @@ function theName(l){ return 'ال' + l.name.replace(/^ال/, ''); }   /* "الب
 /* Phonics first: a letter is always spoken as its SOUND (بَ "ba"), never its name (باء). Every single sound
    plays at this one rate, so each letter sound has exactly one clip. */
 var SND = .6;
+function hint(l){ return l.key === 'alif' ? 'a' : l.key === 'ayn' ? 'a (from the throat)' : l.tr + 'a'; }
 function sounds(l, n){ var p = []; for (var i = 0; i < (n || 1); i++) p.push({t:l.snd, rate:SND}); return p; }
 
 var mistakes = 0;
@@ -534,7 +535,7 @@ function meetLetters(u, li){
   var TILE = ['#FF8A3D','#22B5A6','#FF5AA0','#FFC93C','#8A5CF6','#4FB83A'];
   U.letters.forEach(function(k, ix){
     var l = L[k];
-    var c = h('<button class="lcard" style="--c:'+TILE[ix % TILE.length]+'" aria-label="Letter '+l.en+'"><span class="seen">'+CHECK+'</span><span class="big ar">'+l.ch+'</span><span class="nm"><span class="ar">'+l.snd+'</span><span class="en" dir="ltr">“'+(l.key === 'alif' ? 'a' : l.tr + 'a')+'” · '+l.en+'</span></span></button>');
+    var c = h('<button class="lcard" style="--c:'+TILE[ix % TILE.length]+'" aria-label="Letter '+l.en+'"><span class="seen">'+CHECK+'</span><span class="big ar">'+l.ch+'</span><span class="nm"><span class="ar">'+l.snd+'</span><span class="en" dir="ltr">“'+hint(l)+'” · '+l.en+'</span></span></button>');
     c.addEventListener('click', function(){
       c.classList.remove('play'); void c.offsetWidth; c.classList.add('play');
       SFX.tap(); speakSeq(sounds(l, 3), function(i){   /* the letter's sound, three times (not its name) */ if (i) { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } }, null, 300);
@@ -553,7 +554,7 @@ function popGame(u, li, round){
   var targets = UNITS[u].sounding.slice(0, 3);
   var tk = targets[round], T = L[tk], NEED = 4;
   var others = distractors(u, [tk], 3);
-  var el = scene(dotsHTML(targets.length, round) + '<div class="target"><div class="task"><span class="ar">فرقعي بلالين '+T.snd+'</span><span class="en">Pop the “'+T.tr+'a” balloons</span></div><div class="tg ar">'+T.ch+'</div><button class="listen" id="lis" style="width:72px;height:72px" aria-label="Hear the sound">'+SPEAKER+'</button><div class="dots" id="cnt"></div></div><div class="sky" id="sky"></div>');
+  var el = scene(dotsHTML(targets.length, round) + '<div class="target"><div class="task"><span class="ar">فرقعي بلالين '+T.snd+'</span><span class="en">Pop the “'+hint(T)+'” balloons</span></div><div class="tg ar">'+T.ch+'</div><button class="listen" id="lis" style="width:72px;height:72px" aria-label="Hear the sound">'+SPEAKER+'</button><div class="dots" id="cnt"></div></div><div class="sky" id="sky"></div>');
   var lis = el.querySelector('#lis');
   function hearT(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq(sounds(T, 2), null, null, 250); }
   lis.addEventListener('click', hearT);
@@ -581,7 +582,7 @@ function popGame(u, li, round){
       } else {
         mistakes++;
         b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
-        oops('مش ده… اسمعي تاني: '+T.snd, 'Mish da… ismaʿi tāni: "'+T.tr+'"', 'Not that one. Listen again: "'+T.tr+'" '+T.ch, false);
+        oops('مش ده… اسمعي تاني: '+T.snd, 'Mish da… ismaʿi tāni: "'+T.tr+'"', 'Not that one. Listen again: "'+hint(T)+'" '+T.ch, false);
         speakSeq([{t:'مش ده… اسمعي تاني', rate:.85, who:'f'}].concat(sounds(T, 2)), null, null, 300);
       }
     });
@@ -604,7 +605,7 @@ function popGame(u, li, round){
   }
   raf = requestAnimationFrame(frame);
   cleanup = function(){ run = false; cancelAnimationFrame(raf); };
-  say('فرقعي البلالين اللي بتقول '+T.snd, 'Farqaʿi el-balalīn elli bit\'ūl "'+T.tr+'"', 'Pop only the balloons that say "'+T.tr+'". Tap the speaker to hear it', false, 'f');
+  say('فرقعي البلالين اللي بتقول '+T.snd, 'Farqaʿi el-balalīn elli bit\'ūl "'+T.tr+'"', 'Pop only the balloons that say "'+hint(T)+'". Tap the speaker to hear it', false, 'f');
   speakSeq([{t:'فرقعي البلالين اللي بتقول', rate:.85, who:'f'}].concat(sounds(T, 2)), null, null, 300);
 }
 
@@ -619,7 +620,7 @@ function soundMatch(u, li){
     function hear(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq(sounds(l, 2), null, null, 300); }
     lis.addEventListener('click', hear);
     opts.forEach(function(o){
-      var b = h('<button class="choice" aria-label="Letter '+L[o].en+'"><span class="big ar" style="color:#2B2140">'+L[o].ch+'</span><span class="sm en">"'+L[o].tr+'"</span></button>');
+      var b = h('<button class="choice" aria-label="Letter '+L[o].en+'"><span class="big ar" style="color:#2B2140">'+L[o].ch+'</span><span class="sm en">"'+hint(L[o])+'"</span></button>');
       b.addEventListener('click', function(){
         if (locked) return;
         if (o === k) {
@@ -628,7 +629,7 @@ function soundMatch(u, li){
           later(function(){ r++; r < rounds.length ? play() : finishLevel(u, li); }, 2600);
         } else {
           mistakes++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); SFX.bad(); mood('sad');
-          say('ده بيقول '+L[o].snd+'… اسمعي تاني', 'Da biy\'ūl "'+L[o].tr+'"… ismaʿi tāni', 'That one says "'+L[o].tr+'". Listen again', false, 'b');
+          say('ده بيقول '+L[o].snd+'… اسمعي تاني', 'Da biy\'ūl "'+L[o].tr+'"… ismaʿi tāni', 'That one says "'+hint(L[o])+'". Listen again', false, 'b');
           speakSeq(sounds(L[o]), null, function(){ later(hear, 500); });
         }
       });
@@ -643,7 +644,7 @@ function soundMatch(u, li){
 /* ---------- 2 · say it with me ---------- */
 function sayGame(u, li){
   var U = UNITS[u];
-  var items = U.sounding.slice(0, 3).map(function(k){ var l = L[k]; return {show:l.snd, parts:sounds(l), tr:l.tr+'a', en:'the sound of '+l.ch}; });
+  var items = U.sounding.slice(0, 3).map(function(k){ var l = L[k]; return {show:l.snd, parts:sounds(l), tr:hint(l), en:'the sound of '+l.ch}; });
   var words = u === 0 ? [W.baba, W.filfil, W.toota] : U.words.map(function(k){ return W[k]; });
   items = items.concat(words.map(function(w){ return {w:w}; }));
   var r = 0;
@@ -758,7 +759,7 @@ function firstSound(u, li){
     onsetBtn.addEventListener('click', function(){ SFX.tap(); speakSeq([{t:onset,rate:.55},{t:onset,rate:.55}], null, null, 350); });
     opts.forEach(function(k){
       var l = L[k];
-      var b = h('<button class="choice" aria-label="Letter '+l.en+'"><span class="big ar" style="color:#2B2140">'+l.ch+'</span><span class="sm en">"'+l.tr+'"</span></button>');
+      var b = h('<button class="choice" aria-label="Letter '+l.en+'"><span class="big ar" style="color:#2B2140">'+l.ch+'</span><span class="sm en">"'+hint(l)+'"</span></button>');
       b.addEventListener('click', function(){
         if (locked) return;
         if (k === R.first) {
@@ -769,7 +770,7 @@ function firstSound(u, li){
         } else {
           mistakes++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no');
           SFX.bad(); mood('sad');
-          say('ده بيقول '+l.snd+'… اسمعي أوّل الكلمة', 'Da biy\'ūl "'+l.tr+'"… ismaʿi awwel el-kilma', 'That says "'+l.tr+'". Listen to the start: "'+R.syl[0].tr+'…"', false, 'b');
+          say('ده بيقول '+l.snd+'… اسمعي أوّل الكلمة', 'Da biy\'ūl "'+l.tr+'"… ismaʿi awwel el-kilma', 'That says "'+hint(l)+'". Listen to the start: "'+R.syl[0].tr+'…"', false, 'b');
           speakSeq(sounds(l).concat([{t:onset,rate:.55},{t:onset,rate:.55}]), null, null, 450);
         }
       });
@@ -786,7 +787,7 @@ function traceGame(u, li){
   var keys = UNITS[u].letters, r = 0;
   function play(){
     var l = L[keys[r]];
-    var el = scene(dotsHTML(keys.length, r) + task('لوّني '+l.snd,'Lawwini "'+(l.key === 'alif' ? 'a' : l.tr + 'a')+'"','Colour in '+l.en+' with your finger. Start at the green dot') +
+    var el = scene(dotsHTML(keys.length, r) + task('لوّني '+l.snd,'Lawwini "'+hint(l)+'"','Colour in '+l.en+' with your finger. Start at the green dot') +
       '<div class="trace-wrap"><div class="board" id="board"><canvas id="cv" aria-label="Colour in the letter '+l.en+'"></canvas></div><div class="side"><div class="model"><span class="big ar">'+l.ch+'</span><span class="en" style="color:#6B5E52">'+l.en+'</span></div><div class="meter" aria-hidden="true"><i id="fill"></i></div></div></div>');
     var board = el.querySelector('#board'), cv = el.querySelector('#cv'), ctx = cv.getContext('2d'), fillBar = el.querySelector('#fill');
     var dpr, Wd, Ht, fs, mask, paint, pctx, clip, cctx, samples = [], startPt = null, drawing = false, lastP = null, moves = 0, finished = false, started = false;
