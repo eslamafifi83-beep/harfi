@@ -338,6 +338,30 @@ function speakSeq(parts, onEach, done, gap){
   }
   step();
 }
+/* ---------- her own voice ("Say it with me"): record a few seconds, play it back ----------
+   The recording stays in memory for that moment only: it is never saved or sent anywhere.
+   The microphone is switched off again as soon as each recording ends. */
+var canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder), micDenied = false, stopRec = null;
+function recordFor(ms){
+  return navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true}}).then(function(stream){
+    return new Promise(function(res, rej){
+      var chunks = [], rec;
+      try { rec = new MediaRecorder(stream); } catch(e) { stream.getTracks().forEach(function(t){ t.stop(); }); rej(e); return; }
+      rec.ondataavailable = function(e){ if (e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = function(){ stream.getTracks().forEach(function(t){ t.stop(); }); stopRec = null; res(new Blob(chunks, {type: rec.mimeType || 'audio/webm'})); };
+      rec.start();
+      var t = setTimeout(function(){ if (rec.state !== 'inactive') rec.stop(); }, ms);
+      stopRec = function(){ clearTimeout(t); if (rec.state !== 'inactive') rec.stop(); };
+    });
+  });
+}
+function playBlob(blob, done){
+  var url = URL.createObjectURL(blob), a = getPlayer(), fin = false;
+  function end(){ if (fin) return; fin = true; a.onended = a.onerror = null; try { URL.revokeObjectURL(url); } catch(e) {} if (done) done(); }
+  seqToken++; a.onplay = null; a.onended = end; a.onerror = end; a.src = url; a.playbackRate = 1;
+  var p = a.play(); if (p && p.catch) p.catch(end);
+  setTimeout(end, 8000);
+}
 function stopSpeech(){ seqToken++; talking(false); if (currentAudio) { try { currentAudio.pause(); } catch(e) {} } if ('speechSynthesis' in window) { try { speechSynthesis.cancel(); } catch(e) {} } }
 
 /* ---------- speech bubble and reactions ---------- */
@@ -697,6 +721,45 @@ function sayGame(u, li){
     }
     function herTurn(){
       st.classList.remove('phase-listen'); SFX.dot(); mood('happy');
+      if (!canRecord || micDenied) { countdownTurn(); return; }
+      say('دورك! قولي '+(w ? w.word : it.show), 'Dōrik! ʾūli '+(w ? w.tr : it.tr), 'Your turn! Tap the microphone and say it', false, 'b');
+      speakSeq([{t:'دورك! قولي', rate:.85}, w ? {t:w.word, rate:.75} : it.parts[0]], null, null, 150);
+      turn.innerHTML = '<button class="mic" id="mic" aria-label="Record your voice"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3" fill="#fff"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg><i class="mring" aria-hidden="true"></i></button><span class="ar" id="micAr">دوسي وقولي</span><span class="en" id="micEn" style="font-size:18px">Tap and say it</span>';
+      var mic = turn.querySelector('#mic');
+      mic.addEventListener('click', function(){
+        if (mic.classList.contains('rec')) { if (stopRec) stopRec(); return; }   /* a second tap stops early */
+        stopSpeech(); SFX.dot(); mic.classList.add('rec');
+        turn.querySelector('#micAr').textContent = 'بسمعك…'; turn.querySelector('#micEn').textContent = 'I\'m listening…';
+        document.querySelectorAll('#buddies .buddy').forEach(function(b){ b.style.transform = 'rotate(-8deg) translateY(-4px)'; });
+        recordFor(3200).then(function(blob){
+          document.querySelectorAll('#buddies .buddy').forEach(function(b){ b.style.transform = ''; });
+          heard(blob);
+        }).catch(function(){ micDenied = true; document.querySelectorAll('#buddies .buddy').forEach(function(b){ b.style.transform = ''; }); countdownTurn(); });
+      });
+    }
+    /* her voice first, then Toota's, then she chooses */
+    function heard(blob){
+      var all = w ? w.letters.map(function(_,k){ return k; }) : [0], word = w ? w.word : it.show, trw = w ? w.tr : it.tr;
+      turn.innerHTML = '<span class="ar">اسمعي صوتك!</span><span class="en" style="font-size:18px">Listen to your voice!</span>';
+      say('اسمعي صوتك!', 'Ismaʿi ṣōtik!', 'Listen to your voice!', false, 'b');
+      speakSeq([{t:'اسمعي صوتك!', rate:.85}], null, function(){
+        playBlob(blob, function(){ later(function(){
+          say(word, trw, 'And now Toota says it', false, 'b');
+          speakSeq([w ? {t:w.word, rate:.75} : it.parts[0]], function(){ lightUp(card, all); }, function(){ lightUp(card, null); choose(blob); });
+        }, 350); });
+      });
+    }
+    function choose(blob){
+      turn.innerHTML = '';
+      var yes = h('<button class="go teal"><span class="ar">قلتها!</span><span class="en" style="font-size:17px">I said it</span></button>');
+      var mine = h('<button class="ghost"><span class="ar">صوتي</span><span class="en" style="font-size:16px">My voice</span></button>');
+      var again = h('<button class="ghost"><span class="ar">سجّلي تاني</span><span class="en" style="font-size:16px">Record again</span></button>');
+      yes.addEventListener('click', function(){ yes.disabled = true; praise(card); confetti(30); later(function(){ r++; r < items.length ? play() : finishLevel(u, li); }, 1700); });
+      mine.addEventListener('click', function(){ SFX.tap(); playBlob(blob); });
+      again.addEventListener('click', function(){ SFX.tap(); herTurn(); });
+      turn.appendChild(again); turn.appendChild(mine); turn.appendChild(yes);
+    }
+    function countdownTurn(){
       say('دورك! قولي '+(w ? w.word : it.show), 'Dōrik! ʾūli '+(w ? w.tr : it.tr), w === W.filfil ? 'Your turn! Say Filfil\'s name' : w === W.toota ? 'Your turn! Say Toota\'s name' : 'Your turn! Say it out loud', false, 'b');
       speakSeq([{t:'دورك! قولي', rate:.85}, w ? {t:w.word, rate:.75} : it.parts[0]], null, null, 150);   /* the sound or word comes from its own clip */
       document.querySelectorAll('#buddies .buddy').forEach(function(b){ b.style.transform = 'rotate(-8deg) translateY(-4px)'; });

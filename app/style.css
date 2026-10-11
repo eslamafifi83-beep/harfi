@@ -579,3 +579,11 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
 .ghost.danger{background:#FFD3E3;border-color:#B5476B;color:#7A1E3A}
 @media (max-width:600px){.pp-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pp-letters{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:440px){.brand>div{display:none}.tools{gap:5px}.pill{padding:0 8px;min-width:40px}}
+/* her voice: the microphone button in "Say it with me" */
+.mic{position:relative;width:clamp(96px,13vw,124px);aspect-ratio:1;border-radius:50%;border:5px solid var(--sk-ink);background:var(--sk-pink);box-shadow:0 7px 0 var(--sk-ink);display:flex;align-items:center;justify-content:center;overflow:hidden;animation:nudge 1.4s ease-in-out infinite}
+.mic svg{position:relative;z-index:1}
+.mic:active{transform:translateY(4px);box-shadow:0 3px 0 var(--sk-ink)}
+.mic .mring{position:absolute;inset:0;background:conic-gradient(rgba(255,255,255,.55) var(--p,0%),transparent 0)}
+.mic.rec{background:#E5383B;animation:micPulse .7s ease-in-out infinite alternate}
+.mic.rec .mring{animation:holdFill 3.2s linear forwards}
+@keyframes micPulse{from{box-shadow:0 7px 0 var(--sk-ink),0 0 0 0 rgba(229,56,59,.45)}to{box-shadow:0 7px 0 var(--sk-ink),0 0 0 18px rgba(229,56,59,0)}}

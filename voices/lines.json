@@ -600,6 +600,12 @@
   "text": "اسمعي الكلمة حتّة حتّة"
  },
  {
+  "key": "b|normal|اسمعي صوتك",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "اسمعي صوتك"
+ },
+ {
   "key": "b|normal|اسمعي كويس",
   "speaker": "b",
   "speed": "normal",
