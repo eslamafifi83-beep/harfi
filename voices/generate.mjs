@@ -64,16 +64,19 @@ C.UNITS.forEach((U, i) => {
 });
 const VOWELLED_WORDS = new Set(Object.values(WORD_SAY));
 const isWord = t => t in WORD_SAY || (VOWELLED_WORDS.has(t) && !SYLLABLE.test(t)), isSyl = t => SYL_TEXTS.has(t) && !SYLLABLE.test(t);
-// Every Toota line goes to Gemini (one voice for everything she says); her chat lines use style_chat
-const viaGemini = l => !!G && l.speaker === 'b';
+// Every line goes to Gemini: Toota (b) and Filfil (f) each have one voice for everything (voices.json gemini.voices);
+// chat lines use that friend's chat style. Toota teaches all phonics; Filfil only chats.
+const viaGemini = l => !!G && (l.speaker === 'b' || l.speaker === 'f');
+const voiceFor = l => (G.voices || {})[l.speaker] || G.voice;
 // the delivery instruction names the vowel: fatha "a", kasra "i", damma "u"
 const AFTER = { 'ِ': 'followed by a short i (as in "sit")', 'ُ': 'followed by a short u (as in "put")', 'ْ': 'on its own with no vowel after it, cut short' };
 const styleFor = text => AFTER[text.slice(-1)] ? G.style.replace('followed by a short a', AFTER[text.slice(-1)]) : G.style;
 const gemSpec = l => Object.assign(
-  isWord(l.text) ? { text: WORD_SAY[l.text] || l.text, voice: G.voice, style: G.style_word }
-  : isSyl(l.text) ? { text: l.text, voice: G.voice, style: G.style_syllable }
-  : (SYLLABLE.test(l.text) || LETTER_SOUNDS.has(l.text)) ? { text: l.text, voice: G.voice, style: styleFor(l.text) }
-  : { text: l.text, voice: G.voice, style: G.style_chat },
+  l.speaker === 'f' ? { text: l.text, voice: voiceFor(l), style: G.style_chat_filfil }
+  : isWord(l.text) ? { text: WORD_SAY[l.text] || l.text, voice: voiceFor(l), style: G.style_word }
+  : isSyl(l.text) ? { text: l.text, voice: voiceFor(l), style: G.style_syllable }
+  : (SYLLABLE.test(l.text) || LETTER_SOUNDS.has(l.text)) ? { text: l.text, voice: voiceFor(l), style: styleFor(l.text) }
+  : { text: l.text, voice: voiceFor(l), style: G.style_chat },
   (G.overrides || {})[l.text] || {});
 
 class OutOfCredits extends Error {}

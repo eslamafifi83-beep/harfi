@@ -57,7 +57,7 @@
   "_pronounce": "If a clip sounds wrong (for example a single sound read as a letter name), add the text here with a spelling that reads better, then remake it.",
   "pronounce": {},
   "gemini": {
-    "_about": "Letter sounds (Toota, slow) are made with Gemini TTS on the free tier (about 10 clips a day; key in the GEMINI_API_KEY secret). Changing the voice or style remakes them. 'overrides' fixes single sounds: a different style and/or text for that sound. Toota's words use 'style_word' (spoken from their vowelled form) and her syllables 'style_syllable'. Clips are made in unit order. (ث uses the plain style: measured, its hiss is soft like ف, a real 'th'; the 'th as in think' instruction made it a loud 's'.) All of Toota's lines use Gemini; chat lines use style_chat. 'first' lists lines to make before anything else (lesson 1's instructions).",
+    "_about": "Letter sounds (Toota, slow) are made with Gemini TTS on the free tier (about 10 clips a day; key in the GEMINI_API_KEY secret). Changing the voice or style remakes them. 'overrides' fixes single sounds: a different style and/or text for that sound. Toota's words use 'style_word' (spoken from their vowelled form) and her syllables 'style_syllable'. Clips are made in unit order. (ث uses the plain style: measured, its hiss is soft like ف, a real 'th'; the 'th as in think' instruction made it a loud 's'.) All of Toota's lines use Gemini; chat lines use style_chat. 'first' lists lines to make before anything else (lesson 1's instructions). Filfil uses voice Achird (G2) with style_chat_filfil; Toota uses Leda (G1).",
     "voice": "Leda",
     "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
     "overrides": {
@@ -75,6 +75,13 @@
     "style_syllable": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says this one syllable clearly and slowly, exactly as written with its vowel marks: it is one piece of a word being sounded out. Start straight on the first letter (no extra sound before it). Say nothing else.",
     "style_chat": "Egyptian Arabic (Cairo dialect), read exactly as written. A warm, cheerful, gentle young woman talking to a 6-year-old girl: clear, friendly and a little slow, with a smile in her voice. Say exactly this text and nothing else.",
     "first": [
+      "صباح الخير! أنا فلفل!",
+      "مساء الخير! أنا فلفل!",
+      "صباح الخير! وأنا توتة!",
+      "مساء الخير! وأنا توتة!",
+      "جاهزة؟ يلّا بينا!",
+      "يلّا نبدأ نلعب!",
+      "إحنا فخورين بيكي!",
       "يلّا نبدأ! دوسي على الدايرة البرتقالي",
       "دوسي على كل حرف واسمعي صوته",
       "شاطرة! يلّا نلعب بالبلالين",
@@ -91,6 +98,11 @@
       "اسمعي صوتك!",
       "الحرف بيغيّر شكله في الكلمة",
       "دوّري على الشكل اللي بيقول الصوت ده"
-    ]
+    ],
+    "voices": {
+      "b": "Leda",
+      "f": "Achird"
+    },
+    "style_chat_filfil": "Egyptian Arabic (Cairo dialect), read exactly as written. A cheeky, playful, energetic young boy character, a funny little chili pepper, talking to a 6-year-old girl: bright, bouncy and friendly, clear and not too fast, with a big grin in his voice. Say exactly this text and nothing else."
   }
 }

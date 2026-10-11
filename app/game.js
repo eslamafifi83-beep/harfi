@@ -387,11 +387,12 @@ function mood(m){
     }, i * 140);
   });
 }
-var lastPraise = -1;
+var lastPraise = -1, praiseWho = 'f';
 function praise(el){
   var i; do { i = Math.floor(Math.random()*PRAISE.length); } while (i === lastPraise);
   lastPraise = i;
-  SFX.good(); mood(Math.random() < .25 ? 'spin' : 'happy'); say(PRAISE[i][0], PRAISE[i][1], PRAISE[i][2], true, 'b');
+  SFX.good(); mood(Math.random() < .25 ? 'spin' : 'happy'); praiseWho = praiseWho === 'b' ? 'f' : 'b';   /* the two friends take turns cheering */
+  say(PRAISE[i][0], PRAISE[i][1], PRAISE[i][2], true, praiseWho);
   if (el) burst(el);
 }
 function oops(ar, tr, en, talk, who){ SFX.bad(); mood('sad'); say(ar, tr, en, talk, who || 'b'); }
