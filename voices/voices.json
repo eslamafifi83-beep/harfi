@@ -60,7 +60,17 @@
     "_about": "Letter sounds (Toota, slow) are made with Gemini TTS on the free tier (about 10 clips a day; key in the GEMINI_API_KEY secret). Changing the voice or style remakes them. 'overrides' fixes single sounds: a different style and/or text for that sound. Toota's words use 'style_word' (spoken from their vowelled form) and her syllables 'style_syllable'. Clips are made in unit order. (ث uses the plain style: measured, its hiss is soft like ف, a real 'th'; the 'th as in think' instruction made it a loud 's'.)",
     "voice": "Leda",
     "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else.",
-    "overrides": {},
+    "overrides": {
+      "هَ": {
+        "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short a. Do not say the letter name, and say nothing else. Start directly on the soft breathy \"h\" itself, like the h in English \"hat\": there must be no vowel or sound at all before the h."
+      },
+      "هُ": {
+        "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short u (as in \"put\"). Do not say the letter name, and say nothing else. Start directly on the soft breathy \"h\" itself, like the h in English \"hat\": there must be no vowel or sound at all before the h."
+      },
+      "هِ": {
+        "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says only this one letter sound, clearly and a little slowly: the consonant followed by a short i (as in \"sit\"). Do not say the letter name, and say nothing else. Start directly on the soft breathy \"h\" itself, like the h in English \"hat\": there must be no vowel or sound at all before the h."
+      }
+    },
     "style_word": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female teacher for a 6-year-old says this one word clearly and a little slowly, exactly as written with its vowel marks. Start straight on the first letter (no extra sound before it). Say nothing else.",
     "style_syllable": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female phonics teacher for a 6-year-old says this one syllable clearly and slowly, exactly as written with its vowel marks: it is one piece of a word being sounded out. Start straight on the first letter (no extra sound before it). Say nothing else."
   }
