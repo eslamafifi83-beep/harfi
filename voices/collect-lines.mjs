@@ -29,6 +29,8 @@ async function act() {
     const go = q('#footAct .go:not([disabled])');
     if (q('.lcard') && go && go.classList.contains('ready')) { go.click(); return 'go'; }
     if (q('.lcard')) return 'wait';
+    const sf = qa('.sh-form:not(.was)')[0]; if (sf) { sf.click(); return 'shape'; }
+    if (q('.shapes')) { const g = q('#footAct .go:not([disabled])'); if (g) { g.click(); return 'go'; } return 'wait'; }
     if (q('.sky')) {
       const tg = q('.tg').textContent.trim(), bs = qa('.balloon:not(.popped)');
       if (!window.__wrongB) { const w = bs.find(b => b.textContent.trim() !== tg); if (w) { ev(w, 'pointerdown', 0, 0); window.__wrongB = 1; return 'wrong balloon'; } }

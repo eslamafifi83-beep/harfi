@@ -587,3 +587,17 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
 .mic.rec{background:#E5383B;animation:micPulse .7s ease-in-out infinite alternate}
 .mic.rec .mring{animation:holdFill 3.2s linear forwards}
 @keyframes micPulse{from{box-shadow:0 7px 0 var(--sk-ink),0 0 0 0 rgba(229,56,59,.45)}to{box-shadow:0 7px 0 var(--sk-ink),0 0 0 18px rgba(229,56,59,0)}}
+/* letter shapes (bonus game) */
+.shapes{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(6px,1.2vh,12px);direction:rtl}
+.sh-head,.sh-row{display:grid;grid-template-columns:minmax(56px,.8fr) repeat(3,minmax(0,1fr));gap:clamp(6px,1.2vw,12px);align-items:center}
+.sh-head span{display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.sh-head b{font-size:clamp(16px,2vw,20px);font-weight:800;color:var(--sk-ink)}
+.sh-head small{font-size:13px;font-weight:700;color:#4A3D6B}
+.sh-letter{display:flex;align-items:center;justify-content:center;font-size:clamp(40px,5.6vw,64px);font-weight:800;color:#fff;background:var(--c);border:4px solid var(--sk-ink);border-radius:20px;box-shadow:0 5px 0 var(--sk-ink);-webkit-text-stroke:3px var(--sk-ink);paint-order:stroke fill;line-height:1.4}
+.sh-form{border:4px solid var(--sk-ink);border-radius:20px;background:#fff;box-shadow:0 5px 0 var(--sk-ink);font-size:clamp(38px,5.2vw,60px);font-weight:800;line-height:1.4;color:var(--sk-ink);padding:0}
+.sh-form.was{background:#FFF6D6}
+.sh-form.play{animation:tileBoing .55s cubic-bezier(.3,1.8,.5,1)}
+.sh-place{display:flex;flex-direction:column;align-items:center;background:var(--sk-yellow);border:4px solid var(--sk-ink);box-shadow:0 5px 0 var(--sk-ink);border-radius:999px;padding:4px 22px;line-height:1.15}
+.sh-place b{font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--sk-ink)}
+.sh-place small{font-size:14px;font-weight:700;color:var(--sk-ink)}
+@media (max-width:600px){.sh-head,.sh-row{grid-template-columns:48px repeat(3,minmax(0,1fr));gap:6px}.sh-form{font-size:34px;border-radius:14px}.sh-letter{font-size:34px;border-radius:14px}.sh-head b{font-size:13px}.sh-head small{font-size:11px}}

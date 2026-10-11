@@ -148,7 +148,7 @@ UNITS.forEach(function(U, i){
   U.label = U.letters.map(function(k){ return L[k].ch; }).join(' ');
   U.sounding = U.letters.filter(function(k){ return k !== 'alif'; });          /* letters with a clear sound of their own */
   U.keywords = U.letters.map(function(k){ return 'k_' + k; });
-  U.stickers = U.keywords.map(function(k){ return W[k].pic; }).concat(U.words.slice(0, 2).map(function(k){ return W[k].pic; }));
+  U.stickers = U.keywords.map(function(k){ return W[k].pic; }).concat(U.words.slice(0, 3).map(function(k){ return W[k].pic; }));   /* one per game: 7 */
 });
 
 window.HARFI_CONTENT = {LETTERS:LETTERS, L:L, BY_CH:BY_CH, PIC:PIC, W:W, UNITS:UNITS};

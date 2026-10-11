@@ -157,7 +157,8 @@ var LEVELS = [
   {id:'vowels', ar:'الحركات',    tr:'el-ḥarakāt',  en:'Short vowels'},
   {id:'first',  ar:'أوّل صوت',   tr:'awwel ṣōt',   en:'First sound'},
   {id:'trace',  ar:'لوّني',      tr:'lawwini',     en:'Write'},
-  {id:'words',  ar:'كلمات',      tr:'kilmāt',      en:'Words'}
+  {id:'words',  ar:'كلمات',      tr:'kilmāt',      en:'Words'},
+  {id:'shapes', ar:'أشكال الحرف', tr:'ashkāl el-ḥarf', en:'Letter shapes', bonus:true}   /* a bonus: not needed to finish the unit */
 ];
 function glyphFor(u, id){
   var U = UNITS[u], s = L[U.sounding[0]].ch;
@@ -165,6 +166,7 @@ function glyphFor(u, id){
   if (id === 'vowels') return s + 'ُ';
   if (id === 'first') return s + 'ـ';
   if (id === 'words') return W[U.words[0]].word;
+  if (id === 'shapes') return 'ـ' + s + 'ـ';
   return id;
 }
 /* letters she has met so far (this unit and the ones before) */
@@ -206,7 +208,7 @@ function updateCounts(){
   $('#stickerCount').textContent = save.stickers.length;
 }
 function doneKey(u, id){ return 'u'+u+':'+id; }
-function unitDone(u){ return LEVELS.every(function(lv){ return save.done[doneKey(u, lv.id)]; }); }
+function unitDone(u){ return LEVELS.every(function(lv){ return lv.bonus || save.done[doneKey(u, lv.id)]; }); }
 function unitOpen(u){ return u === 0 || unitDone(u - 1); }
 
 /* ---------- sound effects ---------- */
@@ -497,7 +499,7 @@ function showMap(greet, u){
   });
   function layout(){
     var w = map.clientWidth, hgt = map.clientHeight, wide = w > 620;
-    var P = wide ? [[89,30],[73,70],[57,30],[41,70],[25,30],[10,70]] : [[70,12],[30,27],[70,42],[30,57],[70,72],[32,88]];
+    var P = wide ? [[90,30],[77,70],[64,30],[51,70],[38,30],[24,70],[10,30]] : [[70,9],[30,22],[70,35],[30,48],[70,61],[30,74],[68,88]];
     var pts = P.map(function(p){ return [p[0]/100*w, p[1]/100*hgt]; });
     map.querySelectorAll('.node').forEach(function(n, i){ n.style.left = P[i][0]+'%'; n.style.top = P[i][1]+'%'; });
     function curve(k){
@@ -530,7 +532,8 @@ function startLevel(u, i){
   else if (id === 'vowels') vowelGame(u, i);
   else if (id === 'first') firstSound(u, i);
   else if (id === 'trace') traceGame(u, i);
-  else wordGame(u, i);
+  else if (id === 'words') wordGame(u, i);
+  else shapesGame(u, i);
 }
 
 function finishLevel(u, i){
@@ -538,7 +541,7 @@ function finishLevel(u, i){
   var isNew = save.stickers.indexOf(sticker) < 0;
   save.done[doneKey(u, lv.id)] = Math.max(save.done[doneKey(u, lv.id)] || 0, st);
   if (isNew) save.stickers.push(sticker);
-  var unitFinished = unitDone(u), lastOfUnit = unitFinished && i === LEVELS.length - 1;
+  var unitFinished = unitDone(u), lastOfUnit = unitFinished && LEVELS[i].id === 'words';
   if (unitFinished && u + 1 < UNITS.length) save.unit = Math.max(save.unit || 0, u + 1);
   persist();
   /* the celebration: a turning sunburst, three stars that fly in one by one, the sticker slapped on,
@@ -1006,6 +1009,69 @@ function wordGame(u, li){
   play();
 }
 
+
+/* ---------- 7 · letter shapes (bonus): a letter looks different at the start, middle and end of a word ---------- */
+var NO_LEFT_JOIN = 'اأإآدذرزوءة';   /* these never join the letter after them */
+function forms(ch){
+  var j = NO_LEFT_JOIN.indexOf(ch) < 0;
+  return {alone: ch, start: j ? ch + 'ـ' : ch, middle: j ? 'ـ' + ch + 'ـ' : 'ـ' + ch, end: 'ـ' + ch};
+}
+var PLACES = [
+  {k:'start',  ar:'أوّل الكلمة', en:'start'},
+  {k:'middle', ar:'نص الكلمة',  en:'middle'},
+  {k:'end',    ar:'آخر الكلمة', en:'end'}
+];
+function shapesGame(u, li){
+  var U = UNITS[u];
+  /* part 1: meet the shapes. One row per letter: the letter, then its start / middle / end shapes */
+  var el = scene(task('الحرف بيغيّر شكله في الكلمة','El-ḥarf biyghayyar shaklu fil-kilma','A letter changes its shape in a word. Tap the shapes to hear them') +
+    '<div class="shapes" id="shapes"><div class="sh-head"><span></span>' + PLACES.map(function(p){ return '<span><b class="ar">' + p.ar + '</b><small class="en">' + p.en + '</small></span>'; }).join('') + '</div></div>');
+  var box = el.querySelector('#shapes'), heard = 0, total = 0;
+  U.letters.forEach(function(k, ix){
+    var l = L[k], f = forms(l.ch), row = h('<div class="sh-row" style="--c:' + ['#FF8A3D','#22B5A6','#FF5AA0','#FFC93C'][ix % 4] + '"><span class="sh-letter ar">' + l.ch + '</span></div>');
+    PLACES.forEach(function(p){
+      total++;
+      var c = h('<button class="sh-form ar" aria-label="' + l.en + ', ' + p.en + ' of a word">' + f[p.k] + '</button>');
+      c.addEventListener('click', function(){
+        c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); SFX.tap();
+        speakSeq(sounds(l, 1));
+        if (!c.classList.contains('was')) { c.classList.add('was'); heard++; if (heard >= Math.min(total, 6)) { next.disabled = false; next.classList.add('ready'); } }
+      });
+      row.appendChild(c);
+    });
+    box.appendChild(row);
+  });
+  var next = footButton('يلّا نلعب','Let\'s play', function(){ hunt(0); });
+  next.disabled = true;
+  say('الحرف بيغيّر شكله في الكلمة','El-ḥarf biyghayyar shaklu fil-kilma','A letter changes its shape: start, middle, end. Tap the shapes', true, 'b');
+
+  /* part 2: shape hunt. Toota says a sound; she taps the shape that says it */
+  var pool = shuffle(U.sounding.concat(U.sounding)).slice(0, 6);
+  function hunt(r){
+    if (r >= pool.length) { finishLevel(u, li); return; }
+    var k = pool[r], l = L[k], place = PLACES[Math.floor(Math.random() * 3)];
+    var opts = shuffle([k].concat(distractors(u, [k], 2)));
+    var el2 = scene(dotsHTML(pool.length, r) + task('دوّري على الشكل اللي بيقول الصوت ده','Dawwari ʿash-shakl elli biyʾūl eṣ-ṣōt da','Find the shape that makes this sound: ' + place.en + ' of a word') +
+      '<div class="stage"><div class="row"><button class="listen" id="lis" aria-label="Hear the sound again">' + SPEAKER + '</button><span class="sh-place"><b class="ar">' + place.ar + '</b><small class="en">' + place.en + ' of a word</small></span></div><div class="choices" id="ch"></div></div>');
+    var lis = el2.querySelector('#lis'), ch = el2.querySelector('#ch'), locked = false;
+    function hear(){ lis.classList.remove('ping'); void lis.offsetWidth; lis.classList.add('ping'); speakSeq(sounds(l, 2), null, null, 300); }
+    lis.addEventListener('click', hear);
+    opts.forEach(function(o){
+      var b = h('<button class="choice" aria-label="Letter ' + L[o].en + '"><span class="big ar">' + forms(L[o].ch)[place.k] + '</span><span class="sm en">"' + hint(L[o]) + '"</span></button>');
+      b.addEventListener('click', function(){
+        if (locked) return;
+        if (o === k) { locked = true; b.classList.add('right'); praise(b.querySelector('.big')); track(k, true); later(function(){ hunt(r + 1); }, 1900); }
+        else { mistakes++; track(k, false); b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); SFX.bad(); mood('sad');
+          say('مش ده… اسمعي تاني', 'Mish da… ismaʿi tāni', 'That one says "' + hint(L[o]) + '". Listen again', false, 'b');
+          speakSeq([{t:'مش ده… اسمعي تاني', rate:.85, who:'b'}].concat(sounds(l, 2)), null, null, 300); }
+      });
+      ch.appendChild(b);
+    });
+    if (r === 0) later(function(){ sayThen('دوّري على الشكل اللي بيقول الصوت ده','Dawwari ʿash-shakl elli biyʾūl eṣ-ṣōt da','Find the shape that makes this sound', 'b', hear); }, 300);
+    else later(hear, 400);
+  }
+}
+
 /* ---------- the show: Filfil and Toota make their entrance ----------
    A little stage: drumroll, the curtains open, Filfil bursts out of a gift box, Toota drops from the sky,
    letters rain down, then she can tap them before pressing play. Names are said inside normal
@@ -1155,7 +1221,7 @@ $('#labelBtn').addEventListener('click', function(){
 });
 function openBook(){
   var book = $('#book');
-  book.innerHTML = '<div class="bk-count"><b>' + save.stickers.length + '</b> / ' + UNITS.reduce(function(n, U){ return n + U.stickers.length; }, 0) + '</div>';
+  book.innerHTML = '<div class="bk-count"><b>' + save.stickers.length + '</b> / ' + UNITS.reduce(function(a, U){ U.stickers.forEach(function(x){ if (a.indexOf(x) < 0) a.push(x); }); return a; }, []).length + '</div>';
   UNITS.forEach(function(U, ui){
     var row = h('<section class="bk-unit"><h3 class="ar">' + U.label + '</h3><div class="bk-row"></div></section>'), r = row.querySelector('.bk-row');
     U.stickers.forEach(function(s, k){
