@@ -399,6 +399,7 @@ function h(html){ var d = document.createElement('div'); d.innerHTML = html.trim
 var cleanup = null, timers = [];
 function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
 function clearScene(){
+  document.getElementById('app').classList.remove('celebrate');
   if (cleanup) { cleanup(); cleanup = null; }
   timers.forEach(clearTimeout); timers = [];
   stopSpeech();
@@ -502,26 +503,41 @@ function startLevel(u, i){
 
 function finishLevel(u, i){
   var lv = LEVELS[i], st = starsFor(mistakes), sticker = UNITS[u].stickers[i];
+  var isNew = save.stickers.indexOf(sticker) < 0;
   save.done[doneKey(u, lv.id)] = Math.max(save.done[doneKey(u, lv.id)] || 0, st);
-  if (save.stickers.indexOf(sticker) < 0) save.stickers.push(sticker);
-  var unitFinished = unitDone(u);
+  if (isNew) save.stickers.push(sticker);
+  var unitFinished = unitDone(u), lastOfUnit = unitFinished && i === LEVELS.length - 1;
   if (unitFinished && u + 1 < UNITS.length) save.unit = Math.max(save.unit || 0, u + 1);
   persist();
-  var el = scene('<div class="reward"><div class="bigstars" id="bs"></div><h2 class="ar">برافو عليكي!</h2><div class="sub en">Brāvo ʿalēki! · '+(unitFinished && i === LEVELS.length-1 ? 'Unit '+(u+1)+' done: '+UNITS[u].label : 'Level done: '+lv.en)+'</div><div class="sticker">'+PIC[sticker]+'</div><div class="sub"><span class="ar" style="font-weight:800;color:#2B2140">كسبتي ستيكر!</span> <span class="en">You won a sticker</span></div></div>');
-  SFX.fanfare(); confetti(unitFinished ? 140 : 90); mood('dance');
-  say('كسبتي ستيكر جديد!','Kisbti stiker gdīd!','You won a new sticker!', true, 'b');
-  later(function(){ say('إحنا فخورين بيكي!','Iḥna fakhūrīn bīki!','We\'re so proud of you!', true, 'f'); }, 2600);
+  /* the celebration: a turning sunburst, three stars that fly in one by one, the sticker slapped on,
+     and big Filfil and Toota dancing either side */
+  var el = scene('<div class="reward">' +
+      '<div class="rw-burst" aria-hidden="true"></div>' +
+      '<div class="rw-friend f">' + buddyBtn('f') + '</div><div class="rw-friend b">' + buddyBtn('b') + '</div>' +
+      '<div class="rw-main">' +
+        '<div class="bigstars" id="bs" aria-label="' + st + ' of 3 stars"></div>' +
+        '<h2 class="rw-title"><span class="ar">برافو عليكي!</span><span class="en">' + (lastOfUnit ? 'You finished ' + UNITS[u].label + '!' : 'Well done!') + '</span></h2>' +
+        '<div class="rw-sticker" id="rwSticker"><div class="sticker">' + PIC[sticker] + '<i class="shine" aria-hidden="true"></i></div></div>' +
+        '<div class="rw-cap"><span class="ar">' + (isNew ? 'كسبتي ستيكر جديد!' : 'الستيكر بتاعك!') + '</span><span class="en">' + (isNew ? 'You won a new sticker' : 'Your sticker') + '</span></div>' +
+      '</div></div>');
+  document.getElementById('app').classList.add('celebrate');
+  SFX.fanfare(); confetti(lastOfUnit ? 160 : 100);
+  el.querySelectorAll('.rw-friend .buddy').forEach(function(b, k){ setTimeout(function(){ b.classList.add('dance'); }, k * 200); });
+  if (isNew) say('كسبتي ستيكر جديد!','Kisbti stiker gdīd!','You won a new sticker!', true, 'b');
+  else say('برافو عليكي!','Brāvo ʿalēki!','Well done!', true, 'b');
+  later(function(){ say('إحنا فخورين بيكي!','Iḥna fakhūrīn bīki!','We\'re so proud of you!', true, 'f'); }, 3200);
   var bs = el.querySelector('#bs');
-  for (var s=0;s<3;s++){
-    (function(s){
-      later(function(){
-        var sz = s===1 ? 88 : 68;
-        var span = h('<span style="width:'+sz+'px;height:'+sz+'px;display:block;opacity:'+(s<st?1:.2)+'">'+STAR+'</span>');
-        span.firstChild.style.animation = 'starIn .5s cubic-bezier(.3,1.8,.5,1) both';
-        bs.appendChild(span); if (s<st) SFX.star();
-      }, 350 + s*380);
-    })(s);
-  }
+  for (var s = 0; s < 3; s++) (function(s){
+    later(function(){
+      var got = s < st, span = h('<span class="rw-star ' + (got ? 'got' : 'miss') + (s === 1 ? ' mid' : '') + '">' + STAR + '</span>');
+      bs.appendChild(span);
+      if (got) { tone(880 * Math.pow(1.26, s), 0, .22, 'triangle', .16); tone(1760 * Math.pow(1.26, s), .05, .3, 'sine', .08); burst(span); }
+    }, 500 + s * 420);
+  })(s);
+  later(function(){   /* the sticker lands with a thwack */
+    var sk = el.querySelector('#rwSticker'); sk.classList.add('in');
+    tone(140, 0, .12, 'square', .12, 70); noise(0, .08, .25); tone(1200, .1, .25, 'sine', .07, 1900);
+  }, 1900);
   if (i < LEVELS.length-1) footButton('اللعبة الجاية','Next game', function(){ startLevel(u, i+1); }, 'ready');
   else if (u + 1 < UNITS.length) footButton('حروف جديدة','Next letters: '+UNITS[u+1].label, function(){ showMap(true, u+1); }, 'ready');
   else footButton('على الخريطة','Back to map', function(){ showMap(true); }, 'ready');
@@ -1066,12 +1082,15 @@ $('#labelBtn').addEventListener('click', function(){
   this.setAttribute('aria-pressed', String(!on)); SFX.tap();
 });
 function openBook(){
-  var book = $('#book'), all = [];
-  UNITS.forEach(function(U){ U.stickers.forEach(function(s){ if (all.indexOf(s) < 0) all.push(s); }); });
-  book.innerHTML = '';
-  all.forEach(function(s){
-    var has = save.stickers.indexOf(s) >= 0;
-    book.appendChild(h('<div class="slotS '+(has?'':'locked')+'" aria-label="'+s+' sticker'+(has?'':' (not yet)')+'">'+PIC[s]+'</div>'));
+  var book = $('#book');
+  book.innerHTML = '<div class="bk-count"><b>' + save.stickers.length + '</b> / ' + UNITS.reduce(function(n, U){ return n + U.stickers.length; }, 0) + '</div>';
+  UNITS.forEach(function(U, ui){
+    var row = h('<section class="bk-unit"><h3 class="ar">' + U.label + '</h3><div class="bk-row"></div></section>'), r = row.querySelector('.bk-row');
+    U.stickers.forEach(function(s, k){
+      var has = save.stickers.indexOf(s) >= 0;
+      r.appendChild(h('<div class="slotS ' + (has ? 'has' : 'locked') + '" style="--tilt:' + (((ui * 7 + k * 5) % 9) - 4) + 'deg" aria-label="' + s + ' sticker' + (has ? '' : ' (not yet)') + '">' + (has ? PIC[s] : '<span>?</span>') + '</div>'));
+    });
+    book.appendChild(row);
   });
   $('#bookOv').hidden = false; SFX.tap();
 }
@@ -1085,7 +1104,7 @@ $('#startBtn').addEventListener('click', function(){
   showTime(true);   /* the full show every visit (about 15 seconds, with a Skip button) */
 });
 
-window.HARFI_DEBUG = { startLevel: startLevel, LEVELS: LEVELS, UNITS: UNITS, L: L, W: W, VOW: VOW, PRAISE: PRAISE, JOKES: JOKES, pokeBuddy: pokeBuddy, meetFriends: meetFriends, showTime: showTime, SHOW_LINES: SHOW_LINES, showMap: showMap, save: save, theName: theName };
+window.HARFI_DEBUG = { startLevel: startLevel, finishLevel: finishLevel, LEVELS: LEVELS, UNITS: UNITS, L: L, W: W, VOW: VOW, PRAISE: PRAISE, JOKES: JOKES, pokeBuddy: pokeBuddy, meetFriends: meetFriends, showTime: showTime, SHOW_LINES: SHOW_LINES, showMap: showMap, save: save, theName: theName };
 mountBuddies();
 updateCounts();
 showMap(false);
