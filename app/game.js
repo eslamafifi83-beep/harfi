@@ -655,16 +655,16 @@ function sayGame(u, li){
         '<span class="en sayen">'+(w ? w.en : '“'+it.tr+'” · '+it.en)+'</span>' +
       '</div></div><div class="turn turnbox" id="turn"></div></div>');
     var st = el.querySelector('#st'), card = el.querySelector('#card'), turn = el.querySelector('#turn');
-    /* Toota says it slowly in pieces, then one friend says it whole: Filfil says his own name, Toota says hers.
-       A single sound is only ever said by Toota, so it always comes from the same clip. */
-    var second = (w === W.toota || !w) ? 'b' : 'f', first = w === W.filfil ? 'f' : 'b';
+    /* Toota says it slowly in pieces, then says it whole. She teaches every sound and word (her clips are the
+       checked Gemini ones); Filfil cheers and chats. */
+    var second = 'b', first = 'b';
     function friendsSay(done){
       st.classList.add('phase-listen');
       var all = w ? w.letters.map(function(_,k){ return k; }) : [0];
       var word = w ? w.word : it.show, trw = w ? w.tr : it.tr;
       say(word, trw, w ? NAMES[first].en+' says it in little pieces' : NAMES[first].en+' says the sound', false, first);
       function secondTurn(){
-        say(word, trw, 'Now '+NAMES[second].en+' says it', false, second);
+        say(word, trw, w ? 'Now the whole word' : 'Once more', false, second);
         speakSeq([w ? {t:w.word, rate:.75, who:second} : it.parts[0]], function(){ lightUp(card, all); }, function(){ lightUp(card, null); if (done) done(); });
       }
       if (w) soundOut(card, w, function(){ setTimeout(secondTurn, 350); }, first);

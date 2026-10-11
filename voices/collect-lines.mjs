@@ -97,10 +97,8 @@ const data = await page.evaluate(() => {
   d.UNITS.forEach((U, u) => {
     U.sounding.slice(0, 2).forEach(k => d.VOW.forEach(v => add('b', 'calm', d.L[k].ch + v.mark)));
     U.keywords.concat(U.words).forEach(k => { const w = d.W[k]; add('b', 'calm', w.word); w.syl.forEach(s => add('b', 'slow', s.t)); });
-    U.words.forEach(k => add('f', 'calm', d.W[k].word));
   });
   ['filfil', 'toota', 'baba'].forEach(k => { const w = d.W[k]; add('b', 'calm', w.word); w.syl.forEach(s => add('b', 'slow', s.t)); });
-  add('f', 'calm', d.W.filfil.word); add('f', 'calm', d.W.baba.word); d.W.filfil.syl.forEach(s => add('f', 'slow', s.t));
   d.SHOW_LINES.forEach(([who, t]) => add(who, 'normal', t));
   d.PRAISE.forEach(p => { add('f', 'normal', p[0]); add('b', 'normal', p[0]); });
   Object.keys(d.JOKES).forEach(who => d.JOKES[who].forEach(j => add(who, 'normal', j[0])));
