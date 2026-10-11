@@ -588,16 +588,16 @@
   "text": "اسمعي أوّل صوت في الكلمة"
  },
  {
+  "key": "b|normal|اسمعي الصوت ودوسي على الحرف",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "اسمعي الصوت ودوسي على الحرف"
+ },
+ {
   "key": "b|normal|اسمعي الكلمة حتّة حتّة",
   "speaker": "b",
   "speed": "normal",
   "text": "اسمعي الكلمة حتّة حتّة"
- },
- {
-  "key": "b|normal|اسمعي بس من غير ما تشوفي",
-  "speaker": "b",
-  "speed": "normal",
-  "text": "اسمعي بس من غير ما تشوفي"
  },
  {
   "key": "b|normal|اسمعي كويس",
@@ -612,10 +612,10 @@
   "text": "العلامة الصغيّرة بتغيّر الصوت"
  },
  {
-  "key": "b|normal|الله عليكي",
+  "key": "b|normal|برافو",
   "speaker": "b",
   "speed": "normal",
-  "text": "الله عليكي"
+  "text": "برافو"
  },
  {
   "key": "b|normal|برافو عليكي",
@@ -624,10 +624,10 @@
   "text": "برافو عليكي"
  },
  {
-  "key": "b|normal|جامدة",
+  "key": "b|normal|حلوة أوي",
   "speaker": "b",
   "speed": "normal",
-  "text": "جامدة"
+  "text": "حلوة أوي"
  },
  {
   "key": "b|normal|خلّصتي كل الحروف",
@@ -648,10 +648,10 @@
   "text": "دورك قولي"
  },
  {
-  "key": "b|normal|دوسي على كل حرف",
+  "key": "b|normal|دوسي على كل حرف واسمعي صوته",
   "speaker": "b",
   "speed": "normal",
-  "text": "دوسي على كل حرف"
+  "text": "دوسي على كل حرف واسمعي صوته"
  },
  {
   "key": "b|normal|شاطرة",
@@ -666,10 +666,22 @@
   "text": "صباح الخير وأنا توتة"
  },
  {
+  "key": "b|normal|فرقعي البلالين اللي بتقول",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "فرقعي البلالين اللي بتقول"
+ },
+ {
   "key": "b|normal|كسبتي ستيكر جديد",
   "speaker": "b",
   "speed": "normal",
   "text": "كسبتي ستيكر جديد"
+ },
+ {
+  "key": "b|normal|كمان اتنين",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "كمان اتنين"
  },
  {
   "key": "b|normal|لسّه مقفولة",
@@ -684,10 +696,16 @@
   "text": "مساء الخير وأنا توتة"
  },
  {
-  "key": "b|normal|هايل",
+  "key": "b|normal|مش ده اسمعي تاني",
   "speaker": "b",
   "speed": "normal",
-  "text": "هايل"
+  "text": "مش ده اسمعي تاني"
+ },
+ {
+  "key": "b|normal|ممتاز",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "ممتاز"
  },
  {
   "key": "b|normal|يا سلام عليكي",
@@ -696,10 +714,10 @@
   "text": "يا سلام عليكي"
  },
  {
-  "key": "b|normal|يلّا نبدأ دوسي على البرتقالي",
+  "key": "b|normal|يلّا نبدأ دوسي على الدايرة البرتقالي",
   "speaker": "b",
   "speed": "normal",
-  "text": "يلّا نبدأ دوسي على البرتقالي"
+  "text": "يلّا نبدأ دوسي على الدايرة البرتقالي"
  },
  {
   "key": "b|normal|يلّا نبدأ نلعب",
@@ -1302,16 +1320,16 @@
   "text": "الحروف مسكت إيد بعض"
  },
  {
-  "key": "f|normal|الله عليكي",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "الله عليكي"
- },
- {
   "key": "f|normal|الوحدة دي خلصت اختاري الوحدة الجاية",
   "speaker": "f",
   "speed": "normal",
   "text": "الوحدة دي خلصت اختاري الوحدة الجاية"
+ },
+ {
+  "key": "f|normal|برافو",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "برافو"
  },
  {
   "key": "f|normal|برافو عليكي",
@@ -1320,16 +1338,16 @@
   "text": "برافو عليكي"
  },
  {
-  "key": "f|normal|جامدة",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "جامدة"
- },
- {
   "key": "f|normal|جاهزة يلّا بينا",
   "speaker": "f",
   "speed": "normal",
   "text": "جاهزة يلّا بينا"
+ },
+ {
+  "key": "f|normal|حلوة أوي",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "حلوة أوي"
  },
  {
   "key": "f|normal|شاطرة",
@@ -1344,28 +1362,16 @@
   "text": "صباح الخير أنا فلفل"
  },
  {
-  "key": "f|normal|فرقعي البلالين اللي بتقول",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "فرقعي البلالين اللي بتقول"
- },
- {
   "key": "f|normal|مساء الخير أنا فلفل",
   "speaker": "f",
   "speed": "normal",
   "text": "مساء الخير أنا فلفل"
  },
  {
-  "key": "f|normal|مش ده اسمعي تاني",
+  "key": "f|normal|ممتاز",
   "speaker": "f",
   "speed": "normal",
-  "text": "مش ده اسمعي تاني"
- },
- {
-  "key": "f|normal|هايل",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "هايل"
+  "text": "ممتاز"
  },
  {
   "key": "f|normal|هههه بتزغزغيني",

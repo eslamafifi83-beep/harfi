@@ -64,14 +64,16 @@ C.UNITS.forEach((U, i) => {
 });
 const VOWELLED_WORDS = new Set(Object.values(WORD_SAY));
 const isWord = t => t in WORD_SAY || (VOWELLED_WORDS.has(t) && !SYLLABLE.test(t)), isSyl = t => SYL_TEXTS.has(t) && !SYLLABLE.test(t);
-const viaGemini = l => !!G && l.speaker === 'b' && ((l.speed === 'slow' && LETTER_SOUNDS.has(l.text)) || SYLLABLE.test(l.text) || isWord(l.text) || isSyl(l.text));
+// Every Toota line goes to Gemini (one voice for everything she says); her chat lines use style_chat
+const viaGemini = l => !!G && l.speaker === 'b';
 // the delivery instruction names the vowel: fatha "a", kasra "i", damma "u"
 const AFTER = { 'ِ': 'followed by a short i (as in "sit")', 'ُ': 'followed by a short u (as in "put")', 'ْ': 'on its own with no vowel after it, cut short' };
 const styleFor = text => AFTER[text.slice(-1)] ? G.style.replace('followed by a short a', AFTER[text.slice(-1)]) : G.style;
 const gemSpec = l => Object.assign(
   isWord(l.text) ? { text: WORD_SAY[l.text] || l.text, voice: G.voice, style: G.style_word }
   : isSyl(l.text) ? { text: l.text, voice: G.voice, style: G.style_syllable }
-  : { text: l.text, voice: G.voice, style: styleFor(l.text) },
+  : (SYLLABLE.test(l.text) || LETTER_SOUNDS.has(l.text)) ? { text: l.text, voice: G.voice, style: styleFor(l.text) }
+  : { text: l.text, voice: G.voice, style: G.style_chat },
   (G.overrides || {})[l.text] || {});
 
 class OutOfCredits extends Error {}
@@ -149,7 +151,8 @@ console.log(`${lines.filter(l => kindOf(l) === 'chat').length} chat lines use th
 // a clip counts as made if it exists, either as recorded or trimmed by voices/fix-clips.py (name ending -t.mp3)
 const have = l => viaGemini(l) ? (index[l.key] === gemFile(l) && existsSync(path.join(audioDir, gemFile(l)))) : !resolved[l.speaker + ':std'] && PROVIDER !== 'azure' ? !!(index[l.key] && existsSync(path.join(audioDir, index[l.key]))) : [fileFor(l), oldFileFor(l)].flatMap(f => [f, f.replace(/\.mp3$/, '-t.mp3')]).some(f => index[l.key] === f && existsSync(path.join(audioDir, f)));
 const all = lines.filter(l => only ? l.text === only : !have(l));
-const rank = l => (G.overrides || {})[l.text] ? -1 : (PRIORITY[l.text] ?? 99);   // fixes first, then unit by unit
+const FIRST = new Set((G.first || []).map(clean));
+const rank = l => (G.overrides || {})[l.text] ? -2 : FIRST.has(l.text) ? -1 : (PRIORITY[l.text] ?? 99);   // fixes, then lines asked for first, then unit by unit
 const gemTodo = all.filter(viaGemini).sort((a, b) => rank(a) - rank(b)), todo = elevenOff ? [] : all.filter(l => !viaGemini(l));
 const allChars = lines.reduce((n, l) => n + l.text.length, 0);
 console.log(`${todo.length} clip(s) to make (${todo.reduce((n, l) => n + l.text.length, 0)} characters), ${lines.length} lines in total (${allChars} characters).`);

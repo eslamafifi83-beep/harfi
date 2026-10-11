@@ -179,11 +179,11 @@ function distractors(u, not, n){
 }
 
 var PRAISE = [
+  ['برافو!','Brāvo!','Bravo!'],
   ['شاطرة!','Shaṭra!','Clever girl!'],
-  ['برافو عليكي!','Brāvo ʿalēki!','Bravo!'],
-  ['جامدة!','Gamda!','Awesome!'],
-  ['الله عليكي!','Allah ʿalēki!','Lovely!'],
-  ['هايل!','Hāyel!','Brilliant!']
+  ['حلوة أوي!','Ḥilwa awi!','Really good!'],
+  ['ممتاز!','Mumtāz!','Excellent!'],
+  ['برافو عليكي!','Brāvo ʿalēki!','Well done!']
 ];
 
 /* ---------- saved progress (per device) ---------- */
@@ -302,7 +302,7 @@ function utter(text, rate, done, keep, who){
       return;
     } catch(e) {}
   }
-  if (muted || !('speechSynthesis' in window) || !arVoice) { talking(!muted); talkTimer = setTimeout(fin, muted ? 50 : Math.min(guess, 1400)); return; }
+  if (muted || !('speechSynthesis' in window) || !arVoice || Object.keys(CLIPS).length) { talking(!muted); talkTimer = setTimeout(fin, muted ? 50 : Math.min(guess, 1400)); return; }
   try {
     if (!keep) speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
@@ -357,10 +357,10 @@ var lastPraise = -1;
 function praise(el){
   var i; do { i = Math.floor(Math.random()*PRAISE.length); } while (i === lastPraise);
   lastPraise = i;
-  SFX.good(); mood(Math.random() < .25 ? 'spin' : 'happy'); say(PRAISE[i][0], PRAISE[i][1], PRAISE[i][2]);
+  SFX.good(); mood(Math.random() < .25 ? 'spin' : 'happy'); say(PRAISE[i][0], PRAISE[i][1], PRAISE[i][2], true, 'b');
   if (el) burst(el);
 }
-function oops(ar, tr, en, talk){ SFX.bad(); mood('sad'); say(ar, tr, en, talk); }
+function oops(ar, tr, en, talk, who){ SFX.bad(); mood('sad'); say(ar, tr, en, talk, who || 'b'); }
 
 var fx = $('#fx');
 var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -484,7 +484,7 @@ function showMap(greet, u){
   cleanup = function(){ window.removeEventListener('resize', layout); };
   if (unitDone(UNITS.length - 1)) say('خلّصتي كل الحروف!','Khallaṣti kull el-ḥurūf!','You learned every letter! Play any game again.', greet, 'b');
   else if (open >= LEVELS.length) say('الوحدة دي خلصت! اختاري الوحدة الجاية','El-waḥda di khilṣit! Ikhtāri el-waḥda el-gayya','This unit is done! Pick the next one at the top', greet, 'f');
-  else if (open === 0 && u === 0) say('يلّا نبدأ! دوسي على البرتقالي','Yalla nibda\'! Dūsi ʿal-burtu\'āni','Let\'s start! Tap the orange circle', greet, 'b');
+  else if (open === 0 && u === 0) say('يلّا نبدأ! دوسي على الدايرة البرتقالي','Yalla nibda\'! Dūsi ʿad-dayra el-burtuʾāni','Let\'s start! Tap the orange circle', true, 'b');
   else if (open === 0) say('حروف جديدة! يلّا بينا','Ḥurūf gdīda! Yalla bīna','New letters! Let\'s go', greet, 'f');
   else say('اختاري اللعبة الجاية','Ikhtāri el-liʿba el-gayya','Pick the next game', greet, 'b');
 }
@@ -541,13 +541,13 @@ function meetLetters(u, li){
       SFX.tap(); speakSeq(sounds(l, 3), function(i){   /* the letter's sound, three times (not its name) */ if (i) { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } }, null, 300);
       burst(c.querySelector('.big'));
       if (!seen[k]) { seen[k] = true; c.classList.add('was'); }
-      if (Object.keys(seen).length === U.letters.length) { next.disabled = false; next.classList.add('ready'); mood('happy'); later(function(){ sayThen('شاطرة! يلّا نلعب بالبلالين','Shaṭra! Yalla nilʿab bil-balalīn','Great! Now let\'s pop balloons', 'f'); }, 2600); }
+      if (Object.keys(seen).length === U.letters.length) { next.disabled = false; next.classList.add('ready'); mood('happy'); later(function(){ sayThen('شاطرة! يلّا نلعب بالبلالين','Shaṭra! Yalla nilʿab bil-balalīn','Clever! Let\'s play with the balloons', 'b'); }, 2600); }
     });
     cards.appendChild(c);
   });
   var next = footButton('يلّا','Next', function(){ popGame(u, li, 0); });
   next.disabled = true;
-  say('دوسي على كل حرف','Dūsi ʿala kull ḥarf','Tap every letter to hear its sound', true, 'b');
+  say('دوسي على كل حرف واسمعي صوته','Dūsi ʿala kull ḥarf w-ismaʿi ṣōtu','Tap each letter and listen to its sound', true, 'b');
 }
 
 function popGame(u, li, round){
@@ -578,12 +578,12 @@ function popGame(u, li, round){
         got++; drawCount(); mood('happy');
         setTimeout(function(){ b.remove(); }, 300);
         if (got >= NEED) { run = false; later(function(){ praise(); confetti(40); }, 250); later(function(){ round+1 < targets.length ? popGame(u, li, round+1) : soundMatch(u, li); }, 1900); }
-        else if (got === 2) say('كمان! كمّلي','Kamān! Kammili','More! Keep going', false, 'f');
+        else if (got === 2) say('كمان اتنين!','Kamān itnēn!','Two more!', true, 'b');
       } else {
         mistakes++;
         b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
         oops('مش ده… اسمعي تاني: '+T.snd, 'Mish da… ismaʿi tāni: "'+T.tr+'"', 'Not that one. Listen again: "'+hint(T)+'" '+T.ch, false);
-        speakSeq([{t:'مش ده… اسمعي تاني', rate:.85, who:'f'}].concat(sounds(T, 2)), null, null, 300);
+        speakSeq([{t:'مش ده… اسمعي تاني', rate:.85, who:'b'}].concat(sounds(T, 2)), null, null, 300);
       }
     });
     sky.appendChild(b); balloons.push(o);
@@ -605,8 +605,8 @@ function popGame(u, li, round){
   }
   raf = requestAnimationFrame(frame);
   cleanup = function(){ run = false; cancelAnimationFrame(raf); };
-  say('فرقعي البلالين اللي بتقول '+T.snd, 'Farqaʿi el-balalīn elli bit\'ūl "'+T.tr+'"', 'Pop only the balloons that say "'+hint(T)+'". Tap the speaker to hear it', false, 'f');
-  speakSeq([{t:'فرقعي البلالين اللي بتقول', rate:.85, who:'f'}].concat(sounds(T, 2)), null, null, 300);
+  say('فرقعي البلالين اللي بتقول '+T.snd, 'Farqaʿi el-balalīn elli bit\'ūl "'+T.tr+'"', 'Pop only the balloons that say "'+hint(T)+'". Tap the speaker to hear it', false, 'b');
+  speakSeq([{t:'فرقعي البلالين اللي بتقول', rate:.85, who:'b'}].concat(sounds(T, 2)), null, null, 300);
 }
 
 function soundMatch(u, li){
@@ -635,7 +635,7 @@ function soundMatch(u, li){
       });
       ch.appendChild(b);
     });
-    if (r === 0) later(function(){ sayThen('اسمعي بس… من غير ما تشوفي','Ismaʿi bass… min gheir ma tshūfi','Just listen, then tap the letter', 'b', hear); }, 300);
+    if (r === 0) later(function(){ sayThen('اسمعي الصوت ودوسي على الحرف','Ismaʿi eṣ-ṣōt w-dūsi ʿal-ḥarf','Listen to the sound, then tap its letter', 'b', hear); }, 300);
     else later(hear, 400);
   }
   play();
