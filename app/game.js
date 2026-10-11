@@ -190,7 +190,15 @@ var PRAISE = [
 var save = {done:{}, stickers:[], unit:0};
 try { var raw = localStorage.getItem('harfi-v1'); if (raw) save = JSON.parse(raw) || save; } catch(e) {}
 save.done = save.done || {}; save.stickers = save.stickers || []; save.unit = save.unit || 0;
+save.letters = save.letters || {}; save.time = save.time || {total: 0, days: {}};   /* for the parents' page */
 LEVELS.forEach(function(lv){ if (save.done[lv.id] != null) { save.done['u0:'+lv.id] = save.done[lv.id]; delete save.done[lv.id]; } }); /* older saves */
+/* the parents' page: how often each letter was answered right or wrong, and time played */
+function track(k, ok){ if (!k) return; var r = save.letters[k] = save.letters[k] || {r: 0, w: 0}; if (ok) r.r++; else r.w++; persist(); }
+function dayKey(d){ d = d || new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+setInterval(function(){   /* every 15 s while she is actually playing (page visible, past the landing page) */
+  if (document.hidden || !$('#splash').hidden || $('#show')) return;
+  save.time.total += 15; var k = dayKey(); save.time.days[k] = (save.time.days[k] || 0) + 15; persist();
+}, 15000);
 function persist(){ try { localStorage.setItem('harfi-v1', JSON.stringify(save)); } catch(e) {} updateCounts(); }
 function updateCounts(){
   var s = 0; for (var k in save.done) s += save.done[k];
@@ -591,12 +599,12 @@ function popGame(u, li, round){
       e.preventDefault(); if (o.dead || !run) return;
       if (o.key === tk) {
         o.dead = true; b.classList.add('popped'); SFX.pop(); burst(b); speak(T.snd, SND);
-        got++; drawCount(); mood('happy');
+        got++; drawCount(); mood('happy'); track(tk, true);
         setTimeout(function(){ b.remove(); }, 300);
         if (got >= NEED) { run = false; later(function(){ praise(); confetti(40); }, 250); later(function(){ round+1 < targets.length ? popGame(u, li, round+1) : soundMatch(u, li); }, 1900); }
         else if (got === 2) say('كمان اتنين!','Kamān itnēn!','Two more!', true, 'b');
       } else {
-        mistakes++;
+        mistakes++; track(tk, false);
         b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
         oops('مش ده… اسمعي تاني: '+T.snd, 'Mish da… ismaʿi tāni: "'+T.tr+'"', 'Not that one. Listen again: "'+hint(T)+'" '+T.ch, false);
         speakSeq([{t:'مش ده… اسمعي تاني', rate:.85, who:'b'}].concat(sounds(T, 2)), null, null, 300);
@@ -640,11 +648,11 @@ function soundMatch(u, li){
       b.addEventListener('click', function(){
         if (locked) return;
         if (o === k) {
-          locked = true; b.classList.add('right'); praise(b.querySelector('.big'));
+          locked = true; b.classList.add('right'); praise(b.querySelector('.big')); track(k, true);
           later(function(){ speakSeq(sounds(l, 2), null, null, 250); }, 1000);
           later(function(){ r++; r < rounds.length ? play() : finishLevel(u, li); }, 2600);
         } else {
-          mistakes++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); SFX.bad(); mood('sad');
+          mistakes++; track(k, false); b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); SFX.bad(); mood('sad');
           say('ده بيقول '+L[o].snd+'… اسمعي تاني', 'Da biy\'ūl "'+L[o].tr+'"… ismaʿi tāni', 'That one says "'+hint(L[o])+'". Listen again', false, 'b');
           speakSeq(sounds(L[o]), null, function(){ later(hear, 500); });
         }
@@ -739,11 +747,11 @@ function vowelGame(u, li){
       b.addEventListener('click', function(){
         if (locked) return;
         if (v.k === R.v.k) {
-          locked = true; b.classList.add('right'); praise(b.querySelector('.big'));
+          locked = true; b.classList.add('right'); praise(b.querySelector('.big')); track(R.lk, true);
           later(function(){ speak(syl(v), .7); }, 1000);
           later(function(){ r++; r < rounds.length ? play() : finishLevel(u, li); }, 2300);
         } else {
-          mistakes++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no');
+          mistakes++; track(R.lk, false); b.classList.remove('no'); void b.offsetWidth; b.classList.add('no');
           SFX.bad(); mood('sad');
           say('ده '+trs(v)+'… اسمعي تاني', 'Da '+trs(v)+'… ismaʿi tāni', 'That one says "'+trs(v)+'". Listen again', false, 'b');
           speak(syl(v), .7); later(hear, 1300);
@@ -779,12 +787,12 @@ function firstSound(u, li){
       b.addEventListener('click', function(){
         if (locked) return;
         if (k === R.first) {
-          locked = true; b.classList.add('right'); praise(b.querySelector('.big'));
+          locked = true; b.classList.add('right'); praise(b.querySelector('.big')); track(R.first, true);
           var wd = el.querySelector('#word'); wd.innerHTML = kwHTML(R);
           later(function(){ lightUp(wd, [0]); speakSeq(sounds(l), null, function(){ soundOut(wd, R); }); }, 1100);
           later(function(){ r++; r < rounds.length ? play() : finishLevel(u, li); }, 7200);
         } else {
-          mistakes++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no');
+          mistakes++; track(R.first, false); b.classList.remove('no'); void b.offsetWidth; b.classList.add('no');
           SFX.bad(); mood('sad');
           say('ده بيقول '+l.snd+'… اسمعي أوّل الكلمة', 'Da biy\'ūl "'+l.tr+'"… ismaʿi awwel el-kilma', 'That says "'+hint(l)+'". Listen to the start: "'+R.syl[0].tr+'…"', false, 'b');
           speakSeq(sounds(l).concat([{t:onset,rate:.55},{t:onset,rate:.55}]), null, null, 450);
@@ -903,12 +911,13 @@ function wordGame(u, li){
         if (pos >= plain.length) return;
         tiles.querySelectorAll('.tile').forEach(function(x){ x.classList.remove('hint'); });
         if (c === plain[pos]) {
+          track(lk, true);
           var s = slots.children[pos]; s.textContent = c; s.classList.add('filled'); s.classList.remove('next');
           SFX.pop(); burst(s); if (c === 'ا') speak('آ', .8); else speak(L[lk].snd, SND);
           pos++; wrongHere = 0; mark();
           if (pos === plain.length) done();
         } else {
-          mistakes++; wrongHere++;
+          mistakes++; wrongHere++; track(BY_CH[plain[pos]], false);
           t.classList.remove('no'); void t.offsetWidth; t.classList.add('no');
           oops('مش ده… اسمعي تاني','Mish da… ismaʿi tāni','Not that one. Listen to this piece again', false);
           speakSeq([{t:pieceAt(pos),rate:.55},{t:pieceAt(pos),rate:.55}], null, null, 350);
@@ -1094,6 +1103,63 @@ function openBook(){
   });
   $('#bookOv').hidden = false; SFX.tap();
 }
+
+/* ---------- parents' page: hold the button for 3 seconds (a quick tap only shows how) ---------- */
+function fmtTime(sec){ var m = Math.round(sec / 60); return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; }
+function letterState(k){
+  var u = UNITS.findIndex(function(U){ return U.letters.indexOf(k) >= 0; }), r = save.letters[k] || {r: 0, w: 0}, n = r.r + r.w, acc = n ? r.r / n : 0;
+  if (!n && !unitDone(u)) return {cls: 'none', n: 0, r: 0};
+  if ((n >= 4 && acc >= .8) || (unitDone(u) && (!n || acc >= .75))) return {cls: 'master', n: n, r: r.r};
+  return {cls: 'learn', n: n, r: r.r};
+}
+function openParents(){
+  var stars = 0, games = 0;
+  Object.keys(save.done).forEach(function(k){ stars += save.done[k] || 0; games++; });
+  var total = UNITS.length * LEVELS.length, week = 0, today = save.time.days[dayKey()] || 0;
+  for (var d = 0; d < 7; d++) week += save.time.days[dayKey(new Date(Date.now() - d * 864e5))] || 0;
+  var body = '<div class="pp-stats">' +
+    '<div><b>' + stars + '</b><span class="ar">نجوم</span><span class="en">stars</span></div>' +
+    '<div><b>' + save.stickers.length + '</b><span class="ar">ستيكرات</span><span class="en">stickers</span></div>' +
+    '<div><b>' + games + ' / ' + total + '</b><span class="ar">ألعاب خلصت</span><span class="en">games done</span></div>' +
+    '<div><b>' + fmtTime(today) + '</b><span class="ar">النهارده</span><span class="en">today</span></div>' +
+    '<div><b>' + fmtTime(week) + '</b><span class="ar">الأسبوع ده</span><span class="en">this week</span></div>' +
+    '<div><b>' + fmtTime(save.time.total) + '</b><span class="ar">كله</span><span class="en">in total</span></div></div>';
+  body += '<h3><span class="ar">الحروف</span> <span class="en">Letters</span></h3><div class="pp-letters">';
+  var tricky = [];
+  LETTERS_ORDER.forEach(function(k){
+    var st = letterState(k), r = save.letters[k];
+    if (r && r.r + r.w >= 3 && r.r / (r.r + r.w) < .85) tricky.push({k: k, acc: r.r / (r.r + r.w), n: r.r + r.w});
+    body += '<div class="pl ' + st.cls + '" title="' + L[k].en + '"><b class="ar">' + L[k].ch + '</b><small>' + (st.n ? st.r + '/' + st.n : (st.cls === 'master' ? '✓' : '·')) + '</small></div>';
+  });
+  body += '</div><div class="pp-key"><span class="pl master"></span><span class="en">mastered</span> <span class="pl learn"></span><span class="en">learning</span> <span class="pl none"></span><span class="en">not yet</span></div>';
+  tricky.sort(function(a, b){ return a.acc - b.acc; });
+  body += '<h3><span class="ar">أصعب الأصوات</span> <span class="en">Trickiest sounds</span></h3>' + (tricky.length
+    ? '<div class="pp-tricky">' + tricky.slice(0, 4).map(function(t){ return '<div><b class="ar">' + L[t.k].snd + '</b><span class="en">“' + hint(L[t.k]) + '” · right ' + Math.round(t.acc * 100) + '% of ' + t.n + '</span></div>'; }).join('') + '</div>'
+    : '<p class="en pp-none">Nothing tricky yet. Letters show here once she has tried them a few times.</p>');
+  body += '<div class="pp-reset"><button class="ghost" id="ppReset"><span class="ar">ابدأ من الأول</span> <span class="en">Start over</span></button><small class="en">Erases her stars, stickers and progress on this device.</small></div>';
+  $('#parentBody').innerHTML = body;
+  var rb = $('#ppReset'), armed = false, armT;
+  rb.addEventListener('click', function(){
+    if (!armed) { armed = true; rb.classList.add('danger'); rb.innerHTML = '<span class="ar">متأكد؟ دوس تاني</span> <span class="en">Sure? Tap again to erase</span>'; armT = setTimeout(function(){ armed = false; rb.classList.remove('danger'); rb.innerHTML = '<span class="ar">ابدأ من الأول</span> <span class="en">Start over</span>'; }, 4000); return; }
+    clearTimeout(armT); try { localStorage.removeItem('harfi-v1'); } catch(e) {} location.reload();
+  });
+  $('#parentOv').hidden = false;
+}
+var LETTERS_ORDER = UNITS.reduce(function(a, U){ return a.concat(U.letters); }, []);
+(function(){
+  var btn = $('#parentBtn'), t = null;
+  function cancel(){ clearTimeout(t); t = null; btn.classList.remove('holding'); }
+  btn.addEventListener('pointerdown', function(e){
+    e.preventDefault(); btn.classList.add('holding');
+    t = setTimeout(function(){ cancel(); SFX.tap(); openParents(); }, 3000);
+  });
+  btn.addEventListener('pointerup', function(){ if (t) { cancel(); say('للأهل: دوس 3 ثواني', '', 'For grown-ups: press and hold for 3 seconds', false, 'b'); } });
+  btn.addEventListener('pointerleave', cancel); btn.addEventListener('pointercancel', cancel);
+  btn.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openParents(); } });
+  $('#parentClose').addEventListener('click', function(){ $('#parentOv').hidden = true; SFX.tap(); });
+  $('#parentOv').addEventListener('click', function(e){ if (e.target === this) this.hidden = true; });
+})();
+
 $('#bookBtn').addEventListener('click', openBook);
 $('#bookClose').addEventListener('click', function(){ $('#bookOv').hidden = true; SFX.tap(); });
 $('#bookOv').addEventListener('click', function(e){ if (e.target === this) this.hidden = true; });

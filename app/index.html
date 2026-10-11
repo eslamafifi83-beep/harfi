@@ -26,6 +26,7 @@
     <div class="tools">
       <span class="pill" aria-label="Stars earned"><svg width="24" height="24" viewBox="0 0 24 24" fill="#F2C94C" stroke="#C58F12" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z"/></svg><span id="starCount">0</span></span>
       <button class="pill" id="bookBtn" aria-label="Sticker book"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F7C78" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><circle cx="11" cy="13" r="3"/></svg><span id="stickerCount">0</span></button>
+      <button class="pill" id="parentBtn" aria-label="For grown-ups: press and hold for 3 seconds"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2140" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M2.5 20c0-3.6 2.5-6 5.5-6s5.5 2.4 5.5 6"/><path d="M13.5 20c.2-2.9 1.6-4.6 3.5-4.6s3.3 1.7 3.5 4.6"/></svg><i class="hold" aria-hidden="true"></i></button>
       <button class="pill" id="labelBtn" aria-pressed="true" aria-label="Show English help">EN</button>
       <button class="pill" id="soundBtn" aria-pressed="true" aria-label="Sound on or off"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2140" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg></button>
     </div>
@@ -57,6 +58,14 @@
   </div>
   <div class="sp-note"><span class="ar">شغّلي الصوت</span> <span class="en">· Turn the sound on</span></div>
   <div class="voicewarn" id="voiceWarn" hidden><b>Filfil and Toota can't talk yet on this device.</b> Games and sound effects still work, but the letter sounds need an Arabic voice. Add one in your device's text-to-speech or spoken-content settings, then reload.</div>
+</div>
+
+<div class="overlay" id="parentOv" hidden>
+  <div class="sheet parent" role="dialog" aria-modal="true" aria-labelledby="parentTitle">
+    <h2 id="parentTitle"><span class="ar">للأهل</span><span class="en">For grown-ups</span></h2>
+    <div id="parentBody"></div>
+    <button class="go teal" id="parentClose" style="align-self:center"><span class="ar">تمام</span><span class="en" style="font-size:18px">Done</span></button>
+  </div>
 </div>
 
 <div class="overlay" id="bookOv" hidden>
