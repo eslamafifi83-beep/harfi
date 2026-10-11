@@ -1,6 +1,6 @@
 # Makes any missing voice clips (ElevenLabs free plan; key kept as a GitHub secret), saves them in the
 # project so they are never paid for twice, and publishes the app on GitHub Pages.
-# Runs on every push to main, every day at 04:00 UTC (Gemini makes about 10 letter sounds a day on its free tier;
+# Runs on every push to main, every day at 09:00 UTC, just after Gemini's free quota resets at midnight Pacific time (about 10 clips a day;
 # a daily run only publishes when it made something), on the 2nd of each month, or by hand.
 name: Voices and publish
 on:
@@ -8,7 +8,7 @@ on:
     branches: [main]
   schedule:
     - cron: '0 3 2 * *'
-    - cron: '0 4 * * *'
+    - cron: '0 9 * * *'
   workflow_dispatch:
 permissions:
   contents: write
