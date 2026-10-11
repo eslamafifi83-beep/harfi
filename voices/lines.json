@@ -552,6 +552,18 @@
   "text": "يد"
  },
  {
+  "key": "b|normal|أكّلي فلفل الحرف اللي بيقول",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "أكّلي فلفل الحرف اللي بيقول"
+ },
+ {
+  "key": "b|normal|أكّلي فلفل الكلمة دي",
+  "speaker": "b",
+  "speed": "normal",
+  "text": "أكّلي فلفل الكلمة دي"
+ },
+ {
   "key": "b|normal|أنا توتة صغيّرة وحلوة",
   "speaker": "b",
   "speed": "normal",
@@ -600,18 +612,6 @@
   "text": "اسمعي الكلمة حتّة حتّة"
  },
  {
-  "key": "b|normal|اسمعي صوتك",
-  "speaker": "b",
-  "speed": "normal",
-  "text": "اسمعي صوتك"
- },
- {
-  "key": "b|normal|اسمعي كويس",
-  "speaker": "b",
-  "speed": "normal",
-  "text": "اسمعي كويس"
- },
- {
   "key": "b|normal|الحرف بيغيّر شكله في الكلمة",
   "speaker": "b",
   "speed": "normal",
@@ -652,12 +652,6 @@
   "speaker": "b",
   "speed": "normal",
   "text": "خلّصي الوحدة اللي قبلها الأوّل"
- },
- {
-  "key": "b|normal|دورك قولي",
-  "speaker": "b",
-  "speed": "normal",
-  "text": "دورك قولي"
  },
  {
   "key": "b|normal|دوسي على كل حرف واسمعي صوته",
@@ -1326,12 +1320,6 @@
   "text": "إحنا فخورين بيكي"
  },
  {
-  "key": "f|normal|اسمعي تاني زيّك",
-  "speaker": "f",
-  "speed": "normal",
-  "text": "اسمعي تاني زيّك"
- },
- {
   "key": "f|normal|الحروف مسكت إيد بعض",
   "speaker": "f",
   "speed": "normal",
@@ -1396,5 +1384,11 @@
   "speaker": "f",
   "speed": "normal",
   "text": "يلّا يا بطلة"
+ },
+ {
+  "key": "f|normal|يمّي لذيذ",
+  "speaker": "f",
+  "speed": "normal",
+  "text": "يمّي لذيذ"
  }
 ]

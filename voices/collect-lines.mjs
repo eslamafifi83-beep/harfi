@@ -29,6 +29,11 @@ async function act() {
     const go = q('#footAct .go:not([disabled])');
     if (q('.lcard') && go && go.classList.contains('ready')) { go.click(); return 'go'; }
     if (q('.lcard')) return 'wait';
+    if (q('#feed')) {   // feed Filfil: one wrong tile first (to hear the correction), then the right one
+      const tiles = qa('.fd-tile:not(.eaten)'); if (!tiles.length || window.__feeding) return 'wait';
+      const tap = el => { el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 0, clientY: 0 })); el.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, clientX: 0, clientY: 0 })); };
+      window.__feedTry = (window.__feedTry || 0) + 1; tap(tiles[window.__feedTry % tiles.length]); return 'feed';
+    }
     const sf = qa('.sh-form:not(.was)')[0]; if (sf) { sf.click(); return 'shape'; }
     if (q('.shapes')) { const g = q('#footAct .go:not([disabled])'); if (g) { g.click(); return 'go'; } return 'wait'; }
     if (q('.sky')) {
@@ -37,7 +42,6 @@ async function act() {
       const t = bs.find(b => b.textContent.trim() === tg); if (t) { ev(t, 'pointerdown', 0, 0); return 'pop'; }
       return 'wait';
     }
-    const mic = q('#mic'); if (mic && !mic.classList.contains('rec')) { mic.click(); return 'mic'; }
     const yes = q('#turn .go.teal');
     if (yes) { if (!window.__again) { window.__again = 1; q('#turn .ghost').click(); return 'again'; } yes.click(); return 'yes'; }
     const ch = qa('.choice');
@@ -103,7 +107,6 @@ const data = await page.evaluate(() => {
   });
   ['filfil', 'toota', 'baba'].forEach(k => { const w = d.W[k]; add('b', 'calm', w.word); w.syl.forEach(s => add('b', 'slow', s.t)); });
   d.SHOW_LINES.forEach(([who, t]) => add(who, 'normal', t));
-  add('b', 'normal', 'اسمعي صوتك!');   // after she records herself (the robot has no microphone, so it never hears this)
   d.PRAISE.forEach(p => { add('f', 'normal', p[0]); add('b', 'normal', p[0]); });
   Object.keys(d.JOKES).forEach(who => d.JOKES[who].forEach(j => add(who, 'normal', j[0])));
   return out;
