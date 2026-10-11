@@ -1172,6 +1172,9 @@ $('#startBtn').addEventListener('click', function(){
 
 window.HARFI_DEBUG = { startLevel: startLevel, finishLevel: finishLevel, LEVELS: LEVELS, UNITS: UNITS, L: L, W: W, VOW: VOW, PRAISE: PRAISE, JOKES: JOKES, pokeBuddy: pokeBuddy, meetFriends: meetFriends, showTime: showTime, SHOW_LINES: SHOW_LINES, showMap: showMap, save: save, theName: theName };
 mountBuddies();
+/* a direct link for grown-ups: .../harfi/#parents opens the parents' page straight away */
+function parentsFromLink(){ if (location.hash === '#parents') { $('#splash').hidden = true; showMap(false); openParents(); } }
+parentsFromLink(); addEventListener('hashchange', parentsFromLink);
 updateCounts();
 showMap(false);
 setTimeout(function(){ pickVoice(); if (!arVoice && !Object.keys(CLIPS).length) $('#voiceWarn').hidden = false; }, 1500);
