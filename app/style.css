@@ -630,3 +630,94 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
 .mini-ff svg{width:100%;height:auto}
 @media (max-width:600px){.feed{flex-direction:column-reverse;gap:6px}.fd-ff .buddy{width:150px}.fd-tile{min-width:76px;height:76px;font-size:46px;border-radius:20px}.fd-tile.word{font-size:36px}}
 #app.feeding footer .buddy.b1{visibility:hidden}
+
+/* ===== the sticker party ===== */
+.party{position:fixed;inset:0;z-index:45;pointer-events:none;overflow:hidden}
+.pt-rainbow{position:absolute;left:50%;top:52%;width:min(120vw,1100px);aspect-ratio:2/1;transform:translate(-50%,-100%) scale(0);transform-origin:50% 100%;border-radius:999px 999px 0 0;
+  background:radial-gradient(circle at 50% 100%,transparent 0 38%,#8A5CF6 38% 43%,#3B9BFF 43% 48%,#22B5A6 48% 53%,#4FB83A 53% 58%,#FFC93C 58% 63%,#FF8A3D 63% 68%,#FF5AA0 68% 73%,transparent 73%);opacity:.85}
+.party.on .pt-rainbow{animation:rainbowIn .8s cubic-bezier(.3,1.5,.5,1) .05s forwards}
+@keyframes rainbowIn{to{transform:translate(-50%,-100%) scale(1)}}
+.party.bye .pt-rainbow{animation:rainbowOut .5s ease-in forwards}
+@keyframes rainbowOut{from{transform:translate(-50%,-100%) scale(1)}to{transform:translate(-50%,-100%) scale(0);opacity:0}}
+.pt-puff{position:absolute;top:calc(52% - 40px);width:clamp(110px,16vw,170px);height:clamp(54px,8vw,84px);background:#fff;border-radius:999px;box-shadow:0 6px 0 rgba(43,27,72,.15);transform:scale(0)}
+.pt-puff::before,.pt-puff::after{content:'';position:absolute;background:#fff;border-radius:50%}
+.pt-puff::before{width:55%;height:120%;left:12%;bottom:30%}.pt-puff::after{width:42%;height:95%;right:12%;bottom:35%}
+.pt-puff.l{left:calc(50% - min(55vw,520px))}.pt-puff.r{right:calc(50% - min(55vw,520px))}
+.party.on .pt-puff{animation:puffIn .6s cubic-bezier(.3,1.7,.5,1) .35s forwards,ptBob 2s ease-in-out 1s infinite}
+.party.bye .pt-puff{animation:none;transform:scale(0);transition:transform .3s}
+@keyframes puffIn{to{transform:scale(1)}}
+@keyframes ptBob{50%{translate:0 -8px}}
+.pt-blns{position:absolute;inset:0}
+.pt-bln{position:absolute;bottom:-160px;width:var(--s);height:calc(var(--s)*1.2);border-radius:50% 50% 48% 52%/55% 55% 45% 45%;background:var(--c);border:3px solid var(--sk-ink);box-shadow:inset -8px -10px 0 rgba(0,0,0,.12);animation:ptRise var(--t) cubic-bezier(.3,.1,.5,1) var(--dl) forwards}
+.pt-bln::before{content:'';position:absolute;top:14%;left:20%;width:18%;height:22%;border-radius:50%;background:rgba(255,255,255,.6)}
+.pt-bln::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:70px;background:var(--sk-ink);transform-origin:top;animation:ptString .6s ease-in-out infinite alternate}
+.pt-bln i{position:absolute;left:28%;top:40%;width:44%;height:30%}
+.pt-bln i::before,.pt-bln i::after{content:'';position:absolute;top:0;width:16%;height:30%;background:var(--sk-ink);border-radius:50%}
+.pt-bln i::before{left:12%}.pt-bln i::after{right:12%}
+.pt-bln b{position:absolute;left:30%;top:62%;width:40%;height:18%;border:3px solid var(--sk-ink);border-top:none;border-radius:0 0 999px 999px}
+@keyframes ptRise{0%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(var(--dx),-55vh) rotate(6deg)}100%{transform:translate(calc(var(--dx)*-.5),-130vh) rotate(-4deg)}}
+@keyframes ptString{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}
+.pt-stk{position:absolute;left:50%;top:36%;width:clamp(180px,28vmin,270px);transform:translate(-50%,-50%) translateY(-90vh);z-index:3}
+.pt-art{filter:url(#diecut) drop-shadow(0 10px 0 rgba(43,27,72,.3))}
+.pt-art svg{width:100%;height:auto;display:block;overflow:visible}
+.party.on .pt-stk{animation:jellyDrop 1s cubic-bezier(.25,1,.5,1) .45s forwards}
+@keyframes jellyDrop{0%{transform:translate(-50%,-50%) translateY(-90vh) rotate(-20deg)}45%{transform:translate(-50%,-50%) scale(1.25,.75) rotate(4deg)}60%{transform:translate(-50%,-50%) scale(.85,1.2)}75%{transform:translate(-50%,-50%) scale(1.08,.93)}88%{transform:translate(-50%,-50%) scale(.97,1.03)}100%{transform:translate(-50%,-50%) rotate(-4deg)}}
+.pt-stk.fly{transition:transform .7s cubic-bezier(.6,-.3,.6,1),opacity .7s}
+.pt-spark{position:absolute;width:26px;height:26px;transform:scale(0);animation:twinkle 1s ease-in-out var(--dl) infinite}
+.pt-spark svg{width:100%;height:100%}
+@keyframes twinkle{0%,100%{transform:scale(0) rotate(0)}50%{transform:scale(1) rotate(90deg)}}
+.pt-say{position:absolute;left:72%;top:-6%;padding:6px 14px 4px;background:#fff;border:4px solid var(--sk-ink);border-radius:20px 20px 20px 6px;box-shadow:0 4px 0 var(--sk-ink);font-weight:800;line-height:1.05;text-align:center;transform:scale(0) rotate(-10deg);transform-origin:0 100%;white-space:nowrap}
+.pt-say .ar{display:block;font-size:24px;color:var(--sk-ink)}.pt-say .en{display:block;font-size:14px;color:#4A3D6B}
+.party.alive .pt-say{animation:quackPop .45s cubic-bezier(.3,1.8,.5,1) forwards}
+.party.bye .pt-say{display:none}
+@keyframes quackPop{to{transform:scale(1) rotate(-6deg)}}
+.pt-banner{position:absolute;left:50%;top:calc(36% + clamp(110px,16vmin,155px));transform:translateX(-50%) scale(0);z-index:3;display:flex;flex-direction:column;align-items:center;background:var(--sk-yellow);border:5px solid var(--sk-ink);box-shadow:0 6px 0 var(--sk-ink);border-radius:999px;padding:2px 28px 5px;line-height:1.1}
+.pt-banner .ar{font-size:clamp(30px,4.6vmin,42px);font-weight:800;color:var(--sk-ink)}.pt-banner .en{font-size:16px;font-weight:800;color:var(--sk-ink)}
+.party.named .pt-banner{animation:bannerIn .5s cubic-bezier(.3,1.8,.5,1) forwards}
+@keyframes bannerIn{to{transform:translateX(-50%) scale(1) rotate(-3deg)}}
+.party.bye .pt-banner{transition:opacity .3s;opacity:0}
+.pt-fx{position:absolute;inset:0;width:100%;height:100%;z-index:5}
+/* each sticker's personality */
+.party.alive .pm-waddle{animation:pWaddle .36s ease-in-out 8 alternate,pHop .72s cubic-bezier(.3,1.6,.5,1) 4}
+.party.alive .pm-hop{animation:pHop .6s cubic-bezier(.3,1.6,.5,1) 5}
+.party.alive .pm-jelly{animation:pJelly .7s ease-in-out 4}
+.party.alive .pm-spin{animation:pSpin .9s cubic-bezier(.4,0,.3,1) 3}
+.party.alive .pm-sway{animation:pSway .8s ease-in-out 6 alternate}
+.party.alive .pm-swim{animation:pSwim .7s ease-in-out 6 alternate}
+.party.alive .pm-bounce{animation:pBounce .55s cubic-bezier(.3,1.5,.5,1) 5}
+.party.alive .pm-wag{animation:pWag .16s ease-in-out 16 alternate}
+.party.alive .pm-stretch{animation:pStretch .9s ease-in-out 3}
+.party.alive .pm-beat{animation:pBeat .62s ease-in-out 5}
+.party.alive .pm-glow{animation:pGlow 1.4s ease-in-out 2}
+.party.alive .pm-ring{transform-origin:50% 0;animation:pRing .3s ease-in-out 10 alternate}
+.party.alive .pm-blast{animation:pBlast 2.2s cubic-bezier(.5,0,.5,1) 1}
+@keyframes pWaddle{from{rotate:-10deg}to{rotate:10deg}}
+@keyframes pHop{0%,100%{translate:0 0;scale:1 1}30%{scale:1.12 .86}55%{translate:0 -46px;scale:.94 1.08}80%{translate:0 0;scale:1.08 .92}}
+@keyframes pJelly{0%,100%{scale:1 1}25%{scale:1.15 .85}50%{scale:.88 1.14}75%{scale:1.06 .95}}
+@keyframes pSpin{to{rotate:360deg}}
+@keyframes pSway{from{rotate:-12deg}to{rotate:12deg}}
+@keyframes pSwim{from{translate:-30px 6px;rotate:-6deg}to{translate:30px -6px;rotate:6deg}}
+@keyframes pBounce{0%,100%{translate:0 0;scale:1.1 .9}50%{translate:0 -60px;scale:.95 1.05}}
+@keyframes pWag{from{rotate:-8deg}to{rotate:8deg}}
+@keyframes pStretch{0%,100%{scale:1 1}40%{scale:1.3 .8}70%{scale:.9 1.15}}
+@keyframes pBeat{0%,100%{scale:1}15%{scale:1.2}30%{scale:1}45%{scale:1.15}}
+@keyframes pGlow{0%,100%{rotate:0deg;filter:url(#diecut) drop-shadow(0 0 0 #FFE066)}50%{rotate:20deg;filter:url(#diecut) drop-shadow(0 0 26px #FFE066)}}
+@keyframes pRing{from{rotate:-18deg}to{rotate:18deg}}
+@keyframes pBlast{0%{translate:0 0}15%{translate:-4px 2px}20%{translate:4px -2px}25%{translate:-4px 2px}55%{translate:0 -80vh}56%{translate:0 80vh}100%{translate:0 0}}
+#bookBtn{position:relative}
+#bookBtn.got{animation:bookGot .6s cubic-bezier(.3,1.8,.5,1)}
+@keyframes bookGot{30%{transform:scale(1.4) rotate(-12deg)}60%{transform:scale(.95) rotate(4deg)}}
+#bookBtn .plus{position:absolute;right:-6px;top:-10px;background:var(--sk-pink);color:#fff;border:3px solid var(--sk-ink);border-radius:999px;font-size:14px;font-weight:800;padding:0 7px;animation:plusUp 1.2s ease-out forwards}
+@keyframes plusUp{0%{transform:scale(0)}30%{transform:scale(1.2)}100%{transform:translateY(-26px);opacity:0}}
+/* the reward screen's friends dance in front of the party */
+.rw-friend{z-index:46}
+/* album: die-cut stickers instead of circles */
+.slotS.has{background:none;border:none;box-shadow:none;border-radius:0}
+.slotS.has svg{width:88%;filter:url(#diecut-sm) drop-shadow(0 3px 0 rgba(43,27,72,.3))}
+@media (prefers-reduced-motion:reduce){.party *{animation-duration:.01s!important}}
+
+.party{top:clamp(58px,9vh,72px)}   /* below the header, so the sticker book button stays in view */
+.rw-title.wait{opacity:0;transform:scale(.4)}
+.rw-title{transition:opacity .3s,transform .5s cubic-bezier(.3,1.7,.5,1)}
+.bk-row{grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+@media (max-width:600px){.bk-row{grid-template-columns:repeat(4,minmax(0,1fr))}}

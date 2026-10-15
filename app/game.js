@@ -420,7 +420,7 @@ function h(html){ var d = document.createElement('div'); d.innerHTML = html.trim
 var cleanup = null, timers = [];
 function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
 function clearScene(){
-  document.getElementById('app').classList.remove('celebrate', 'feeding');
+  document.getElementById('app').classList.remove('celebrate', 'feeding'); partyStop();
   if (cleanup) { cleanup(); cleanup = null; }
   timers.forEach(clearTimeout); timers = [];
   stopSpeech();
@@ -527,10 +527,11 @@ function finishLevel(u, i){
   var lv = LEVELS[i], st = starsFor(mistakes), sticker = UNITS[u].stickers[i];
   var isNew = save.stickers.indexOf(sticker) < 0;
   save.done[doneKey(u, lv.id)] = Math.max(save.done[doneKey(u, lv.id)] || 0, st);
-  if (isNew) save.stickers.push(sticker);
+  if (isNew) save.stickers.push(sticker);   /* the header count updates when the sticker lands in the book */
   var unitFinished = unitDone(u), lastOfUnit = unitFinished && LEVELS[i].id === 'words';
   if (unitFinished && u + 1 < UNITS.length) save.unit = Math.max(save.unit || 0, u + 1);
   persist();
+  if (isNew) $('#stickerCount').textContent = save.stickers.length - 1;   /* +1 when it lands in the book */
   /* the celebration: a turning sunburst, three stars that fly in one by one, the sticker slapped on,
      and big Filfil and Toota dancing either side */
   var el = scene('<div class="reward">' +
@@ -539,30 +540,162 @@ function finishLevel(u, i){
       '<div class="rw-main">' +
         '<div class="bigstars" id="bs" aria-label="' + st + ' of 3 stars"></div>' +
         '<h2 class="rw-title"><span class="ar">برافو عليكي!</span><span class="en">' + (lastOfUnit ? 'You finished ' + UNITS[u].label + '!' : 'Well done!') + '</span></h2>' +
-        '<div class="rw-sticker" id="rwSticker"><div class="sticker">' + PIC[sticker] + '<i class="shine" aria-hidden="true"></i></div></div>' +
-        '<div class="rw-cap"><span class="ar">' + (isNew ? 'كسبتي ستيكر جديد!' : 'الستيكر بتاعك!') + '</span><span class="en">' + (isNew ? 'You won a new sticker' : 'Your sticker') + '</span></div>' +
+
       '</div></div>');
   document.getElementById('app').classList.add('celebrate');
-  SFX.fanfare(); confetti(lastOfUnit ? 160 : 100);
+  if (isNew) { var rm = el.querySelector('.rw-title'); rm.classList.add('wait'); later(function(){ rm.classList.remove('wait'); SFX.fanfare(); }, 4900); }
+  stickerParty(sticker, isNew); cleanup = partyStop;   /* the party; leaving the screen ends it */
   el.querySelectorAll('.rw-friend .buddy').forEach(function(b, k){ setTimeout(function(){ b.classList.add('dance'); }, k * 200); });
-  if (isNew) say('كسبتي ستيكر جديد!','Kisbti stiker gdīd!','You won a new sticker!', true, 'b');
-  else say('برافو عليكي!','Brāvo ʿalēki!','Well done!', true, 'b');
-  laterQuiet(function(){ say('إحنا فخورين بيكي!','Iḥna fakhūrīn bīki!','We\'re so proud of you!', true, 'f'); }, 1500);
+  later(function(){
+    if (isNew) say('كسبتي ستيكر جديد!','Kisbti stiker gdīd!','You won a new sticker!', true, 'b');
+    else say('برافو عليكي!','Brāvo ʿalēki!','Well done!', true, 'b');
+    laterQuiet(function(){ say('برافو!','Brāvo!','Bravo!', true, 'f'); }, 300);
+  }, 300);
   var bs = el.querySelector('#bs');
   for (var s = 0; s < 3; s++) (function(s){
     later(function(){
       var got = s < st, span = h('<span class="rw-star ' + (got ? 'got' : 'miss') + (s === 1 ? ' mid' : '') + '">' + STAR + '</span>');
       bs.appendChild(span);
       if (got) { tone(880 * Math.pow(1.26, s), 0, .22, 'triangle', .16); tone(1760 * Math.pow(1.26, s), .05, .3, 'sine', .08); burst(span); }
-    }, 500 + s * 420);
+    }, (isNew ? 5000 : 500) + s * 420);   /* a new sticker has the stage first */
   })(s);
-  later(function(){   /* the sticker lands with a thwack */
-    var sk = el.querySelector('#rwSticker'); sk.classList.add('in');
-    tone(140, 0, .12, 'square', .12, 70); noise(0, .08, .25); tone(1200, .1, .25, 'sine', .07, 1900);
-  }, 1900);
   if (i < LEVELS.length-1) footButton('اللعبة الجاية','Next game', function(){ startLevel(u, i+1); }, 'ready');
   else if (u + 1 < UNITS.length) footButton('حروف جديدة','Next letters: '+UNITS[u+1].label, function(){ showMap(true, u+1); }, 'ready');
   else footButton('على الخريطة','Back to map', function(){ showMap(true); }, 'ready');
+}
+
+
+/* ---------- the sticker party: a short automatic celebration whenever a game is won ----------
+   Party poppers (confetti, curly streamers, stars, hearts with real physics), a rainbow with puffy clouds,
+   smiley balloons, and the new sticker: it bounces down like jelly as a die-cut sticker, comes alive in its
+   own way (the duck quacks, the rocket blasts off...), shows its word, then flies into the sticker book. */
+var PCOLS = ['#FF8A3D','#FFC93C','#22B5A6','#FF5AA0','#8A5CF6','#4FB83A','#3B9BFF','#FF4B4B'];
+var STICKER_WORD = {}; Object.keys(W).forEach(function(k){ if (!STICKER_WORD[W[k].pic]) STICKER_WORD[W[k].pic] = W[k]; });
+function stickerArt(s){ return PIC[s].replace(/<ellipse cx="(100|130)" cy="(190|202)"[^>]*\/>/, ''); }
+var SFX2 = {
+  popper: function(t){ t = t || 0; noise(t, .18, .5); tone(140, t, .2, 'sine', .3, 50); tone(1800, t + .05, .5, 'sine', .05, 3200); },
+  whoosh: function(){ tone(300, 0, .4, 'sine', .07, 1100); noise(0, .3, .06); },
+  boing: function(){ tone(160, 0, .3, 'sine', .22, 520); tone(240, .12, .25, 'sine', .12, 600); },
+  sparkle: function(){ [2093, 2637, 3136, 3520, 4186].forEach(function(f, i){ tone(f, i * .05, .16, 'sine', .06); }); },
+  ding: function(){ tone(1319, 0, .25, 'sine', .12); tone(1760, .08, .35, 'sine', .1); },
+  quack: function(){ [0, .2].forEach(function(d){ tone(640, d, .15, 'sawtooth', .08, 420); tone(1280, d, .1, 'square', .025, 840); }); },
+  hop: function(){ [0, .25, .5].forEach(function(d){ tone(300, d, .18, 'sine', .14, 900); }); },
+  meow: function(){ tone(600, 0, .22, 'triangle', .12, 1050); tone(1050, .2, .35, 'triangle', .1, 560); },
+  bark: function(){ [0, .25].forEach(function(d){ noise(d, .08, .25); tone(260, d, .12, 'square', .08, 160); }); },
+  baa: function(){ for (var i = 0; i < 6; i++) tone(420 + (i % 2) * 30, i * .07, .09, 'sawtooth', .06); },
+  ribbit: function(){ [0, .18].forEach(function(d){ for (var i = 0; i < 4; i++) tone(170, d + i * .025, .02, 'square', .1); }); },
+  roar: function(){ tone(140, 0, .6, 'sawtooth', .12, 70); noise(0, .5, .12); },
+  splash: function(){ noise(0, .4, .3); [0, .1, .2].forEach(function(d){ tone(900, d, .08, 'sine', .05, 1800); }); },
+  blub: function(){ [0, .16, .32].forEach(function(d){ tone(280, d, .12, 'sine', .14, 900); }); },
+  rocket: function(){ noise(0, .9, .2); tone(150, 0, .9, 'sawtooth', .06, 1600); },
+  dingdong: function(){ tone(1319, 0, .5, 'sine', .14); tone(1047, .35, .7, 'sine', .14); },
+  beat: function(){ [0, .16, .6, .76].forEach(function(d){ tone(70, d, .12, 'sine', .35, 45); }); },
+  knock: function(){ [0, .18].forEach(function(d){ noise(d, .05, .35); tone(180, d, .06, 'square', .08, 90); }); },
+  yum: function(){ tone(520, 0, .14, 'sine', .14, 700); tone(700, .16, .24, 'sine', .14, 520); },
+  wow: function(){ tone(420, 0, .45, 'triangle', .12, 880); },
+  laugh: function(){ for (var i = 0; i < 4; i++) tone(700 - i * 40, i * .11, .08, 'triangle', .1, 900 - i * 40); }
+};
+/* each sticker's personality: how it moves, its sound, and what it says (Arabic / English) */
+var PERSONA = {
+  rabbit:['hop','hop','هوب هوب!','Hop hop!'], duck:['waddle','quack','كواك!','Quack!'], fox:['spin','wow','واو!','Wow!'],
+  dad:['jelly','laugh','هاها!','Ha ha!'], door:['wag','knock','طق طق!','Knock knock!'], steps:['hop','hop','تاتا!','Ta-ta!'],
+  camel:['sway','wow','واو!','Wow!'], whale:['swim','splash','سبلاش!','Splash!', 'drops'], sheep:['bounce','baa','ماااء!','Baa!'],
+  bear:['stretch','roar','غرر!','Grrr!'], crown:['glow','sparkle','ملكة!','Queen!'], heart:['beat','beat','بحبك!','Love you!'],
+  flower:['sway','sparkle','واو!','Wow!'], fish:['swim','blub','بلوب!','Blub!', 'drops'], bell:['ring','dingdong','رن رن!','Ding dong!'],
+  sea:['swim','splash','سبلاش!','Splash!', 'drops'], sun:['glow','sparkle','واو!','Wow!'], rocket:['blast','rocket','طيران!','Whoosh!'],
+  frog:['hop','ribbit','نق نق!','Ribbit!'], tooth:['bounce','sparkle','بيلمع!','Shiny!'], star:['spin','sparkle','واو!','Wow!'],
+  envelope:['wag','ding','جواب!','Mail!'], cloud:['swim','splash','شتا!','Rain!', 'drops'], grass:['sway','sparkle','واو!','Wow!'],
+  smiley:['bounce','laugh','هاها!','Ha ha!'], cat:['stretch','meow','مياو!','Meow!'], ball:['bounce','boing','بوينج!','Boing!'],
+  lemon:['jelly','boing','حامض!','Sour!'], pen:['wag','knock','شخبط!','Scribble!'], dog:['wag','bark','هو هو!','Woof!'],
+  moon:['sway','sparkle','واو!','Wow!'], gift:['wag','popper','مفاجأة!','Surprise!'], rose:['sway','sparkle','واو!','Wow!'],
+  hand:['wag','boing','هاي!','Hi!'], mama:['jelly','beat','بحبك!','Love you!'], house:['bounce','ding','بيتي!','Home!'],
+  bulb:['glow','ding','نور!','Light!']
+};
+['apple','corn','pomegranate','rice','tomato','potatoes','grapes','strawberry','banana'].forEach(function(f){ PERSONA[f] = ['jelly','yum','يمّي!','Yum!']; });
+function persona(st){ return PERSONA[st] || ['jelly','wow','واو!','Wow!']; }
+
+var partyEl = null, partyTimers = [], partyRaf = null, parts = [];
+function partyStop(){
+  partyTimers.forEach(clearTimeout); partyTimers = [];
+  if (partyRaf) cancelAnimationFrame(partyRaf); partyRaf = null; parts = [];
+  if (partyEl) { partyEl.remove(); partyEl = null; }
+  document.querySelectorAll('#bookBtn .plus').forEach(function(p){ p.remove(); });
+}
+function stickerParty(sticker, isNew){
+  partyStop();
+  var P = persona(sticker), word = STICKER_WORD[sticker], STAR4 = '<svg viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#FFE066" stroke="#2B1B48" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+  var spk = ''; [[-8,10],[104,4],[-14,70],[110,76],[30,-14],[78,104]].forEach(function(q, i){ spk += '<span class="pt-spark" style="left:'+q[0]+'%;top:'+q[1]+'%;--dl:'+(i*.17)+'s">'+STAR4+'</span>'; });
+  var n = innerWidth < 600 ? 6 : 10, bl = '';
+  for (var i = 0; i < n; i++) bl += '<div class="pt-bln" style="left:' + (4 + i * (92 / n) + Math.random() * 4) + '%;--s:' + (50 + Math.random() * 30) + 'px;--c:' + PCOLS[i % PCOLS.length] + ';--t:' + (3.6 + Math.random() * 1.6) + 's;--dl:' + (Math.random() * .6) + 's;--dx:' + (Math.random() * 60 - 30) + 'px"><i></i><b></b></div>';
+  partyEl = h('<div class="party' + (isNew ? '' : ' replay') + '" aria-hidden="true"><div class="pt-rainbow"></div><div class="pt-puff l"></div><div class="pt-puff r"></div><div class="pt-blns">' + bl + '</div>' +
+    (isNew ? '<div class="pt-stk"><div class="pt-art pm-' + P[0] + '">' + stickerArt(sticker) + '</div>' + spk + '<div class="pt-say"><span class="ar">' + P[2] + '</span><span class="en">' + P[3] + '</span></div></div>' +
+      (word ? '<div class="pt-banner"><span class="ar">' + word.word + '</span><span class="en">' + word.en.charAt(0).toUpperCase() + word.en.slice(1) + '</span></div>' : '') : '') +
+    '<canvas class="pt-fx"></canvas></div>');
+  document.body.appendChild(partyEl);
+  var root = partyEl, cv = root.querySelector('.pt-fx'), c = cv.getContext('2d'), dpr = Math.min(2, window.devicePixelRatio || 1);
+  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  function at(ms, fn){ partyTimers.push(setTimeout(fn, ms)); }
+  function spawn(x, y, k, ang, spread, power, only){
+    for (var i = 0; i < k; i++) {
+      var a = ang + (Math.random() - .5) * spread, v = power * (.55 + Math.random() * .6);
+      parts.push({x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6, vr: (Math.random() - .5) * .4, s: 7 + Math.random() * 9,
+        c: only === 'drops' ? ['#3B9BFF','#7FC8FF','#BDE6FF'][i % 3] : PCOLS[Math.floor(Math.random() * PCOLS.length)],
+        k: only === 'drops' ? 'circle' : ['rect','rect','circle','star','heart','ribbon','ribbon'][Math.floor(Math.random() * 7)], t: 0, wob: Math.random() * 6});
+    }
+    if (!partyRaf) partyRaf = requestAnimationFrame(tick);
+  }
+  function shape(p){
+    var s2 = p.s; c.fillStyle = p.c; c.strokeStyle = '#2B1B48'; c.lineWidth = 2;
+    if (p.k === 'rect') { var w = s2 * Math.abs(Math.cos(p.t * .25 + p.wob)); c.fillRect(-w / 2, -s2 * .35, w, s2 * .7); }
+    else if (p.k === 'circle') { c.beginPath(); c.arc(0, 0, s2 * .45, 0, 7); c.fill(); }
+    else if (p.k === 'star') { c.beginPath(); for (var i = 0; i < 10; i++) { var rr = i % 2 ? s2 * .3 : s2 * .75, aa = i * Math.PI / 5; c.lineTo(Math.cos(aa) * rr, Math.sin(aa) * rr); } c.closePath(); c.fill(); c.stroke(); }
+    else if (p.k === 'heart') { c.beginPath(); c.moveTo(0, s2 * .35); c.bezierCurveTo(-s2 * .9, -s2 * .2, -s2 * .35, -s2 * .85, 0, -s2 * .3); c.bezierCurveTo(s2 * .35, -s2 * .85, s2 * .9, -s2 * .2, 0, s2 * .35); c.fill(); c.stroke(); }
+    else { c.beginPath(); c.lineWidth = 4; c.strokeStyle = p.c; for (var j = 0; j <= 12; j++) c.lineTo(j * 2.4 - 14, Math.sin(j * .9 + p.t * .3) * 5); c.stroke(); }
+  }
+  function tick(){
+    c.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(function(p){ return p.y < innerHeight + 40 && p.t < 400; });
+    parts.forEach(function(p){
+      p.t++; p.vy += .22; p.vx *= .99; p.vy *= .99;
+      if (p.vy > 3.2 && p.k !== 'star') { p.vy = 3.2; p.vx += Math.sin(p.t * .1 + p.wob) * .15; }   /* flutter down gently */
+      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      c.save(); c.translate(p.x, p.y); c.rotate(p.r); shape(p); c.restore();
+    });
+    partyRaf = parts.length && partyEl ? requestAnimationFrame(tick) : null;
+  }
+  function poppers(){
+    var w = innerWidth, hh = innerHeight, pw = Math.max(15, hh / 34);
+    spawn(10, hh - 10, 70, -Math.PI / 2 + .55, .7, pw); spawn(w - 10, hh - 10, 70, -Math.PI / 2 - .55, .7, pw);
+    SFX2.popper(0); SFX2.popper(.07);
+  }
+  void root.offsetWidth; root.classList.add('on');
+  poppers();
+  at(250, function(){ for (var i = 0; i < 6; i++) spawn(Math.random() * innerWidth, -20, 6, Math.PI / 2, .5, 2); });
+  if (!isNew) { at(1600, poppers); at(4300, function(){ root.classList.add('bye'); }); at(4900, partyStop); return; }
+  var stk = root.querySelector('.pt-stk');
+  at(450, SFX2.whoosh);
+  at(900, function(){ SFX2.boing(); SFX2.sparkle(); });
+  at(1500, function(){ root.classList.add('alive'); (SFX2[P[1]] || SFX2.wow)();
+    if (P[4] === 'drops') { var r = stk.getBoundingClientRect(); spawn(r.left + r.width / 2, r.top + 10, 30, -Math.PI / 2, 1.2, 9, 'drops'); } });
+  at(1900, function(){ root.classList.add('named'); SFX2.ding(); });
+  at(2400, function(){ (SFX2[P[1]] || SFX2.wow)(); });
+  at(2600, poppers);
+  at(4200, function(){   /* into the sticker book */
+    var bk = document.getElementById('bookBtn'), b = bk.getBoundingClientRect(), r = stk.getBoundingClientRect();
+    var dx = (b.left + b.width / 2) - (r.left + r.width / 2), dy = (b.top + b.height / 2) - (r.top + r.height / 2);
+    stk.style.animation = 'none'; stk.querySelector('.pt-art').style.animation = 'none';
+    stk.style.transform = 'translate(-50%,-50%) rotate(-4deg)'; void stk.offsetWidth;
+    stk.classList.add('fly'); root.classList.add('bye');
+    stk.style.transform = 'translate(calc(-50% + ' + dx + 'px), calc(-50% + ' + dy + 'px)) scale(.12) rotate(360deg)';
+    SFX2.whoosh();
+  });
+  at(4900, function(){
+    stk.style.opacity = '0';
+    var bk = document.getElementById('bookBtn'); bk.classList.remove('got'); void bk.offsetWidth; bk.classList.add('got');
+    var p = h('<span class="plus">+1</span>'); bk.appendChild(p); setTimeout(function(){ p.remove(); }, 1300);
+    updateCounts(); SFX2.ding();
+  });
+  at(5500, partyStop);
 }
 
 /* ---------- 1 · sounds: meet the letters, pop balloons, then match by sound alone ---------- */
@@ -1201,7 +1334,7 @@ function openBook(){
     var row = h('<section class="bk-unit"><h3 class="ar">' + U.label + '</h3><div class="bk-row"></div></section>'), r = row.querySelector('.bk-row');
     U.stickers.forEach(function(s, k){
       var has = save.stickers.indexOf(s) >= 0;
-      r.appendChild(h('<div class="slotS ' + (has ? 'has' : 'locked') + '" style="--tilt:' + (((ui * 7 + k * 5) % 9) - 4) + 'deg" aria-label="' + s + ' sticker' + (has ? '' : ' (not yet)') + '">' + (has ? PIC[s] : '<span>?</span>') + '</div>'));
+      r.appendChild(h('<div class="slotS ' + (has ? 'has' : 'locked') + '" style="--tilt:' + (((ui * 7 + k * 5) % 9) - 4) + 'deg" aria-label="' + s + ' sticker' + (has ? '' : ' (not yet)') + '">' + (has ? stickerArt(s) : '<span>?</span>') + '</div>'));
     });
     book.appendChild(row);
   });

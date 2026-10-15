@@ -15,6 +15,19 @@
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- die-cut stickers: a white edge that follows the drawing's own outline, with an ink line around it -->
+  <filter id="diecut" x="-15%" y="-15%" width="130%" height="130%">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="9" result="white"/><feMorphology in="SourceAlpha" operator="dilate" radius="13" result="ink"/>
+    <feFlood flood-color="#2B1B48"/><feComposite in2="ink" operator="in" result="inkFill"/><feFlood flood-color="#FFFFFF"/><feComposite in2="white" operator="in" result="whiteFill"/>
+    <feMerge><feMergeNode in="inkFill"/><feMergeNode in="whiteFill"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="diecut-sm" x="-15%" y="-15%" width="130%" height="130%">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="5" result="white"/><feMorphology in="SourceAlpha" operator="dilate" radius="8" result="ink"/>
+    <feFlood flood-color="#2B1B48"/><feComposite in2="ink" operator="in" result="inkFill"/><feFlood flood-color="#FFFFFF"/><feComposite in2="white" operator="in" result="whiteFill"/>
+    <feMerge><feMergeNode in="inkFill"/><feMergeNode in="whiteFill"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</svg>
 <div id="app">
   <header class="bar">
     <div class="brand">
