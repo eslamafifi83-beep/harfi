@@ -721,3 +721,15 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
 .rw-title{transition:opacity .3s,transform .5s cubic-bezier(.3,1.7,.5,1)}
 .bk-row{grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
 @media (max-width:600px){.bk-row{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* Feed Filfil, reading rounds: the picture of the word Toota says (try: feedpics) */
+.fd-pic{position:relative;width:clamp(130px,17vw,190px);display:flex;flex-direction:column;align-items:center;animation:picIn .6s cubic-bezier(.3,1.7,.5,1) .3s both}
+.fd-pic svg{width:100%;height:auto;filter:url(#diecut-sm) drop-shadow(0 5px 0 rgba(43,27,72,.3))}
+@keyframes picIn{from{transform:scale(0) rotate(-15deg)}to{transform:none}}
+.fd-cap{display:flex;flex-direction:column;align-items:center;line-height:1.1;background:var(--sk-yellow);border:4px solid var(--sk-ink);box-shadow:0 4px 0 var(--sk-ink);border-radius:999px;padding:2px 18px 4px;margin-top:6px;transform:scale(0)}
+.fd-cap b{font-size:clamp(28px,4vw,38px);font-weight:800;color:var(--sk-ink)}.fd-cap small{font-size:15px;font-weight:800;color:var(--sk-ink)}
+.fd-pic.got{animation:picGot .7s cubic-bezier(.3,1.7,.5,1)}
+.fd-pic.got .fd-cap{animation:capIn .5s cubic-bezier(.3,1.8,.5,1) .15s forwards}
+@keyframes picGot{30%{transform:scale(1.18) rotate(-6deg)}60%{transform:scale(.96) rotate(3deg)}}
+@keyframes capIn{to{transform:scale(1) rotate(-3deg)}}
+@media (max-width:600px){.fd-pic{width:110px}.fd-side{gap:10px}}

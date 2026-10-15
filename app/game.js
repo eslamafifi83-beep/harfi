@@ -441,6 +441,8 @@ function theName(l){ return 'ال' + l.name.replace(/^ال/, ''); }   /* "الب
 /* Phonics first: a letter is always spoken as its SOUND (بَ "ba"), never its name (باء). Every single sound
    plays at this one rate, so each letter sound has exactly one clip. */
 var SND = .6;
+/* features being tried out: only on with a demo link such as ?try=feedpics (the normal game is unchanged) */
+var TRY = {}; (new URLSearchParams(location.search).get('try') || '').split(',').forEach(function(k){ if (k) TRY[k] = true; });
 function hint(l){ return l.key === 'alif' ? 'a' : l.key === 'ayn' ? 'a (from the throat)' : l.tr + 'a'; }
 function sounds(l, n){ var p = []; for (var i = 0; i < (n || 1); i++) p.push({t:l.snd, rate:SND}); return p; }
 
@@ -815,18 +817,19 @@ function soundMatch(u, li){
 
 /* ---------- 2 · feed Filfil: listen, then drag (or tap) the right letter into hungry Filfil's mouth ----------
    The last two rounds are reading: Toota says a word and she finds it among look-alike words. */
-function feedGame(u, li){
+function feedGame(u, li, startRound){
   var U = UNITS[u];
   var words = (u === 0 ? [W.baba, W.bab, W.tata] : U.words.map(function(k){ return W[k]; }));
   var rounds = shuffle(U.sounding.concat(U.sounding)).slice(0, 4).map(function(k){ return {k: k}; })
     .concat(shuffle(words).slice(0, 2).map(function(w){ return {w: w}; }));
-  var r = 0;
+  var r = startRound || 0;
   function play(){
     var R = rounds[r], l = R.k ? L[R.k] : null, w = R.w;
     setTimeout(function(){ document.getElementById('app').classList.add('feeding'); }, 0);   /* the big Filfil is on stage: hide the corner one */
     var el = scene(dotsHTML(rounds.length, r) +
       task(w ? 'أكّلي فلفل الكلمة دي' : 'أكّلي فلفل الحرف اللي بيقول الصوت ده', w ? 'Akkili Filfil el-kilma di' : 'Akkili Filfil el-ḥarf', w ? 'Listen, then give Filfil the word you hear' : 'Listen, then give Filfil the letter that makes this sound') +
-      '<div class="feed" id="feed"><div class="fd-side"><button class="listen" id="lis" aria-label="Hear it again">' + SPEAKER + '</button><div class="fd-plate" id="plate"></div></div>' +
+      '<div class="feed" id="feed"><div class="fd-side">' + (w && TRY.feedpics ? '<div class="fd-pic" id="fdPic">' + stickerArt(w.pic) + '<span class="fd-cap"><b class="ar">' + w.word + '</b><small class="en">' + w.en + '</small></span></div>' : '') +
+      '<button class="listen" id="lis" aria-label="Hear it again">' + SPEAKER + '</button><div class="fd-plate" id="plate"></div></div>' +
       '<div class="fd-ff" id="ff">' + buddyBtn('f', 'hungry') + '<div class="fd-mouth" id="mouth" aria-hidden="true"></div><i class="fd-crumbs" aria-hidden="true"></i></div></div>');
     var plate = el.querySelector('#plate'), ff = el.querySelector('#ff'), fb = ff.querySelector('.buddy'), mouth = el.querySelector('#mouth'), lis = el.querySelector('#lis'), locked = false;
     function prompt(first){
@@ -875,6 +878,7 @@ function feedGame(u, li){
       flyTo(t, function(){
         if (right) {
           t.classList.add('eaten'); fb.classList.add('chomp'); react(fb); munch();
+          var pic = el.querySelector('#fdPic'); if (pic) later(function(){ pic.classList.add('got'); SFX.star(); }, 350);
           track(R.k || (w && BY_CH[w.plain[0]]), true);
           later(function(){ fb.classList.remove('chomp'); burst(fb); confetti(25); mood('happy');
             say('يمّي! لذيذ!', 'Yummi! Lazīz!', 'Yum! Delicious!', true, 'f');
@@ -1414,5 +1418,6 @@ function parentsFromLink(){ if (location.hash === '#parents') { $('#splash').hid
 parentsFromLink(); addEventListener('hashchange', parentsFromLink);
 updateCounts();
 showMap(false);
+if (TRY.feedpics) { $('#splash').hidden = true; feedGame(0, 1, 4); }   /* demo: straight to the first reading round */
 setTimeout(function(){ pickVoice(); if (!arVoice && !Object.keys(CLIPS).length) $('#voiceWarn').hidden = false; }, 1500);
 })();
