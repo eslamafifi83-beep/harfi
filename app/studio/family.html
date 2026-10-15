@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family pictures</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{overflow:auto}
+  main{max-width:1100px;margin:0 auto;padding:20px 16px 60px;position:relative;z-index:1}
+  h1{margin:0;text-align:center;color:var(--sk-ink);font-size:30px}
+  p{text-align:center;color:#33266A;font-weight:600;margin:4px 0 20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:22px}
+  .card{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .card svg{width:100%;max-width:220px;height:auto;filter:url(#diecut) drop-shadow(0 6px 0 rgba(43,27,72,.3))}
+  .tag{display:flex;flex-direction:column;align-items:center;line-height:1.1;background:var(--sk-yellow);border:4px solid var(--sk-ink);box-shadow:0 4px 0 var(--sk-ink);border-radius:999px;padding:2px 20px 4px}
+  .tag b{font-size:34px;font-weight:800;color:var(--sk-ink)}.tag small{font-size:16px;font-weight:800;color:var(--sk-ink)}
+  .new{font-size:13px;font-weight:800;color:#fff;background:var(--sk-pink);border:3px solid var(--sk-ink);border-radius:999px;padding:0 10px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="diecut" x="-15%" y="-15%" width="130%" height="130%"><feMorphology in="SourceAlpha" operator="dilate" radius="9" result="white"/><feMorphology in="SourceAlpha" operator="dilate" radius="13" result="ink"/><feFlood flood-color="#2B1B48"/><feComposite in2="ink" operator="in" result="inkFill"/><feFlood flood-color="#FFFFFF"/><feComposite in2="white" operator="in" result="whiteFill"/><feMerge><feMergeNode in="inkFill"/><feMergeNode in="whiteFill"/><feMergeNode in="SourceGraphic"/></feMerge></filter></svg>
+<main>
+  <h1>Family pictures</h1>
+  <p>The new, clearer family portraits. Grandpa and Grandma aren't words in the game yet.</p>
+  <div class="grid" id="g"></div>
+</main>
+<script src="../family.js"></script>
+<script>
+var F = window.HARFI_FAMILY, rows = [['dad','بابا','dad'],['mama','ماما','mum'],['steps','تاتا','baby steps'],['grandpa','جدّو','grandpa',1],['grandma','تيتة','grandma',1]];
+document.getElementById('g').innerHTML = rows.map(function(r){ return '<div class="card">' + F[r[0]] + '<span class="tag"><b dir="rtl">' + r[1] + '</b><small>' + r[2] + '</small></span>' + (r[3] ? '<span class="new">not in the game yet</span>' : '') + '</div>'; }).join('');
+</script>
+</body>
+</html>

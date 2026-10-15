@@ -443,6 +443,7 @@ function theName(l){ return 'ال' + l.name.replace(/^ال/, ''); }   /* "الب
 var SND = .6;
 /* features being tried out: only on with a demo link such as ?try=feedpics (the normal game is unchanged) */
 var TRY = {}; (new URLSearchParams(location.search).get('try') || '').split(',').forEach(function(k){ if (k) TRY[k] = true; });
+if (TRY.feedpics && window.HARFI_FAMILY) ['dad','mama','steps'].forEach(function(k){ PIC[k] = window.HARFI_FAMILY[k]; });   /* clearer family portraits */
 function hint(l){ return l.key === 'alif' ? 'a' : l.key === 'ayn' ? 'a (from the throat)' : l.tr + 'a'; }
 function sounds(l, n){ var p = []; for (var i = 0; i < (n || 1); i++) p.push({t:l.snd, rate:SND}); return p; }
 
@@ -1418,6 +1419,6 @@ function parentsFromLink(){ if (location.hash === '#parents') { $('#splash').hid
 parentsFromLink(); addEventListener('hashchange', parentsFromLink);
 updateCounts();
 showMap(false);
-if (TRY.feedpics) { $('#splash').hidden = true; feedGame(0, 1, 4); }   /* demo: straight to the first reading round */
+if (TRY.feedpics) { $('#splash').hidden = true; var tu = Math.max(1, Math.min(7, +new URLSearchParams(location.search).get('unit') || 1)) - 1; viewUnit = tu; feedGame(tu, 1, 4); }   /* demo: straight to the first reading round */
 setTimeout(function(){ pickVoice(); if (!arVoice && !Object.keys(CLIPS).length) $('#voiceWarn').hidden = false; }, 1500);
 })();

@@ -733,3 +733,16 @@ footer .buddy{width:clamp(78px,10.5vw,122px)}
 @keyframes picGot{30%{transform:scale(1.18) rotate(-6deg)}60%{transform:scale(.96) rotate(3deg)}}
 @keyframes capIn{to{transform:scale(1) rotate(-3deg)}}
 @media (max-width:600px){.fd-pic{width:110px}.fd-side{gap:10px}}
+
+/* demo: a bigger, clearer picture in the reading rounds */
+.fd-pic{width:clamp(180px,24vw,260px)}
+.fd-pic svg{filter:url(#diecut) drop-shadow(0 6px 0 rgba(43,27,72,.3))}
+@media (max-width:600px){.fd-pic{width:150px}}
+
+/* with a picture: picture on the left, listen button and tiles beside it (tablet); stacked and smaller on phones */
+.fd-side:has(.fd-pic){display:grid;grid-template-columns:auto auto;grid-template-areas:"pic lis" "pic plate";align-items:center;column-gap:clamp(14px,3vw,36px);row-gap:16px}
+.fd-side:has(.fd-pic) .fd-pic{grid-area:pic}.fd-side:has(.fd-pic) .listen{grid-area:lis;justify-self:center}.fd-side:has(.fd-pic) .fd-plate{grid-area:plate}
+.fd-side:has(.fd-pic) .fd-plate{max-width:320px}
+@media (max-width:600px){.fd-side:has(.fd-pic){grid-template-columns:auto auto;grid-template-areas:"pic lis" "plate plate"}.fd-pic{width:120px}.fd-side:has(.fd-pic) .fd-plate{max-width:none}}
+@media (max-width:600px) and (max-height:780px){.fd-ff .buddy{width:112px}.feed{gap:2px}}
+@media (max-width:420px){.fd-plate{gap:8px;flex-wrap:nowrap}.fd-tile{min-width:0;height:66px;padding:0 12px;border-radius:18px}.fd-tile.word{font-size:31px}}
