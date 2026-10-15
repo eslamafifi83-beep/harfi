@@ -107,6 +107,7 @@ const data = await page.evaluate(() => {
   });
   ['filfil', 'toota', 'baba'].forEach(k => { const w = d.W[k]; add('b', 'calm', w.word); w.syl.forEach(s => add('b', 'slow', s.t)); });
   d.SHOW_LINES.forEach(([who, t]) => add(who, 'normal', t));
+  ['giddo', 'teta'].forEach(k => { add('b', 'calm', d.W[k].word); });   // family words in unit 7's Feed Filfil
   d.PRAISE.forEach(p => { add('f', 'normal', p[0]); add('b', 'normal', p[0]); });
   Object.keys(d.JOKES).forEach(who => d.JOKES[who].forEach(j => add(who, 'normal', j[0])));
   return out;

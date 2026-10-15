@@ -90,6 +90,12 @@
   "text": "توتة"
  },
  {
+  "key": "b|calm|تيتة",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "تيتة"
+ },
+ {
   "key": "b|calm|تَ",
   "speaker": "b",
   "speed": "calm",
@@ -112,6 +118,12 @@
   "speaker": "b",
   "speed": "calm",
   "text": "ثعلب"
+ },
+ {
+  "key": "b|calm|جدّو",
+  "speaker": "b",
+  "speed": "calm",
+  "text": "جدّو"
  },
  {
   "key": "b|calm|جرس",

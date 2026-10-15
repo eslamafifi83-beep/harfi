@@ -443,7 +443,7 @@ function theName(l){ return 'ال' + l.name.replace(/^ال/, ''); }   /* "الب
 var SND = .6;
 /* features being tried out: only on with a demo link such as ?try=feedpics (the normal game is unchanged) */
 var TRY = {}; (new URLSearchParams(location.search).get('try') || '').split(',').forEach(function(k){ if (k) TRY[k] = true; });
-if (TRY.feedpics && window.HARFI_FAMILY) ['dad','mama','steps'].forEach(function(k){ PIC[k] = window.HARFI_FAMILY[k]; });   /* clearer family portraits */
+if (window.HARFI_FAMILY) ['dad','mama','steps','grandpa','grandma'].forEach(function(k){ PIC[k] = window.HARFI_FAMILY[k]; });   /* the family portraits (family.js) */
 function hint(l){ return l.key === 'alif' ? 'a' : l.key === 'ayn' ? 'a (from the throat)' : l.tr + 'a'; }
 function sounds(l, n){ var p = []; for (var i = 0; i < (n || 1); i++) p.push({t:l.snd, rate:SND}); return p; }
 
@@ -821,6 +821,7 @@ function soundMatch(u, li){
 function feedGame(u, li, startRound){
   var U = UNITS[u];
   var words = (u === 0 ? [W.baba, W.bab, W.tata] : U.words.map(function(k){ return W[k]; }));
+  if (u === UNITS.length - 1) words = words.concat([W.giddo, W.teta]);   /* grandpa and grandma, once every letter is known */
   var rounds = shuffle(U.sounding.concat(U.sounding)).slice(0, 4).map(function(k){ return {k: k}; })
     .concat(shuffle(words).slice(0, 2).map(function(w){ return {w: w}; }));
   var r = startRound || 0;
@@ -829,7 +830,7 @@ function feedGame(u, li, startRound){
     setTimeout(function(){ document.getElementById('app').classList.add('feeding'); }, 0);   /* the big Filfil is on stage: hide the corner one */
     var el = scene(dotsHTML(rounds.length, r) +
       task(w ? 'أكّلي فلفل الكلمة دي' : 'أكّلي فلفل الحرف اللي بيقول الصوت ده', w ? 'Akkili Filfil el-kilma di' : 'Akkili Filfil el-ḥarf', w ? 'Listen, then give Filfil the word you hear' : 'Listen, then give Filfil the letter that makes this sound') +
-      '<div class="feed" id="feed"><div class="fd-side">' + (w && TRY.feedpics ? '<div class="fd-pic" id="fdPic">' + stickerArt(w.pic) + '<span class="fd-cap"><b class="ar">' + w.word + '</b><small class="en">' + w.en + '</small></span></div>' : '') +
+      '<div class="feed" id="feed"><div class="fd-side">' + (w ? '<div class="fd-pic" id="fdPic">' + stickerArt(w.pic) + '<span class="fd-cap"><b class="ar">' + w.word + '</b><small class="en">' + w.en + '</small></span></div>' : '') +
       '<button class="listen" id="lis" aria-label="Hear it again">' + SPEAKER + '</button><div class="fd-plate" id="plate"></div></div>' +
       '<div class="fd-ff" id="ff">' + buddyBtn('f', 'hungry') + '<div class="fd-mouth" id="mouth" aria-hidden="true"></div><i class="fd-crumbs" aria-hidden="true"></i></div></div>');
     var plate = el.querySelector('#plate'), ff = el.querySelector('#ff'), fb = ff.querySelector('.buddy'), mouth = el.querySelector('#mouth'), lis = el.querySelector('#lis'), locked = false;
@@ -839,7 +840,7 @@ function feedGame(u, li, startRound){
       else speakSeq((first ? [{t:'أكّلي فلفل الحرف اللي بيقول', rate:.85, who:'b'}] : []).concat(sounds(l, 2)), null, null, 300);
     }
     lis.addEventListener('click', function(){ if (tapOK()) prompt(false); });
-    var opts = w ? shuffle(words) : shuffle([R.k].concat(distractors(u, [R.k], 2)));
+    var opts = w ? shuffle([w].concat(shuffle(words.filter(function(x){ return x !== w; })).slice(0, 2))) : shuffle([R.k].concat(distractors(u, [R.k], 2)));
     opts.forEach(function(o){
       var right = w ? o === w : o === R.k, label = w ? o.word : L[o].ch;
       var t = h('<button class="fd-tile ar' + (w ? ' word' : '') + '" aria-label="' + (w ? o.en : 'Letter ' + L[o].en) + '">' + label + '</button>');
