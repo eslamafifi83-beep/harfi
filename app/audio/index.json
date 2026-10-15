@@ -4,7 +4,7 @@
  "b|calm|باب": "854fb8916857.wav",
  "b|calm|بابا": "7c8c0921387a.wav",
  "b|calm|بحر": "cc8b7b5211cc.wav",
- "b|calm|بطاطس": "7e59400fb49f.mp3",
+ "b|calm|بطاطس": "50abcb9d23d6.wav",
  "b|calm|بطّة": "a8148f2aa0b6.wav",
  "b|calm|بَ": "a91d123b9b0f.wav",
  "b|calm|بيت": "0ecd2587e05a.mp3",
@@ -41,7 +41,7 @@
  "b|calm|رِ": "46340c7489c2.wav",
  "b|calm|زهرة": "df43dea0b475.wav",
  "b|calm|سمكة": "8421852454ed.wav",
- "b|calm|شاطر": "02478d0bbd9a.mp3",
+ "b|calm|شاطر": "ea00e2c03d95.wav",
  "b|calm|شمس": "29b902e42d9b.mp3",
  "b|calm|شَ": "9ba96b030431.wav",
  "b|calm|شُ": "7c4821fed261.mp3",
@@ -230,5 +230,6 @@
  "f|normal|حلوة أوي": "1ee146566678.wav",
  "f|normal|ممتاز": "e692eadefd73.wav",
  "f|normal|يمّي لذيذ": "f1ba5142daf3.wav",
- "b|calm|تيتة": "fb840041590f.wav"
+ "b|calm|تيتة": "fb840041590f.wav",
+ "b|calm|جدّو": "b16589f03d08.wav"
 }
