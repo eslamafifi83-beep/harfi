@@ -691,5 +691,38 @@
   "text": "tha",
   "style": "Say one short English syllable: the soft voiceless \"th\" sound of \"think\" and \"thank\" (tongue tip between the teeth, air hissing out), then a short \"a\" as in \"father\". It must not be \"s\", not \"t\", and not the \"th\" of \"the\". Say nothing else.",
   "note": "ث as English \"tha\", voice Kore"
+ },
+ {
+  "file": "farawla-a.wav",
+  "id": "farawla-a",
+  "letter": "فراولة",
+  "label": "A",
+  "provider": "gemini",
+  "voice": "Leda",
+  "text": "فراولة",
+  "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female teacher for a 6-year-old says this one word clearly and a little slowly, exactly as written with its vowel marks. Start straight on the first letter (no extra sound before it). Say nothing else.",
+  "note": "no vowel marks, word style"
+ },
+ {
+  "file": "farawla-b.wav",
+  "id": "farawla-b",
+  "letter": "فراولة",
+  "label": "B",
+  "provider": "gemini",
+  "voice": "Leda",
+  "text": "فَرَاوْلَة",
+  "style": "Modern Standard Arabic (Fusha), not Egyptian dialect. A warm, gentle female teacher for a 6-year-old says this one word clearly and a little slowly, exactly as written with its vowel marks. Start straight on the first letter (no extra sound before it). It is said fa-raw-la: three syllables, fa, then raw (the w is a w sound), then la. There is no i or y sound anywhere. Say nothing else.",
+  "note": "fa-raw-la spelled out"
+ },
+ {
+  "file": "farawla-c.wav",
+  "id": "farawla-c",
+  "letter": "فراولة",
+  "label": "C",
+  "provider": "gemini",
+  "voice": "Leda",
+  "text": "فراولة",
+  "style": "Egyptian Arabic (Cairo dialect), read exactly as written. A warm, cheerful, gentle young woman talking to a 6-year-old girl: clear, friendly and a little slow, with a smile in her voice. Say exactly this text and nothing else.",
+  "note": "Egyptian chat style"
  }
 ]
