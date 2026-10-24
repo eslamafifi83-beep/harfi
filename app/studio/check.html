@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clip check</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{overflow:auto}
+  main{max-width:640px;margin:0 auto;padding:20px 16px 60px;position:relative;z-index:1}
+  h1{margin:0;text-align:center;color:var(--sk-ink);font-size:28px}
+  p.sub{text-align:center;color:#33266A;font-weight:600;margin:4px 0 18px}
+  .clip{display:flex;align-items:center;gap:14px;background:#fff;border:4px solid var(--sk-ink);box-shadow:0 5px 0 var(--sk-ink);border-radius:22px;padding:12px 14px;margin-bottom:14px}
+  .clip .play{flex-shrink:0;width:64px;height:64px;border-radius:50%;border:4px solid var(--sk-ink);background:var(--sk-teal);box-shadow:0 4px 0 var(--sk-ink);display:flex;align-items:center;justify-content:center}
+  .clip .play.on{background:var(--sk-orange)}
+  .clip .txt{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+  .clip .ar{font-size:30px;font-weight:800;color:var(--sk-ink)}
+  .clip .en{font-size:15px;font-weight:700;color:#4A3D6B}
+  .clip .heard{font-size:14px;font-weight:600;color:#B5476B}
+  .who{display:inline-block;font-size:12px;font-weight:800;color:#fff;border-radius:999px;padding:0 8px;margin-inline-end:6px;vertical-align:2px}
+  .who.b{background:#7A3B8F}.who.f{background:#C7352A}
+</style>
+</head>
+<body>
+<main>
+  <h1>Clip check</h1>
+  <p class="sub">Tap to play. These 5 may be off; tell Claude which ones to remake.</p>
+  <div id="list"></div>
+</main>
+<script>
+var CLIPS = [
+  ['b','calm','تيتة','grandma (should be "Teta")','heard as "Tayta"'],
+  ['b','calm','عنب','grapes ("ʿinab")','heard as "عينب"'],
+  ['b','calm','فراولة','strawberry ("farawla")','heard as "فراويلة"'],
+  ['b','normal','إنتي شاطرة زيّي','"You\'re clever like me!" (Toota, when tapped)','came out garbled'],
+  ['f','normal','هههه بتزغزغيني','"Hee hee! That tickles!" (Filfil, when tapped)','the laugh may not come across']
+];
+var SPK = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>';
+var player = new Audio(), playing = null;
+fetch('../audio/index.json', {cache:'no-store'}).then(function(r){ return r.json(); }).then(function(idx){
+  var list = document.getElementById('list');
+  CLIPS.forEach(function(c){
+    var f = idx[c[0] + '|' + c[1] + '|' + c[2]];
+    var row = document.createElement('div'); row.className = 'clip';
+    row.innerHTML = '<button class="play" aria-label="Play">' + SPK + '</button><div class="txt"><span class="ar" dir="rtl">' + c[2] + '</span><span class="en"><span class="who ' + c[0] + '">' + (c[0] === 'b' ? 'Toota' : 'Filfil') + '</span>' + c[3] + '</span><span class="heard">' + (f ? c[4] : 'no clip found') + '</span></div>';
+    var btn = row.querySelector('.play');
+    btn.onclick = function(){ if (!f) return; if (playing) playing.classList.remove('on'); player.src = '../audio/' + f; player.play(); btn.classList.add('on'); playing = btn; player.onended = function(){ btn.classList.remove('on'); }; };
+    list.appendChild(row);
+  });
+});
+</script>
+</body>
+</html>
