@@ -26,6 +26,9 @@
   <h1>Clip check</h1>
   <p class="sub">Tap to play. These 5 may be off; tell Claude which ones to remake.</p>
   <div id="list"></div>
+  <h1 style="margin-top:26px">Strawberry, new versions</h1>
+  <p class="sub">Which one sounds best? "Now" is the one in the game today.</p>
+  <div id="alts"></div>
 </main>
 <script>
 var CLIPS = [
@@ -47,6 +50,17 @@ fetch('../audio/index.json', {cache:'no-store'}).then(function(r){ return r.json
     btn.onclick = function(){ if (!f) return; if (playing) playing.classList.remove('on'); player.src = '../audio/' + f; player.play(); btn.classList.add('on'); playing = btn; player.onended = function(){ btn.classList.remove('on'); }; };
     list.appendChild(row);
   });
+});
+fetch('../tryout/list.json', {cache:'no-store'}).then(function(r){ return r.json(); }).then(function(items){
+  var box = document.getElementById('alts');
+  items.filter(function(it){ return it.id.indexOf('farawla-') === 0; }).forEach(function(it){
+    var row = document.createElement('div'); row.className = 'clip';
+    row.innerHTML = '<button class="play" aria-label="Play">' + SPK + '</button><div class="txt"><span class="ar">Version ' + it.label + '</span><span class="en">' + it.note + '</span></div>';
+    var btn = row.querySelector('.play');
+    btn.onclick = function(){ if (playing) playing.classList.remove('on'); player.src = '../tryout/' + it.file; player.play(); btn.classList.add('on'); playing = btn; player.onended = function(){ btn.classList.remove('on'); }; };
+    box.appendChild(row);
+  });
+  if (!box.children.length) box.innerHTML = '<p class="sub">Still being made. Reload in a few minutes.</p>';
 });
 </script>
 </body>
